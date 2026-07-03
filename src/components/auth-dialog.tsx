@@ -124,7 +124,7 @@ export function AuthDialog({
         {user ? (
           <>
             <DialogHeader>
-              <DialogTitle className="font-serif">Account</DialogTitle>
+              <DialogTitle className="font-serif">Settings</DialogTitle>
               <DialogDescription>
                 You are signed in.
               </DialogDescription>

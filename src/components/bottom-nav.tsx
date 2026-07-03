@@ -35,7 +35,8 @@ export function BottomNav({
     },
     initialData: initialSession,
   });
-  const userEmail = sessionQuery.data?.user?.email ?? null;
+  const userName = sessionQuery.data?.user?.name ?? null;
+  const initial = userName?.trim().charAt(0).toUpperCase() || null;
   const [open, setOpen] = useState(false);
 
   return (
@@ -64,8 +65,8 @@ export function BottomNav({
               className="rounded-full"
               onClick={() => setOpen(true)}
             >
-              <span className="block max-w-40 truncate">
-                {userEmail ?? "Sign Up"}
+              <span className="block">
+                {initial ?? "Sign Up"}
               </span>
             </Button>
           </div>

@@ -1,4 +1,8 @@
-import { pgTable, text, timestamp, boolean, index } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, boolean, index, jsonb } from "drizzle-orm/pg-core";
+
+export type UserData = {
+  artists: string[];
+};
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
@@ -6,6 +10,7 @@ export const user = pgTable("user", {
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").default(false).notNull(),
   image: text("image"),
+  data: jsonb("data").$type<UserData>().notNull().default({ artists: [] }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()

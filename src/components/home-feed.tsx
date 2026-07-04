@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 import { BottomNav } from "@/components/bottom-nav";
 import { Feed } from "@/components/feed";
@@ -9,19 +9,32 @@ import type { FeedItem, FeedOptions } from "@/lib/types";
 
 type Props = {
   initialItems: FeedItem[];
-  seed: string;
+  initialSeed: string;
   initialSession: Awaited<ReturnType<typeof getUserSession>>;
 };
 
-export function HomeFeed({ initialItems, seed, initialSession }: Props) {
+export function HomeFeed({ initialItems, initialSeed, initialSession }: Props) {
   const [feedOptions, setFeedOptions] = useState<FeedOptions | null>(null);
+  const [seed, setSeed] = useState(initialSeed);
+
+  const handleRefresh = useCallback(() => {
+    setSeed(crypto.randomUUID());
+  }, []);
+
+  const isInitialSeed = seed === initialSeed;
 
   return (
     <>
-      <Feed initialItems={initialItems} seed={seed} options={feedOptions} />
+      <Feed
+        key={seed}
+        initialItems={isInitialSeed ? initialItems : []}
+        seed={seed}
+        options={feedOptions}
+      />
       <BottomNav
         feedOptions={feedOptions}
         onFeedOptionsChange={setFeedOptions}
+        onRefresh={handleRefresh}
         initialSession={initialSession}
       />
     </>

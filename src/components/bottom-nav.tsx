@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { BookOpenText, SlidersHorizontal } from "lucide-react";
+import { BookOpenText, RotateCw, SlidersHorizontal } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { AuthDialog } from "@/components/auth-dialog";
@@ -14,12 +14,14 @@ import type { FeedOptions } from "@/lib/types";
 type Props = {
   feedOptions: FeedOptions | null;
   onFeedOptionsChange: (options: FeedOptions | null) => void;
+  onRefresh: () => void;
   initialSession: Awaited<ReturnType<typeof getUserSession>>;
 };
 
 export function BottomNav({
   feedOptions,
   onFeedOptionsChange,
+  onRefresh,
   initialSession,
 }: Props) {
   const sessionQuery = useQuery({
@@ -80,6 +82,15 @@ export function BottomNav({
             <BookOpenText className="size-4" />
           </div>
           <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full"
+              onClick={onRefresh}
+              aria-label="Refresh feed"
+            >
+              <RotateCw className="size-4" />
+            </Button>
             <Button
               variant="outline"
               size="sm"

@@ -17,7 +17,7 @@ export default async function Home() {
     <div className="min-h-screen bg-background text-foreground">
       <HomeFeed
         initialItems={initialItems}
-        seed={feedSeed}
+        initialSeed={feedSeed}
         initialSession={initialSession}
       />
 

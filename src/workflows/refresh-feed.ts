@@ -13,6 +13,14 @@ import type { ArtworkContent } from "@/lib/db/schema";
 
 const MAX_TOTAL_ARTWORK = 15;
 const USER_ARTIST_MAX = 5;
+/**
+ * Cap how many NEW paintings a single default artist can contribute per run.
+ * Without this, the first shuffled artist with a large corpus (e.g. Manet)
+ * fills the entire `MAX_TOTAL_ARTWORK` batch alone, starving the other artists
+ * and biasing the DB toward one or two names. Spreading the cap across all
+ * shuffled artists yields up to `MAX_TOTAL_ARTWORK` distinct artists per run.
+ */
+const PER_ARTIST_PER_RUN = 1;
 
 type StepResult = { inserted: number; feeds?: number; users?: number; artists?: number };
 
@@ -109,12 +117,17 @@ async function ingestDefaultArtwork(): Promise<StepResult> {
 
   const { byPaintingId, fingerprints } = await getExistingArtwork();
   const artists = shuffle(ARTIST_PAGES.slice());
+  const perArtist = Math.max(
+    PER_ARTIST_PER_RUN,
+    Math.ceil(MAX_TOTAL_ARTWORK / artists.length),
+  );
   const items: ArtworkContent[] = [];
 
   for (const artistUrl of artists) {
     if (items.length >= MAX_TOTAL_ARTWORK) break;
+    const remaining = MAX_TOTAL_ARTWORK - items.length;
     const fetched = await fetchArtistArtwork(artistUrl, {
-      maxTotal: MAX_TOTAL_ARTWORK - items.length,
+      maxTotal: Math.min(perArtist, remaining),
       byPaintingId,
       fingerprints,
       includeExisting: false,

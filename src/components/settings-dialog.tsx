@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
+  BookOpen,
   Menu,
   Palette,
   Plus,
@@ -39,7 +40,7 @@ type BookOption = {
   author?: string;
 };
 
-export type SectionId = "feed" | "rss" | "artists" | "account";
+export type SectionId = "feed" | "rss" | "artists" | "books" | "account";
 
 type ContentType = "default" | FeedOptions["contentType"];
 
@@ -57,6 +58,7 @@ const SECTIONS: Array<{ id: SectionId; label: string; icon: typeof Rss }> = [
   { id: "feed", label: "Feed", icon: SlidersHorizontal },
   { id: "rss", label: "RSS", icon: Rss },
   { id: "artists", label: "Artists", icon: Palette },
+  { id: "books", label: "Books", icon: BookOpen },
   { id: "account", label: "Account", icon: UserRound },
 ];
 
@@ -130,7 +132,7 @@ export function SettingsDialog({
   const allBooks = useMemo<BookOption[]>(() => {
     const titles = bookTitlesQuery.data ?? [];
     return titles
-      .map((title) => ({ slug: slugify(title), title }))
+      .map((entry) => ({ slug: slugify(entry.title), title: entry.title, author: entry.author }))
       .sort((a, b) => a.title.localeCompare(b.title));
   }, [bookTitlesQuery.data]);
 
@@ -201,7 +203,7 @@ export function SettingsDialog({
       >
         <DialogTitle className="sr-only">Settings</DialogTitle>
         <DialogDescription className="sr-only">
-          Manage your feed, RSS subscriptions, artists, and account.
+          Manage your feed, RSS subscriptions, artists, books, and account.
         </DialogDescription>
 
         <div className="flex min-h-[26rem] w-full flex-col sm:flex-row">
@@ -290,6 +292,14 @@ export function SettingsDialog({
                   userData={userData}
                   isLoading={userDataQuery.isLoading}
                   isAuthed={!!user}
+                  onRequestSignIn={onRequestSignIn}
+                />
+              )}
+
+              {activeSection === "books" && (
+                <BooksSection
+                  allBooks={allBooks}
+                  isLoading={bookTitlesQuery.isLoading}
                   onRequestSignIn={onRequestSignIn}
                 />
               )}
@@ -491,7 +501,7 @@ function RssSection({
           </p>
         </div>
 
-        <div className="space-y-2">
+        <div className="max-h-[50vh] space-y-2 overflow-y-auto">
           {globalFeedsQuery.isLoading && feeds.length === 0 ? (
             <p className="text-sm text-muted-foreground">Loading feeds…</p>
           ) : feeds.length === 0 ? (
@@ -562,7 +572,7 @@ function RssSection({
         </p>
       )}
 
-      <div className="space-y-2">
+      <div className="max-h-[50vh] space-y-2 overflow-y-auto">
         {isLoading && feeds.length === 0 ? (
           <p className="text-sm text-muted-foreground">Loading feeds…</p>
         ) : feeds.length === 0 ? (
@@ -640,7 +650,7 @@ function ArtistsSection({
           </p>
         </div>
 
-        <div className="space-y-2">
+        <div className="max-h-[50vh] space-y-2 overflow-y-auto">
           {globalArtistsQuery.isLoading && artists.length === 0 ? (
             <p className="text-sm text-muted-foreground">Loading artists…</p>
           ) : artists.length === 0 ? (
@@ -720,7 +730,7 @@ function ArtistsSection({
         </p>
       )}
 
-      <div className="space-y-2">
+      <div className="max-h-[50vh] space-y-2 overflow-y-auto">
         {isLoading && artists.length === 0 ? (
           <p className="text-sm text-muted-foreground">Loading artists…</p>
         ) : artists.length === 0 ? (
@@ -753,6 +763,51 @@ function ArtistsSection({
           ))
         )}
       </div>
+    </div>
+  );
+}
+
+function BooksSection({
+  allBooks,
+  isLoading,
+  onRequestSignIn,
+}: {
+  allBooks: BookOption[];
+  isLoading: boolean;
+  onRequestSignIn: () => void;
+}) {
+  return (
+    <div className="space-y-4">
+      <div>
+        <h3 className="font-serif text-lg">Books</h3>
+        <p className="text-sm text-muted-foreground">
+          These default books appear in your feed. Sign in to customize.
+        </p>
+      </div>
+
+      <div className="max-h-[50vh] space-y-2 overflow-y-auto">
+        {isLoading && allBooks.length === 0 ? (
+          <p className="text-sm text-muted-foreground">Loading books…</p>
+        ) : allBooks.length === 0 ? (
+          <p className="text-sm text-muted-foreground">No default books.</p>
+        ) : (
+          allBooks.map((book) => (
+            <div
+              key={book.slug}
+              className="flex items-center gap-3 rounded-md border border-border bg-muted/40 px-3 py-2"
+            >
+              <span className="min-w-0 truncate text-sm">
+                {book.title}
+                {book.author ? (
+                  <span className="ml-2 text-xs text-muted-foreground">{book.author}</span>
+                ) : null}
+              </span>
+            </div>
+          ))
+        )}
+      </div>
+
+      <Button onClick={onRequestSignIn}>Sign in to customize</Button>
     </div>
   );
 }

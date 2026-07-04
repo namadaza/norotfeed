@@ -120,13 +120,18 @@ export async function loadContentFeed(
   return [...artworks, ...rss, ...books];
 }
 
-export async function getBookTitles(): Promise<string[]> {
+export async function getBookTitles(): Promise<{ title: string; author?: string }[]> {
   const rows = await db
-    .select({ title: content.title })
+    .select({
+      title: content.title,
+      author: sql<string | null>`MAX(${content.data}->>'author')`,
+    })
     .from(content)
     .where(and(eq(content.type, "book"), isNull(content.userId)))
     .groupBy(content.title);
-  return rows.map((row) => row.title).sort((a, b) => a.localeCompare(b));
+  return rows
+    .map((row) => ({ title: row.title, author: row.author ?? undefined }))
+    .sort((a, b) => a.title.localeCompare(b.title));
 }
 
 export async function getGlobalArtists(): Promise<string[]> {

@@ -392,7 +392,7 @@ export async function getFeedItemsPage(
   return all.slice(offset, offset + count);
 }
 
-export async function getBookTitlesAction(): Promise<string[]> {
+export async function getBookTitlesAction(): Promise<{ title: string; author?: string }[]> {
   return getBookTitles();
 }
 

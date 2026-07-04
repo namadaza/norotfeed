@@ -21,6 +21,12 @@ export function HomeFeed({ initialItems, initialSeed, initialSession }: Props) {
     setSeed(crypto.randomUUID());
   }, []);
 
+  const handleFeedOptionsChange = useCallback((options: FeedOptions | null) => {
+    setFeedOptions(options);
+    setSeed(crypto.randomUUID());
+    window.scrollTo(0, 0);
+  }, []);
+
   const isInitialSeed = seed === initialSeed;
 
   return (
@@ -33,7 +39,7 @@ export function HomeFeed({ initialItems, initialSeed, initialSession }: Props) {
       />
       <BottomNav
         feedOptions={feedOptions}
-        onFeedOptionsChange={setFeedOptions}
+        onFeedOptionsChange={handleFeedOptionsChange}
         onRefresh={handleRefresh}
         initialSession={initialSession}
       />

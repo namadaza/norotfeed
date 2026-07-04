@@ -29,7 +29,7 @@ import {
   removeArtistAction,
   removeRssFeedAction,
 } from "@/app/user-actions";
-import { getBookTitlesAction } from "@/app/actions";
+import { getBookTitlesAction, getGlobalArtistsAction, getGlobalRssFeedsAction } from "@/app/actions";
 
 type Session = Awaited<ReturnType<typeof getUserSession>>;
 
@@ -458,6 +458,12 @@ function RssSection({
   const queryClient = useQueryClient();
   const [url, setUrl] = useState("");
 
+  const globalFeedsQuery = useQuery({
+    queryKey: queryKeys.feed.globalRssFeeds,
+    queryFn: getGlobalRssFeedsAction,
+    enabled: !isAuthed,
+  });
+
   const addMutation = useMutation({
     mutationFn: (value: string) => addRssFeedAction(value),
     onSuccess: () => {
@@ -475,11 +481,43 @@ function RssSection({
   });
 
   if (!isAuthed) {
+    const feeds = globalFeedsQuery.data ?? [];
     return (
-      <SignInPrompt
-        message="Sign in to manage the RSS feeds in your feed."
-        onRequestSignIn={onRequestSignIn}
-      />
+      <div className="space-y-4">
+        <div>
+          <h3 className="font-serif text-lg">RSS feeds</h3>
+          <p className="text-sm text-muted-foreground">
+            These default feeds appear in your feed. Sign in to customize.
+          </p>
+        </div>
+
+        <div className="space-y-2">
+          {globalFeedsQuery.isLoading && feeds.length === 0 ? (
+            <p className="text-sm text-muted-foreground">Loading feeds…</p>
+          ) : feeds.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No default RSS feeds.</p>
+          ) : (
+            feeds.map((feed) => (
+              <div
+                key={feed.feedUrl}
+                className="flex items-center gap-3 rounded-md border border-border bg-muted/40 px-3 py-2"
+              >
+                <a
+                  className="min-w-0 truncate text-sm underline hover:text-foreground"
+                  href={feed.feedUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {feed.publication}
+                  <span className="ml-2 text-xs text-muted-foreground">{feed.feedUrl}</span>
+                </a>
+              </div>
+            ))
+          )}
+        </div>
+
+        <Button onClick={onRequestSignIn}>Sign in to customize</Button>
+      </div>
     );
   }
 
@@ -535,7 +573,14 @@ function RssSection({
               key={feed}
               className="flex items-center justify-between gap-3 rounded-md border border-border bg-muted/40 px-3 py-2"
             >
-              <span className="min-w-0 truncate text-sm">{feed}</span>
+              <a
+                className="min-w-0 truncate text-sm underline hover:text-foreground"
+                href={feed}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {feed}
+              </a>
               <Button
                 variant="ghost"
                 size="icon-sm"
@@ -562,6 +607,12 @@ function ArtistsSection({
   const queryClient = useQueryClient();
   const [slug, setSlug] = useState("");
 
+  const globalArtistsQuery = useQuery({
+    queryKey: queryKeys.feed.globalArtists,
+    queryFn: getGlobalArtistsAction,
+    enabled: !isAuthed,
+  });
+
   const addMutation = useMutation({
     mutationFn: (value: string) => addArtistAction(value),
     onSuccess: () => {
@@ -579,11 +630,43 @@ function ArtistsSection({
   });
 
   if (!isAuthed) {
+    const artists = globalArtistsQuery.data ?? [];
     return (
-      <SignInPrompt
-        message="Sign in to manage the WikiArt artists in your feed."
-        onRequestSignIn={onRequestSignIn}
-      />
+      <div className="space-y-4">
+        <div>
+          <h3 className="font-serif text-lg">Artists</h3>
+          <p className="text-sm text-muted-foreground">
+            These default artists appear in your feed. Sign in to customize.
+          </p>
+        </div>
+
+        <div className="space-y-2">
+          {globalArtistsQuery.isLoading && artists.length === 0 ? (
+            <p className="text-sm text-muted-foreground">Loading artists…</p>
+          ) : artists.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No default artists.</p>
+          ) : (
+            artists.map((artist) => (
+              <div
+                key={artist}
+                className="flex items-center gap-3 rounded-md border border-border bg-muted/40 px-3 py-2"
+              >
+                <a
+                  className="min-w-0 truncate text-sm underline hover:text-foreground"
+                  href={`https://www.wikiart.org/en/${artist}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {prettifySlug(artist)}
+                  <span className="ml-2 text-xs text-muted-foreground">{artist}</span>
+                </a>
+              </div>
+            ))
+          )}
+        </div>
+
+        <Button onClick={onRequestSignIn}>Sign in to customize</Button>
+      </div>
     );
   }
 
@@ -648,10 +731,15 @@ function ArtistsSection({
               key={artist}
               className="flex items-center justify-between gap-3 rounded-md border border-border bg-muted/40 px-3 py-2"
             >
-              <span className="min-w-0 truncate text-sm">
+              <a
+                className="min-w-0 truncate text-sm underline hover:text-foreground"
+                href={`https://www.wikiart.org/en/${artist}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {prettifySlug(artist)}
                 <span className="ml-2 text-xs text-muted-foreground">{artist}</span>
-              </span>
+              </a>
               <Button
                 variant="ghost"
                 size="icon-sm"

@@ -129,6 +129,36 @@ export async function getBookTitles(): Promise<string[]> {
   return rows.map((row) => row.title).sort((a, b) => a.localeCompare(b));
 }
 
+export async function getGlobalArtists(): Promise<string[]> {
+  const rows = await db
+    .select({ title: content.title })
+    .from(content)
+    .where(and(eq(content.type, "artwork"), isNull(content.userId)))
+    .groupBy(content.title);
+  return rows.map((row) => row.title).sort((a, b) => a.localeCompare(b));
+}
+
+export type GlobalRssFeed = { feedUrl: string; publication: string };
+
+export async function getGlobalRssFeeds(): Promise<GlobalRssFeed[]> {
+  const rows = await db
+    .select({
+      feedUrl: sql<string>`${content.data}->>'feedUrl'`,
+      publication: sql<string>`${content.data}->>'publication'`,
+    })
+    .from(content)
+    .where(and(eq(content.type, "rss"), isNull(content.userId)));
+  const map = new Map<string, string>();
+  for (const row of rows) {
+    const feedUrl = row.feedUrl;
+    if (!feedUrl || map.has(feedUrl)) continue;
+    map.set(feedUrl, row.publication || feedUrl);
+  }
+  return [...map.entries()]
+    .map(([feedUrl, publication]) => ({ feedUrl, publication }))
+    .sort((a, b) => a.publication.localeCompare(b.publication));
+}
+
 export async function insertContent(
   rows: ContentInsert[],
 ): Promise<number> {

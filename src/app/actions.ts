@@ -8,8 +8,11 @@ import {
   loadContentFeed,
   loadRssFeed,
   getBookTitles,
+  getGlobalArtists,
+  getGlobalRssFeeds,
   type ContentFeedFilter,
   type ContentFeedLimits,
+  type GlobalRssFeed,
 } from "@/lib/db/content";
 import { getUserData, getUserSession } from "@/lib/db/user";
 
@@ -391,4 +394,12 @@ export async function getFeedItemsPage(
 
 export async function getBookTitlesAction(): Promise<string[]> {
   return getBookTitles();
+}
+
+export async function getGlobalArtistsAction(): Promise<string[]> {
+  return getGlobalArtists();
+}
+
+export async function getGlobalRssFeedsAction(): Promise<GlobalRssFeed[]> {
+  return getGlobalRssFeeds();
 }

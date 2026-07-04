@@ -36,6 +36,7 @@ export type AnyContentRow =
   | { id: string; type: "book"; title: string; data: BookContent; userId: string | null; createdAt: Date };
 
 export type ContentFeedFilter = {
+  userId?: string;
   artists?: string[];
   rssFeeds?: string[];
   rssMaxAgeDays?: number;
@@ -63,6 +64,7 @@ export async function loadArtworkFeed(
   artists?: string[],
   hiddenArtists?: string[],
   limit?: number,
+  includeUserId?: string,
 ): Promise<FeedItem[]> {
   const personal = artists ?? [];
   const hidden = hiddenArtists ?? [];
@@ -70,6 +72,7 @@ export async function loadArtworkFeed(
   const rows = await getContentByType("artwork", {
     excludeTitles: effectiveHidden.length > 0 ? effectiveHidden : undefined,
     limit,
+    ...(includeUserId ? { includeUserId } : { userId: null as string | null }),
   });
   return rows
     .map((row) => contentToFeedItem(row))
@@ -82,6 +85,7 @@ export async function loadRssFeed(
   maxAgeDays: number = DEFAULT_RSS_MAX_AGE_DAYS,
   limit?: number,
   order: "chronological" | "random" = "random",
+  includeUserId?: string,
 ): Promise<FeedItem[]> {
   const cutoffIso = new Date(
     Date.now() - maxAgeDays * 24 * 60 * 60 * 1000,
@@ -94,6 +98,7 @@ export async function loadRssFeed(
     limit,
     rssOrder: order,
     excludeFeedUrls: effectiveHidden.length > 0 ? effectiveHidden : undefined,
+    ...(includeUserId ? { includeUserId } : { userId: null as string | null }),
   });
   return rows
     .map((row) => contentToFeedItem(row))
@@ -133,12 +138,14 @@ export async function loadContentFeed(
   limits?: ContentFeedLimits,
 ): Promise<FeedItem[]> {
   const [artworks, rss, books] = await Promise.all([
-    loadArtworkFeed(filter.artists, filter.hiddenArtists, limits?.artwork),
+    loadArtworkFeed(filter.artists, filter.hiddenArtists, limits?.artwork, filter.userId),
     loadRssFeed(
       filter.rssFeeds,
       filter.hiddenRssFeeds,
       filter.rssMaxAgeDays,
       limits?.rss,
+      "random",
+      filter.userId,
     ),
     loadBookFeed(undefined, filter.hiddenBooks, limits?.books),
   ]);
@@ -214,6 +221,7 @@ export async function getContentByType<T extends Content["type"]>(
   type: T,
   options: {
     userId?: string | null;
+    includeUserId?: string;
     titles?: string[];
     feedUrls?: string[];
     excludeTitles?: string[];
@@ -232,7 +240,11 @@ export async function getContentByType<T extends Content["type"]>(
   if (options.excludeTitles && options.excludeTitles.length > 0) {
     conditions.push(notInArray(content.title, options.excludeTitles));
   }
-  if (options.userId === null) {
+  if (options.includeUserId) {
+    conditions.push(
+      or(isNull(content.userId), eq(content.userId, options.includeUserId)),
+    );
+  } else if (options.userId === null) {
     conditions.push(isNull(content.userId));
   } else if (options.userId) {
     conditions.push(eq(content.userId, options.userId));

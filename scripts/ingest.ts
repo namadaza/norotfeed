@@ -21,25 +21,18 @@ type ExternalFeedFile = {
   items: RssItem[];
 };
 
-const OUT_PATH = join(
-  process.cwd(),
-  "src",
-  "lib",
-  "data",
-  "external-feed.json",
-);
+const OUT_PATH = join(process.cwd(), "src", "lib", "data", "external-feed.json");
 
 const EXCERPT_LIMIT = 320;
 const MAX_AGE_DAYS = 7;
 const MAX_ITEMS = 500;
 
 const parser = new Parser({
-    timeout: 15_000,
-    headers: {
-      "User-Agent":
-        "norotfeed-ingest/1.0 (+https://github.com/namadaza/norotfeed)",
-    },
-  });
+  timeout: 15_000,
+  headers: {
+    "User-Agent": "norotfeed-ingest/1.0 (+https://github.com/namadaza/norotfeed)",
+  },
+});
 
 function stripHtml(html: string): string {
   return html
@@ -98,11 +91,7 @@ function withTimeout<T>(p: Promise<T>, ms: number, label: string): Promise<T> {
 
 async function fetchPublication(source: string): Promise<RssItem[]> {
   const feedUrl = feedUrlFor(source);
-  const feed = await withTimeout(
-    parser.parseURL(feedUrl),
-    PER_FEED_TIMEOUT_MS,
-    source,
-  );
+  const feed = await withTimeout(parser.parseURL(feedUrl), PER_FEED_TIMEOUT_MS, source);
   const publication = publicationName(feed.title, source);
   const items: RssItem[] = [];
 
@@ -138,10 +127,10 @@ async function loadExisting(): Promise<RssItem[]> {
     const parsed = JSON.parse(raw) as Partial<ExternalFeedFile>;
     return Array.isArray(parsed.items)
       ? parsed.items.map((item) => ({
-        ...item,
-        type: "rss" as const,
-        id: item.id?.replace(/^substack-/, "rss-") ?? item.id,
-      }))
+          ...item,
+          type: "rss" as const,
+          id: item.id?.replace(/^substack-/, "rss-") ?? item.id,
+        }))
       : [];
   } catch {
     return [];
@@ -154,9 +143,7 @@ async function main(): Promise<void> {
   const cutoff = now - MAX_AGE_DAYS * 24 * 60 * 60 * 1000;
 
   if (RSS_FOLLOWS.length === 0) {
-    console.warn(
-      "No publications configured in scripts/rss-follows.ts; writing empty feed.",
-    );
+    console.warn("No publications configured in scripts/rss-follows.ts; writing empty feed.");
   }
 
   const results = await Promise.allSettled(RSS_FOLLOWS.map((u) => fetchPublication(u)));

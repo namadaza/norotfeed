@@ -40,6 +40,27 @@ export async function getUserData({ id }: { id: string }): Promise<UserData> {
   return normalizeUserData(row?.data)
 }
 
+export type UserSubscriptions = {
+  id: string
+  artists: string[]
+  rssFeeds: string[]
+}
+
+/**
+ * Return every (non-deleted) user's id plus their subscribed artists and RSS
+ * feeds. Used by the refresh-feed workflow to ingest user-specific content.
+ */
+export async function getAllUserSubscriptions(): Promise<UserSubscriptions[]> {
+  const rows = await db
+    .select({ id: user.id, data: user.data })
+    .from(user)
+    .where(isNull(user.deletedAt))
+  return rows.map((r) => {
+    const data = normalizeUserData(r.data)
+    return { id: r.id, artists: data.artists, rssFeeds: data.rssFeeds }
+  })
+}
+
 async function writeUserData(
   id: string,
   next: UserData,

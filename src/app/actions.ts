@@ -271,6 +271,7 @@ async function getUserFeedFilter(): Promise<ContentFeedFilter> {
   if (!id) return {};
   const data = await getUserData({ id });
   return {
+    userId: id,
     artists: data.artists,
     rssFeeds: data.rssFeeds,
     hiddenArtists: data.hiddenArtists,
@@ -290,6 +291,7 @@ const INFLIGHT_LOADS = new Map<string, Promise<FeedItem[]>>();
 
 function filterKey(filter: ContentFeedFilter): string {
   return [
+    filter.userId ?? "",
     (filter.artists ?? []).join(","),
     (filter.rssFeeds ?? []).join(","),
     (filter.hiddenArtists ?? []).join(","),
@@ -340,7 +342,7 @@ async function loadItemsFor(
 ): Promise<FeedItem[]> {
   if (!options) return loadContentFeed(filter, defaultLimits(target));
   if (options.contentType === "art")
-    return loadArtworkFeed(filter.artists, filter.hiddenArtists, target);
+    return loadArtworkFeed(filter.artists, filter.hiddenArtists, target, filter.userId);
   if (options.contentType === "rss") {
     return loadRssFeed(
       filter.rssFeeds,
@@ -348,6 +350,7 @@ async function loadItemsFor(
       filter.rssMaxAgeDays,
       target,
       options.rssOrder,
+      filter.userId,
     );
   }
   if (options.contentType === "book-highlights")

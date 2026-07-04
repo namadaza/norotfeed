@@ -1,6 +1,286 @@
 {
-  "fetchedAt": "2026-07-01T19:09:26.826Z",
+  "fetchedAt": "2026-07-04T16:00:10.411Z",
   "items": [
+    {
+      "type": "rss",
+      "id": "rss-1a111580afdf",
+      "title": "JadePuffer ransomware used AI agent to automate entire attack",
+      "url": "https://www.bleepingcomputer.com/news/security/jadepuffer-ransomware-used-ai-agent-to-automate-entire-attack/",
+      "publication": "BleepingComputer",
+      "author": "Bill Toulas",
+      "excerpt": "Researchers identified what they believe is the first documented case of a ransomware operation, JadePuffer, conducted entirely by a large language model (LLM) agent. [...]",
+      "publishedAt": "2026-07-04T14:16:38.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-acf552fd7ca5",
+      "title": "SOLVED: The Case of the Missing Megalodon",
+      "url": "https://www.404media.co/solved-the-case-of-the-missing-megalodon/",
+      "publication": "404 Media",
+      "author": "Becky Ferreira",
+      "excerpt": "A short-statured human relative that lived on a lush island probably didn’t wield fire or hunt big game, but it did walk in the footsteps of dragons, according to a new study.",
+      "publishedAt": "2026-07-04T10:00:09.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-27cf1482db56",
+      "title": "Sudan’s El-Obeid Under Siege: “Civilians Should Not Have to Wait for Death”",
+      "url": "https://www.dropsitenews.com/p/sudan-war-genocide-obeid-north-kordofan-darfur",
+      "publication": "Drop Site News",
+      "author": "Eisa dafalla",
+      "excerpt": "Drone strikes, water shortages, and blackouts have turned North Kordofan’s capital into a trap for hundreds of thousands—including displaced people who fled there hoping for safety.",
+      "publishedAt": "2026-07-03T21:46:47.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-43f8d7ab4988",
+      "title": "NetNut proxy network disrupted, 2 million infected devices cut off",
+      "url": "https://www.bleepingcomputer.com/news/security/netnut-proxy-network-disrupted-2-million-infected-devices-cut-off/",
+      "publication": "BleepingComputer",
+      "author": "Ionut Ilascu",
+      "excerpt": "A joint operation involving Google has disrupted NetNut, a residential proxy network that gave access to millions of compromised Android devices, including smart TVs and streaming boxes. [...]",
+      "publishedAt": "2026-07-03T17:50:04.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-fb9132b7823e",
+      "title": "ARToken PhaaS exposes EvilTokens' Microsoft 365 phishing toolkit",
+      "url": "https://www.bleepingcomputer.com/news/security/artoken-phaas-exposes-eviltokens-microsoft-365-phishing-toolkit/",
+      "publication": "BleepingComputer",
+      "author": "Lawrence Abrams",
+      "excerpt": "A new phishing-as-a-service (PhaaS) platform dubbed \"ARToken\" appears to operate as an affiliate of the EvilTokens phishing platform, giving researchers a glimpse into an extensive toolkit designed to compromise Microsoft 365. [...]",
+      "publishedAt": "2026-07-03T14:12:22.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-5003ad48c2dc",
+      "title": "Behind the Blog: With Blogs Like These, Who Needs a Private Jet",
+      "url": "https://www.404media.co/behind-the-blog-with-blogs-like-these-who-needs-a-private-jet/",
+      "publication": "404 Media",
+      "author": "Samantha Cole",
+      "excerpt": "This week, we discuss the Supreme Court, the private jet, and AI on the TV.",
+      "publishedAt": "2026-07-03T10:00:02.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-21c54ec54395",
+      "title": "Reviving the Pagan Spirit",
+      "url": "https://www.arktosjournal.com/p/how-to-revive-the-pagan-spirit",
+      "publication": "Arktos Journal",
+      "author": "Arktos Journal",
+      "excerpt": "Civilizational Reflections with Giorgio Locchi and Guillaume Faye",
+      "publishedAt": "2026-07-03T08:00:20.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-85de2ec936f2",
+      "title": "Claude Fable 5 isn’t permanently leaving subscriptions, Anthropic says",
+      "url": "https://www.bleepingcomputer.com/news/artificial-intelligence/claude-fable-5-isnt-permanently-leaving-subscriptions-anthropic-says/",
+      "publication": "BleepingComputer",
+      "author": "Mayank Parmar",
+      "excerpt": "Anthropic says Claude Fable 5 won't be accessible via Claude subscriptions after July 7, but it's not a permanent change, and the company expects the model to return outside the usage-based plan soon. [...]",
+      "publishedAt": "2026-07-03T01:37:09.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-56586a6de6a6",
+      "title": "Claude Fable relaunch disappoints users with nerfed performance",
+      "url": "https://www.bleepingcomputer.com/news/artificial-intelligence/claude-fable-relaunch-disappoints-users-with-nerfed-performance/",
+      "publication": "BleepingComputer",
+      "author": "Mayank Parmar",
+      "excerpt": "Claude Fable, the company's most powerful model, is now available to all users, but early impressions are disappointing, as it appears to be nowhere near the original release. [...]",
+      "publishedAt": "2026-07-03T00:48:30.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-b05735ebf61c",
+      "title": "A Third Party Breached The Intercept’s Signal Tip Line and Has Been Soliciting Whistleblowers",
+      "url": "https://www.dropsitenews.com/p/intercept-signal-tip-line-breach-hack",
+      "publication": "Drop Site News",
+      "author": "Murtaza Hussain",
+      "excerpt": "The news outlet changed its tip line this week, but has not informed potential sources or the public of the breach.",
+      "publishedAt": "2026-07-02T19:16:21.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-3865af11c98f",
+      "title": "1,000 days of genocide in Gaza; Russian strikes kill 21 in Kyiv; 900 arrested in South African anti-migrant protests",
+      "url": "https://www.dropsitenews.com/p/gaza-genocide-israel-russia-ukraine-south-africa-migrant-protests",
+      "publication": "Drop Site News",
+      "author": "Drop Site News",
+      "excerpt": "Drop Site Daily: July 2, 2026",
+      "publishedAt": "2026-07-02T16:30:39.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-4e3e0cc60930",
+      "title": "Teen Girls’ Suicide Rates Are Rising In Many Countries Around The World",
+      "url": "https://www.afterbabel.com/p/teen-girls-suicide-rates-are-rising-2026-twenge",
+      "publication": "After Babel",
+      "author": "Jean M. Twenge",
+      "excerpt": "New analyses from Europe, Japan, and South Korea show increases that in many cases began before COVID.",
+      "publishedAt": "2026-07-02T16:29:00.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-f475de261d31",
+      "title": "Google loses final appeal to overturn €4.1 billion EU fine",
+      "url": "https://www.bleepingcomputer.com/news/legal/google-loses-final-appeal-to-overturn-41-billion-eu-fine/",
+      "publication": "BleepingComputer",
+      "author": "Bill Toulas",
+      "excerpt": "Court of Justice of the European Union (CJEU) has dismissed Google's final appeal against a €4.1 billion ($4.7 billion) antitrust fine over the company's use of Android to promote its Chrome browser and search service. [...]",
+      "publishedAt": "2026-07-02T15:18:51.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-537950d3643a",
+      "title": "Are West Europeans less ethnocentric?",
+      "url": "https://www.aporiamagazine.com/p/are-west-europeans-less-ethnocentric",
+      "publication": "Aporia",
+      "author": "Aporia",
+      "excerpt": "Evidence suggests they aren't.",
+      "publishedAt": "2026-07-02T15:02:35.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-0401db5bbbb9",
+      "title": "Lebanon’s Surrender Agreement: Hezbollah Expert Amal Saad on Beirut’s “Framework” With Israel",
+      "url": "https://www.dropsitenews.com/p/lebanon-israel-iran-hezbollah-trump-amal-saad-jeremy-scahill",
+      "publication": "Drop Site News",
+      "author": "Drop Site News",
+      "excerpt": "Jeremy Scahill speaks with the Axis of Resistance scholar about Iran, Hezbollah, Israel, and Trump—and why she believes another regional war is inevitable.",
+      "publishedAt": "2026-07-02T14:24:22.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-43585f4a20ad",
+      "title": "ConsentFix and ClickFix: How Microsoft 365 Accounts are Hijacked in 3 Seconds",
+      "url": "https://www.bleepingcomputer.com/news/security/consentfix-and-clickfix-how-microsoft-365-accounts-are-hijacked-in-3-seconds/",
+      "publication": "BleepingComputer",
+      "author": "Sponsored by Huntress Labs",
+      "excerpt": "ConsentFix and ClickFix attacks steal Microsoft 365 tokens in seconds using fake prompts and OAuth flows. Learn how these MFA bypass tactics work and how to defend against them. [...]",
+      "publishedAt": "2026-07-02T14:00:10.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-8411ee183807",
+      "title": "Lebanon’s Surrender Agreement: Hezbollah Expert Amal Saad on Beirut’s “Framework” With Israel",
+      "url": "https://www.dropsitenews.com/p/lebanon-israel-iran-hezbollah-trump-surrender-agreement",
+      "publication": "Drop Site News",
+      "author": "Jeremy Scahill",
+      "excerpt": "Jeremy Scahill speaks with the Axis of Resistance scholar about Iran, Hezbollah, Israel, and Trump—and why she believes another regional war is inevitable.",
+      "publishedAt": "2026-07-02T13:54:20.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-ce30d96a02ae",
+      "title": "Microsoft fixes bug that removed Copilot buttons in Outlook",
+      "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-bug-that-removed-copilot-button-in-outlook/",
+      "publication": "BleepingComputer",
+      "author": "Sergiu Gatlan",
+      "excerpt": "Microsoft has fixed a known issue causing the Copilot Chat or Copilot buttons in Classic Outlook to disappear for Windows users with the Copilot Chat (Basic) license. [...]",
+      "publishedAt": "2026-07-02T12:15:47.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-4e465805b817",
+      "title": "Cisco finally confirms attackers exploiting Unified CM flaw",
+      "url": "https://www.bleepingcomputer.com/news/security/cisco-finally-confirms-attackers-exploiting-unified-cm-flaw/",
+      "publication": "BleepingComputer",
+      "author": "Sergiu Gatlan",
+      "excerpt": "Cisco confirmed that attackers are now exploiting a Unified Communications Manager (Unified CM) vulnerability patched in early June. [...]",
+      "publishedAt": "2026-07-02T11:35:25.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-c65462a4cad6",
+      "title": "CISA: Microsoft SharePoint RCE flaw now actively exploited",
+      "url": "https://www.bleepingcomputer.com/news/security/cisa-microsoft-sharepoint-rce-flaw-now-actively-exploited/",
+      "publication": "BleepingComputer",
+      "author": "Sergiu Gatlan",
+      "excerpt": "CISA warned on Wednesday that attackers have begun exploiting a high-severity Microsoft SharePoint remote code execution vulnerability patched in May. [...]",
+      "publishedAt": "2026-07-02T10:52:43.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-0c852deb9b88",
+      "title": "Opera rolls out Paste Protect feature to fight ClickFix attacks",
+      "url": "https://www.bleepingcomputer.com/news/security/opera-rolls-out-paste-protect-feature-to-fight-clickfix-attacks/",
+      "publication": "BleepingComputer",
+      "author": "Bill Toulas",
+      "excerpt": "Opera has introduced Paste Protect, a security feature designed to block ClickFix-style attacks that trick users into executing malicious commands through social engineering. [...]",
+      "publishedAt": "2026-07-02T10:46:58.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-947bd69e91a7",
+      "title": "Companies Are Throttling Employees’ AI Use Because It’s Too Expensive",
+      "url": "https://www.404media.co/companies-are-throttling-employees-ai-use-because-its-too-expensive/",
+      "publication": "404 Media",
+      "author": "Joseph Cox",
+      "excerpt": "Sources and leaks from Amazon, Adobe, Atlassian, Citi, and more show what is really happening with AI right now: companies are trying to rein in AI use as costs spiral out of control.",
+      "publishedAt": "2026-07-02T10:00:09.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-eea72382f191",
+      "title": "Alleged Scattered Spider hacker extradited to the United States",
+      "url": "https://www.bleepingcomputer.com/news/security/alleged-scattered-spider-hacker-extradited-to-the-united-states/",
+      "publication": "BleepingComputer",
+      "author": "Sergiu Gatlan",
+      "excerpt": "A dual United States and Estonian citizen has been extradited to the U.S. to face charges alleging he was a member of the Scattered Spider hacking collective. [...]",
+      "publishedAt": "2026-07-02T08:58:25.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-1c67dbc7b8cc",
+      "title": "Citizen Vigilante: Catharsis and Reminder",
+      "url": "https://www.arktosjournal.com/p/citizen-vigilante-catharsis-and-reminder",
+      "publication": "Arktos Journal",
+      "author": "Arktos Journal",
+      "excerpt": "by Joakim Andersen",
+      "publishedAt": "2026-07-02T08:00:55.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-44a5eefbfec6",
+      "title": "Medtronic notifies customers impacted by ShinyHunters data breach",
+      "url": "https://www.bleepingcomputer.com/news/security/medtronic-notifies-customers-impacted-by-shinyhunters-data-breach/",
+      "publication": "BleepingComputer",
+      "author": "Bill Toulas",
+      "excerpt": "Healthcare device firm Medtronic is notifying affected customers about a data breach that exposed their personal data to an unauthorized third party. [...]",
+      "publishedAt": "2026-07-02T04:25:42.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-946267a8c1f3",
+      "title": "FortiBleed credential-theft campaign linked to Lynx ransomware",
+      "url": "https://www.bleepingcomputer.com/news/security/fortibleed-credential-theft-campaign-linked-to-lynx-ransomware/",
+      "publication": "BleepingComputer",
+      "author": "Lawrence Abrams",
+      "excerpt": "The massive FortiBleed credential theft campaign has been linked to the INC and Lynx ransomware operations, suggesting the stolen Fortinet credentials were intended to fuel future network intrusions. [...]",
+      "publishedAt": "2026-07-01T21:37:24.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-6d0ab43c79e8",
+      "title": "Kubota says hackers had month-long access to network systems",
+      "url": "https://www.bleepingcomputer.com/news/security/kubota-says-hackers-had-month-long-access-to-network-systems/",
+      "publication": "BleepingComputer",
+      "author": "Bill Toulas",
+      "excerpt": "Kubota North America Corporation disclosed that hackers had access to some of its network systems for more than a month earlier this year. [...]",
+      "publishedAt": "2026-07-01T21:09:06.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-534eb3fd56ba",
+      "title": "Podcast: The AI Tokenpocalypse Is Here",
+      "url": "https://www.404media.co/podcast-the-ai-tokenpocalypse-is-here/",
+      "publication": "404 Media",
+      "author": "Joseph Cox",
+      "excerpt": "How companies are burning through their AI tokens; and the fake AI-generated flowers all over Etsy, eBay, and Amazon.",
+      "publishedAt": "2026-07-01T20:40:59.000Z"
+    },
     {
       "type": "rss",
       "id": "rss-d018dc0c4d67",
@@ -620,406 +900,6 @@
       "author": "Becky Ferreira",
       "excerpt": "Recordings of laughter from humans and other great apes suggest that the distinctive rhythm of \"ha ha ha\" emerged in a common ancestor that lived at least 15 million years ago.",
       "publishedAt": "2026-06-27T17:02:33.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-64110d01b993",
-      "title": "Clean GitHub repo tricks AI coding agents into running malware",
-      "url": "https://www.bleepingcomputer.com/news/security/clean-github-repo-tricks-ai-coding-agents-into-running-malware/",
-      "publication": "BleepingComputer",
-      "author": "Bill Toulas",
-      "excerpt": "An agentic coding tool tasked with cloning and setting up a seemingly benign GitHub repository could execute a malicious payload that remains invisible to security scanners, AI agents, and human reviewers. [...]",
-      "publishedAt": "2026-06-27T14:22:36.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-faf1cba6b5f1",
-      "title": "FBI: Russian hackers now target Signal backup recovery keys",
-      "url": "https://www.bleepingcomputer.com/news/security/fbi-russian-hackers-now-target-signal-backup-recovery-keys/",
-      "publication": "BleepingComputer",
-      "author": "Lawrence Abrams",
-      "excerpt": "The FBI and CISA are warning that a phishing campaign targeting Signal users tied to Russian intelligence services has evolved to steal Signal Backup Recovery Keys, allowing attackers to access victims' historical messages. [...]",
-      "publishedAt": "2026-06-26T22:06:17.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-cb5124d39274",
-      "title": "Peace Abroad, War Next Door: Pakistani Airstrikes Devastate Afghan Civilians",
-      "url": "https://www.dropsitenews.com/p/peace-abroad-war-next-door-pakistani",
-      "publication": "Drop Site News",
-      "author": "Emran Feroz",
-      "excerpt": "While Pakistan presents itself as a mediator between Iran and the United States its attacks on Afghan civilians are ravaging border villages.",
-      "publishedAt": "2026-06-26T21:57:10.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-0aea48d50aec",
-      "title": "CISA sets urgent deadline to fix Cisco flaw exploited in attacks",
-      "url": "https://www.bleepingcomputer.com/news/security/cisa-sets-urgent-deadline-to-fix-cisco-flaw-exploited-in-attacks/",
-      "publication": "BleepingComputer",
-      "author": "Bill Toulas",
-      "excerpt": "The U.S. Cybersecurity and Infrastructure Security Agency (CISA) is giving federal agencies until Sunday to patch a vulnerability in Cisco Unified Communications Manager Server that is being actively exploited. [...]",
-      "publishedAt": "2026-06-26T19:43:06.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-fb2a9c8bb7fe",
-      "title": "Premium: Notes From The Bubble, Volume 1",
-      "url": "https://www.wheresyoured.at/premium-notes-from-the-bubble-volume-1/",
-      "publication": "Ed Zitron's Where's Your Ed At",
-      "author": "Ed Zitron",
-      "excerpt": "It’s been an incredibly long few weeks, and as a result my previously-planned Hater’s Guide just isn’t possible within what little time I have left in this week, which is why I’m starting an ongoing series — Notes From The Bubble",
-      "publishedAt": "2026-06-26T18:32:41.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-2232a64715da",
-      "title": "Polymarket customers lose $3 million in supply-chain attack",
-      "url": "https://www.bleepingcomputer.com/news/security/polymarket-customers-lose-3-million-in-supply-chain-attack/",
-      "publication": "BleepingComputer",
-      "author": "Bill Toulas",
-      "excerpt": "Polymarket says it will fully reimburse customers who lost an estimated $3 million after hackers injected a malicious script into the platform's frontend following a breach at a third-party vendor. [...]",
-      "publishedAt": "2026-06-26T18:04:12.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-67d957804adb",
-      "title": "Cybersecurity firms targeted by fraudulent OpenAI organization invites",
-      "url": "https://www.bleepingcomputer.com/news/security/cybersecurity-firms-targeted-by-fraudulent-openai-organization-invites/",
-      "publication": "BleepingComputer",
-      "author": "Lawrence Abrams",
-      "excerpt": "Threat actors are creating OpenAI tenants that impersonate legitimate companies and inviting employees to join them, in what appears to be a ploy to trick targets into submitting sensitive company information in chats and projects. [...]",
-      "publishedAt": "2026-06-26T17:49:07.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-01f04e7fd9f6",
-      "title": "Behind the Blog: Salesforce Beach",
-      "url": "https://www.404media.co/behind-the-blog-salesforce-beach/",
-      "publication": "404 Media",
-      "author": "Samantha Cole",
-      "excerpt": "This week, we discuss talking aloud to computers, Cannes, and “Engineering Creativity: Guac Is Extra.\"",
-      "publishedAt": "2026-06-26T17:04:16.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-57eaf50dd235",
-      "title": "Over 425,000 Kids in U.S. Face Deportation Hearings Without Lawyers",
-      "url": "https://www.dropsitenews.com/p/children-attorneys-immigration-court-deportation",
-      "publication": "Drop Site News",
-      "author": "Mehr Sher",
-      "excerpt": "A new analysis of federal immigration data found that 57% of children with deportation orders in the U.S. do not have access to an attorney.",
-      "publishedAt": "2026-06-26T16:30:28.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-5fc7ca36a697",
-      "title": "House to vote on foreign aid to Israel; SCOTUS allows Trump to strip Haitians and Syrians of status; Thousands still missing in Venezuela",
-      "url": "https://www.dropsitenews.com/p/house-foreign-aid-israel-scotus-trump-haitians-syrians-status-venezuela-earthquake",
-      "publication": "Drop Site News",
-      "author": "Drop Site News",
-      "excerpt": "Drop Site Daily: June 26, 2026",
-      "publishedAt": "2026-06-26T15:31:38.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-b9b0f545422e",
-      "title": "[Abridged] lululemon athletica (LULU): An Ode to Bad Management & The Politics of Skin-Tight Leggings",
-      "url": "https://michaeljburry.substack.com/p/abridged-lululemon-athletica-lulu",
-      "publication": "Cassandra Unchained",
-      "author": "Michael Burry",
-      "excerpt": "An Ode to Bad Management & The Politics of Skin-Tight Leggings",
-      "publishedAt": "2026-06-26T14:46:04.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-ba42617f9c05",
-      "title": "Your First GRC Agent: A Red Teamer's Walkthrough",
-      "url": "https://www.bleepingcomputer.com/news/security/your-first-grc-agent-a-red-teamers-walkthrough/",
-      "publication": "BleepingComputer",
-      "author": "Sponsored by Anecdotes",
-      "excerpt": "AI won't replace GRC analysts, but it can eliminate much of the repetitive work they do. Anecdotes walks through building an agent that continuously monitors controls, identifies evidence gaps, and opens remediation tasks. [...]",
-      "publishedAt": "2026-06-26T14:01:11.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-7f249d92d11c",
-      "title": "Reconciling Land and Sea: Olivier Eichenlaub on the Geography of European Power",
-      "url": "https://www.arktosjournal.com/p/reconciling-land-and-sea-olivier",
-      "publication": "Arktos Journal",
-      "author": "Arktos Journal",
-      "excerpt": "Alexander Raynor sits down for an interview with Olivier Eichenlaub, coordinator of the Institut Iliade's Research Division.",
-      "publishedAt": "2026-06-26T08:01:23.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-1a7f1daa772b",
-      "title": "Prediction Confirmed: The Next Phase of the Iran War Has Begun",
-      "url": "https://escalationtrap.substack.com/p/prediction-confirmed-the-next-phase",
-      "publication": "Escalation Trap",
-      "author": "Prof Robert Pape",
-      "excerpt": "On Monday, I posted “Getting the Framework Right” identifying that one of the most likely escalation pathways in the Iran War would not be just about Lebanon.",
-      "publishedAt": "2026-06-26T00:59:19.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-1e11036b8cbd",
-      "title": "Anthropic is testing desktop-like Claude Cowork for mobile",
-      "url": "https://www.bleepingcomputer.com/news/artificial-intelligence/anthropic-is-testing-desktop-like-claude-cowork-for-mobile/",
-      "publication": "BleepingComputer",
-      "author": "Mayank Parmar",
-      "excerpt": "Anthropic appears to be testing Claude Cowork support on mobile, allowing you to manage long-running Claude tasks from your phone. [...]",
-      "publishedAt": "2026-06-25T22:53:32.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-14fd929d6556",
-      "title": "Poland busts SIM-swapping gang tied to millions in crypto theft",
-      "url": "https://www.bleepingcomputer.com/news/security/poland-busts-sim-swapping-gang-tied-to-millions-in-crypto-theft/",
-      "publication": "BleepingComputer",
-      "author": "Bill Toulas",
-      "excerpt": "Authorities in Poland have arrested four members of an organized cybercrime group accused of breaching telecommunications partners and hijacking email accounts to carry out SIM-swapping attacks. [...]",
-      "publishedAt": "2026-06-25T22:37:42.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-a906b4581774",
-      "title": "The Elite of the Industry Are Sharing Their Best Stock Ideas",
-      "url": "https://georgenoble.substack.com/p/the-elite-of-the-industry-are-sharing",
-      "publication": "The Noble Update",
-      "author": "George Noble",
-      "excerpt": "Join us today",
-      "publishedAt": "2026-06-25T22:25:56.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-25da9b04fc26",
-      "title": "Earnings Bubble to Deflate | Peter Berezin",
-      "url": "https://georgenoble.substack.com/p/earnings-bubble-to-deflate-peter",
-      "publication": "The Noble Update",
-      "author": "George Noble",
-      "excerpt": "1.",
-      "publishedAt": "2026-06-25T21:01:50.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-c10a19dfb799",
-      "title": "Israel Bombs Palestinians in Beach Tents in Gaza",
-      "url": "https://www.dropsitenews.com/p/israel-bombs-gaza-coastline-tents-beach-displaced-palestinians",
-      "publication": "Drop Site News",
-      "author": "Abdel Qader Sabbah",
-      "excerpt": "“This area is made up of tents sheltering civilians—displaced people, people who lived through oppression, humiliation, famine, war and siege. And the whole place was bombed.”",
-      "publishedAt": "2026-06-25T21:01:48.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-f0a0010cee0e",
-      "title": "Trading Post June 25, 2026",
-      "url": "https://michaeljburry.substack.com/p/trading-post-june-25-2026",
-      "publication": "Cassandra Unchained",
-      "author": "Michael Burry",
-      "excerpt": "Hong Kong, Adds, One Sale to Add, One New Position and One Short Cover",
-      "publishedAt": "2026-06-25T19:49:00.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-d07136a6a41e",
-      "title": "Order-tracking app Shop abused to push callback phishing attacks",
-      "url": "https://www.bleepingcomputer.com/news/security/order-tracking-app-shop-abused-to-push-callback-phishing-attacks/",
-      "publication": "BleepingComputer",
-      "author": "Bill Toulas",
-      "excerpt": "Threat actors are increasingly abusing Shop, the order-tracking app from Shopify, by adding fake purchase receipts in users' order histories to trick them into providing sensitive data or installing remote access software. [...]",
-      "publishedAt": "2026-06-25T19:45:48.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-18567cd98454",
-      "title": "When is it time to grow up?",
-      "url": "https://www.infinitescroll.us/p/when-is-it-time-to-grow-up",
-      "publication": "Infinite Scroll",
-      "author": "Jeremiah Johnson",
-      "excerpt": "Toy Story 5 and the change in children's media",
-      "publishedAt": "2026-06-25T18:41:50.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-5c416b4bb236",
-      "title": "Microsoft quietly extends free Windows 10 ESU support to October 2027",
-      "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-quietly-extends-free-windows-10-esu-support-to-october-2027/",
-      "publication": "BleepingComputer",
-      "author": "Lawrence Abrams",
-      "excerpt": "Microsoft has quietly extended its free Windows 10 Extended Security Updates (ESU) program for consumers by an additional year, allowing enrolled devices to continue receiving security updates until October 12, 2027. [...]",
-      "publishedAt": "2026-06-25T18:29:20.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-8205b28b0b9a",
-      "title": "Trump Claims Victory in Colombia as Right-Wing Populist Wins Presidential Election",
-      "url": "https://www.dropsitenews.com/p/espriella-wins-colombia-trump-cepeda-concedes",
-      "publication": "Drop Site News",
-      "author": "Alfie Pannell",
-      "excerpt": "The U.S. president also appeared to condition the future of bilateral relations on the outcome of the election.",
-      "publishedAt": "2026-06-25T16:50:42.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-7f99765d146d",
-      "title": "New macOS malware embeds fake errors to confuse AI analysis tools",
-      "url": "https://www.bleepingcomputer.com/news/security/new-macos-malware-embeds-fake-errors-to-confuse-ai-analysis-tools/",
-      "publication": "BleepingComputer",
-      "author": "Lawrence Abrams",
-      "excerpt": "A newly discovered macOS malware dubbed \"Gaslight\" is designed to confuse AI-assisted malware analysis tools by hiding prompt injection strings and fake debugging data within the executable. [...]",
-      "publishedAt": "2026-06-25T16:23:19.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-4a819486b0b2",
-      "title": "Right of Way Ep. 7: Take What You Can Get",
-      "url": "https://www.greentape.pub/p/right-of-way-ep-6-take-what-you-can",
-      "publication": "Green Tape",
-      "author": "Thomas Hochman",
-      "excerpt": "w/ Senator Joe Manchin",
-      "publishedAt": "2026-06-25T16:10:38.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-250ac48de7ae",
-      "title": "12 ways top outbound teams turn AI into pipeline",
-      "url": "https://newsletter.outbound.kitchen/p/12-ways-top-outbound-teams-turn-ai",
-      "publication": "Outbound Kitchen",
-      "author": "Elric Legloire - Outbound Chef",
-      "excerpt": "From Snowflake, ElevenLabs, Ramp, and 13 more. Use the ones that fit.",
-      "publishedAt": "2026-06-25T16:08:57.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-cc679be8030e",
-      "title": "Round-up: Marriage and happiness",
-      "url": "https://www.aporiamagazine.com/p/round-up-marriage-and-happiness",
-      "publication": "Aporia",
-      "author": "Aporia",
-      "excerpt": "The most interesting articles that came to our attention this week",
-      "publishedAt": "2026-06-25T15:37:47.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-890379eda3c7",
-      "title": "PirloTV sports piracy network disrupted as 44 domains seized",
-      "url": "https://www.bleepingcomputer.com/news/security/pirlotv-sports-piracy-network-disrupted-as-44-domains-seized/",
-      "publication": "BleepingComputer",
-      "author": "Bill Toulas",
-      "excerpt": "A major sports piracy ring linked to the illegal PirloTV streaming platform has been disrupted in an action that targeted 44 domains. [...]",
-      "publishedAt": "2026-06-25T15:36:56.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-b05b7486434b",
-      "title": "Two powerful earthquakes devastate Venezuela; Israeli killing in Lebanon continues; Iván Cepeda concedes in Colombia",
-      "url": "https://www.dropsitenews.com/p/venezuela-earthquake-israel-lebanon-cepeda-colombia",
-      "publication": "Drop Site News",
-      "author": "Drop Site News",
-      "excerpt": "Drop Site Daily: June 25, 2026",
-      "publishedAt": "2026-06-25T15:10:59.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-303aacc75ea8",
-      "title": "Bluekit phishing kit adopts browser-in-the-middle for login theft",
-      "url": "https://www.bleepingcomputer.com/news/security/bluekit-phishing-kit-adopts-browser-in-the-middle-for-login-theft/",
-      "publication": "BleepingComputer",
-      "author": "Bill Toulas",
-      "excerpt": "The Bluekit phishing-as-a-service platform continues to evolve with nearly 70 new hostnames identified over the past week and by adding browser-in-the-middle capabilities for improved data theft. [...]",
-      "publishedAt": "2026-06-25T15:00:00.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-8527dfe88426",
-      "title": "The Four Elevations of Effective Fraud Prevention",
-      "url": "https://www.bleepingcomputer.com/news/security/the-four-elevations-of-effective-fraud-prevention/",
-      "publication": "BleepingComputer",
-      "author": "Sponsored by IPQS",
-      "excerpt": "Fraudsters don't attack just one transaction. They target accounts, platforms, and entire ecosystems. IPQS explains the four elevations of fraud prevention and why broader visibility improves fraud detection. [...]",
-      "publishedAt": "2026-06-25T14:01:11.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-6ca927b65bbb",
-      "title": "Bodycam Shows Moment Cops Arrested a Man for Speaking Too Long at Data Center Meeting",
-      "url": "https://www.404media.co/bodycam-footage-video-claremore-oklahoma-data-center-meeting/",
-      "publication": "404 Media",
-      "author": "Matthew Gault",
-      "excerpt": "We spoke to Darren Blanchard, the man arrested while speaking out against data centers at a community meeting. He's sharing the bodycam footage of his arrest for the first time with 404 Media.",
-      "publishedAt": "2026-06-25T13:47:00.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-edacdcb6fd67",
-      "title": "Webinar: Why account takeovers remain one of the hardest threats to stop",
-      "url": "https://www.bleepingcomputer.com/news/security/webinar-why-account-takeovers-remain-one-of-the-hardest-threats-to-stop/",
-      "publication": "BleepingComputer",
-      "author": "BleepingComputer",
-      "excerpt": "Account takeover attacks continue to challenge security teams because attackers often operate through legitimate accounts and trusted services. This webinar explores how behavioral AI can help organizations identify compromised accounts faster and automate response workflows. [...]",
-      "publishedAt": "2026-06-25T12:12:20.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-88d516fa2f06",
-      "title": "Google releases new privacy controls for activity history, personalization",
-      "url": "https://www.bleepingcomputer.com/news/google/google-releases-new-privacy-controls-for-activity-history-personalization/",
-      "publication": "BleepingComputer",
-      "author": "Mayank Parmar",
-      "excerpt": "Google is rolling out new privacy controls for Search services and Google Play, giving you more control over saved history and personalized recommendations. [...]",
-      "publishedAt": "2026-06-24T23:46:17.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-acae2efc15da",
-      "title": "lululemon athletica (LULU): An Ode to Bad Management & The Politics of Skin-Tight Leggings",
-      "url": "https://michaeljburry.substack.com/p/lululemon-athletica-lulu-where-is",
-      "publication": "Cassandra Unchained",
-      "author": "Michael Burry",
-      "excerpt": "In Defense of an 800lb Gorilla",
-      "publishedAt": "2026-06-24T23:38:52.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-a5aee5014a6d",
-      "title": "Big Tech's $1 trillion AI moat just got DESTROYED by a free Chinese download",
-      "url": "https://georgenoble.substack.com/p/big-techs-1-trillion-ai-moat-just",
-      "publication": "The Noble Update",
-      "author": "George Noble",
-      "excerpt": "Microsoft, Amazon, Google, and Meta are pouring fortunes into chips and data centers because they have been told that whoever builds the biggest model wins, and that lead becomes a fortress no one can cross.",
-      "publishedAt": "2026-06-24T23:17:48.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-259e47403f93",
-      "title": "DraftKings hacker 'Snoopy' sentenced to 18 months in prison",
-      "url": "https://www.bleepingcomputer.com/news/security/draftkings-hacker-snoopy-sentenced-to-18-months-in-prison/",
-      "publication": "BleepingComputer",
-      "author": "Bill Toulas",
-      "excerpt": "A 21-year-old using the alias \"Snoopy\" was sentenced to 18 months in prison for his role in hacking DraftKings accounts in the November 2022 cyberattack. [...]",
-      "publishedAt": "2026-06-24T21:55:43.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-11351a19671d",
-      "title": "Mandiant reveals how Cisco SD-WAN zero-day attacks gained root access",
-      "url": "https://www.bleepingcomputer.com/news/security/mandiant-reveals-how-cisco-sd-wan-zero-day-attacks-gained-root-access/",
-      "publication": "BleepingComputer",
-      "author": "Lawrence Abrams",
-      "excerpt": "New details have been revealed on how hackers exploited a Cisco Catalyst SD-WAN vulnerability tracked as CVE-2026-20245 in zero-day attacks to create rogue root accounts on targeted devices. [...]",
-      "publishedAt": "2026-06-24T21:29:10.000Z"
-    },
-    {
-      "type": "rss",
-      "id": "rss-a0f167358b26",
-      "title": "Malicious Edge extension abuses Native Messaging as bridge to malware",
-      "url": "https://www.bleepingcomputer.com/news/security/malicious-edge-extension-abuses-native-messaging-as-bridge-to-malware/",
-      "publication": "BleepingComputer",
-      "author": "Bill Toulas",
-      "excerpt": "A malicious Microsoft Edge extension dubbed 'Edgecution' has been used in a ransomware attack to escape the browser sandbox and deploy a Python-based backdoor. [...]",
-      "publishedAt": "2026-06-24T20:58:22.000Z"
     }
   ]
 }

@@ -40,7 +40,7 @@ const SOURCE_WEIGHTS: Record<BucketKey, number> = {
   highlight: 5,
   rss: 5,
   book: 4,
-  artwork: 2,
+  artwork: 4,
   islam: 1,
 };
 

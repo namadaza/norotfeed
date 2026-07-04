@@ -69,14 +69,47 @@ export async function loadArtworkFeed(
   const personal = artists ?? [];
   const hidden = hiddenArtists ?? [];
   const effectiveHidden = hidden.filter((slug) => !personal.includes(slug));
+  // Fetch a pool larger than `limit` so we can balance across artists via
+  // round-robin. ORDER BY id ASC alone over-represents whichever artist has
+  // the most rows in the DB (e.g. Manet), starving the others.
+  const poolLimit = limit ? Math.max(limit * 5, 100) : undefined;
   const rows = await getContentByType("artwork", {
     excludeTitles: effectiveHidden.length > 0 ? effectiveHidden : undefined,
-    limit,
+    limit: poolLimit,
     ...(includeUserId ? { includeUserId } : { userId: null as string | null }),
   });
-  return rows
+  const balanced = limit ? roundRobinByArtist(rows, limit) : rows;
+  return balanced
     .map((row) => contentToFeedItem(row))
     .filter((item): item is FeedItem => item !== null);
+}
+
+/**
+ * Pick `limit` artwork rows balanced across artists (grouped by
+ * `content.title`, which holds the artist slug). Cycles through artists,
+ * taking one row from each in turn, so no single artist can dominate the
+ * result regardless of how many rows it has in the DB.
+ */
+function roundRobinByArtist<T extends TypedContentRow<"artwork">>(
+  rows: T[],
+  limit: number,
+): T[] {
+  if (rows.length === 0) return [];
+  const byArtist = new Map<string, T[]>();
+  for (const row of rows) {
+    const list = byArtist.get(row.title);
+    if (list) list.push(row);
+    else byArtist.set(row.title, [row]);
+  }
+  const buckets = [...byArtist.keys()].sort().map((k) => byArtist.get(k)!);
+  const result: T[] = [];
+  let idx = 0;
+  while (result.length < limit && buckets.some((b) => b.length > 0)) {
+    const bucket = buckets[idx % buckets.length];
+    if (bucket.length > 0) result.push(bucket.shift()!);
+    idx++;
+  }
+  return result;
 }
 
 export async function loadRssFeed(

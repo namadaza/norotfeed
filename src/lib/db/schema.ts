@@ -2,6 +2,7 @@ import { pgTable, text, timestamp, boolean, index, jsonb } from "drizzle-orm/pg-
 
 export type UserData = {
   artists: string[];
+  rssFeeds: string[];
 };
 
 export const user = pgTable("user", {
@@ -10,7 +11,10 @@ export const user = pgTable("user", {
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").default(false).notNull(),
   image: text("image"),
-  data: jsonb("data").$type<UserData>().notNull().default({ artists: [] }),
+  data: jsonb("data").$type<UserData>().notNull().default({
+    artists: [],
+    rssFeeds: [],
+  }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()

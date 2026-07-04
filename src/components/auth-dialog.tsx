@@ -38,8 +38,7 @@ export function AuthDialog({
     },
     initialData: initialSession,
   });
-  const session = sessionQuery.data;
-  const user = session?.user ?? null;
+  const user = sessionQuery.data?.user ?? null;
   const [mode, setMode] = useState<AuthMode>("sign-up");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -47,18 +46,9 @@ export function AuthDialog({
 
   useEffect(() => {
     if (!open) return;
-
-    if (user) {
-      setMode("sign-in");
-      setEmail(user.email ?? "");
-      setName(user.name ?? "");
-      setPassword("");
-      return;
-    }
-
     setMode("sign-up");
-    setEmail("");
-    setName("");
+    setEmail(user?.email ?? "");
+    setName(user?.name ?? "");
     setPassword("");
   }, [open, user]);
 
@@ -91,25 +81,11 @@ export function AuthDialog({
     },
   });
 
-  const signOutMutation = useMutation({
-    mutationFn: async () => {
-      const response = await authClient.signOut();
-
-      if (response.error) {
-        throw new Error(response.error.message);
-      }
-    },
-    onSuccess: () => {
-      void queryClient.invalidateQueries({ queryKey: queryKeys.auth.session });
-    },
-  });
-
   function handleOpenChange(nextOpen: boolean) {
     onOpenChange(nextOpen);
 
     if (!nextOpen) {
       authMutation.reset();
-      signOutMutation.reset();
     }
   }
 
@@ -121,120 +97,83 @@ export function AuthDialog({
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogContent className="w-[min(90vw,28rem)] sm:max-w-none">
-        {user ? (
-          <>
-            <DialogHeader>
-              <DialogTitle className="font-serif">Settings</DialogTitle>
-              <DialogDescription>
-                You are signed in.
-              </DialogDescription>
-            </DialogHeader>
+        <DialogHeader>
+          <DialogTitle className="font-serif">Log in or sign up</DialogTitle>
+          <DialogDescription>
+            Use your email and password to continue.
+          </DialogDescription>
+        </DialogHeader>
 
-            <div className="space-y-3 rounded-lg border border-border bg-muted/40 p-4 text-sm">
-              <div>
-                <div className="font-medium">Name</div>
-                <div className="text-muted-foreground">
-                  {user.name || "Not set"}
-                </div>
-              </div>
-              <div>
-                <div className="font-medium">Email</div>
-                <div className="text-muted-foreground">{user.email}</div>
-              </div>
-            </div>
+        <div className="flex gap-2">
+          <Button
+            type="button"
+            variant={mode === "sign-up" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setMode("sign-up")}
+          >
+            Sign Up
+          </Button>
+          <Button
+            type="button"
+            variant={mode === "sign-in" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setMode("sign-in")}
+          >
+            Log In
+          </Button>
+        </div>
 
-            <div className="flex justify-end">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => signOutMutation.mutate()}
-                disabled={signOutMutation.isPending}
-              >
-                Log out
-              </Button>
-            </div>
-          </>
-        ) : (
-          <>
-            <DialogHeader>
-              <DialogTitle className="font-serif">Log in or sign up</DialogTitle>
-              <DialogDescription>
-                Use your email and password to continue.
-              </DialogDescription>
-            </DialogHeader>
+        <form className="space-y-4" onSubmit={handleSubmit}>
+          {mode === "sign-up" && (
+            <label className="grid gap-2 text-sm">
+              <span className="font-medium">Name</span>
+              <input
+                className="h-11 rounded-md border border-border bg-background px-3 outline-none"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                placeholder="Your name"
+                required
+              />
+            </label>
+          )}
 
-            <div className="flex gap-2">
-              <Button
-                type="button"
-                variant={mode === "sign-up" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setMode("sign-up")}
-              >
-                Sign Up
-              </Button>
-              <Button
-                type="button"
-                variant={mode === "sign-in" ? "default" : "outline"}
-                size="sm"
-                onClick={() => setMode("sign-in")}
-              >
-                Log In
-              </Button>
-            </div>
+          <label className="grid gap-2 text-sm">
+            <span className="font-medium">Email</span>
+            <input
+              type="email"
+              className="h-11 rounded-md border border-border bg-background px-3 outline-none"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              placeholder="you@example.com"
+              required
+            />
+          </label>
 
-            <form className="space-y-4" onSubmit={handleSubmit}>
-              {mode === "sign-up" && (
-                <label className="grid gap-2 text-sm">
-                  <span className="font-medium">Name</span>
-                  <input
-                    className="h-11 rounded-md border border-border bg-background px-3 outline-none"
-                    value={name}
-                    onChange={(event) => setName(event.target.value)}
-                    placeholder="Your name"
-                    required
-                  />
-                </label>
-              )}
+          <label className="grid gap-2 text-sm">
+            <span className="font-medium">Password</span>
+            <input
+              type="password"
+              className="h-11 rounded-md border border-border bg-background px-3 outline-none"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              placeholder="Password"
+              minLength={8}
+              required
+            />
+          </label>
 
-              <label className="grid gap-2 text-sm">
-                <span className="font-medium">Email</span>
-                <input
-                  type="email"
-                  className="h-11 rounded-md border border-border bg-background px-3 outline-none"
-                  value={email}
-                  onChange={(event) => setEmail(event.target.value)}
-                  placeholder="you@example.com"
-                  required
-                />
-              </label>
+          {authMutation.error && (
+            <p className="text-sm text-destructive">
+              {authMutation.error.message}
+            </p>
+          )}
 
-              <label className="grid gap-2 text-sm">
-                <span className="font-medium">Password</span>
-                <input
-                  type="password"
-                  className="h-11 rounded-md border border-border bg-background px-3 outline-none"
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-                  placeholder="Password"
-                  minLength={8}
-                  required
-                />
-              </label>
-
-              {authMutation.error && (
-                <p className="text-sm text-destructive">
-                  {authMutation.error.message}
-                </p>
-              )}
-
-              <div className="flex justify-end">
-                <Button type="submit" disabled={authMutation.isPending}>
-                  {mode === "sign-up" ? "Create account" : "Log in"}
-                </Button>
-              </div>
-            </form>
-          </>
-        )}
+          <div className="flex justify-end">
+            <Button type="submit" disabled={authMutation.isPending}>
+              {mode === "sign-up" ? "Create account" : "Log in"}
+            </Button>
+          </div>
+        </form>
       </DialogContent>
     </Dialog>
   );

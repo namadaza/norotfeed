@@ -16,7 +16,10 @@
     "parse:islamic-texts": "tsx scripts/parse-islamic-texts.ts",
     "ingest": "tsx scripts/ingest.ts",
     "ingest:rss": "tsx scripts/ingest.ts",
-    "ingest:wikiart": "tsx scripts/fetch-wikiart-images.ts"
+    "ingest:wikiart": "tsx scripts/fetch-wikiart-images.ts",
+    "backfill:artwork": "tsx scripts/backfill-content-artwork.ts",
+    "backfill:books": "tsx scripts/backfill-content-books.ts",
+    "backfill:rss": "tsx scripts/backfill-content-rss.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",

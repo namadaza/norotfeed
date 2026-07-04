@@ -9,20 +9,15 @@ import { SettingsDialog, type SectionId } from "@/components/settings-dialog";
 import { authClient } from "@/lib/auth-client";
 import { queryKeys } from "@/lib/consts";
 import type { getUserSession } from "@/lib/db/user";
-import type { FeedItem, FeedOptions } from "@/lib/types";
-import type { KoreaderBook } from "@/lib/sources/koreader-generated";
+import type { FeedOptions } from "@/lib/types";
 
 type Props = {
-  books: KoreaderBook[];
-  highlights: Extract<FeedItem, { type: "highlight" }>[];
   feedOptions: FeedOptions | null;
   onFeedOptionsChange: (options: FeedOptions | null) => void;
   initialSession: Awaited<ReturnType<typeof getUserSession>>;
 };
 
 export function BottomNav({
-  books,
-  highlights,
   feedOptions,
   onFeedOptionsChange,
   initialSession,
@@ -73,8 +68,6 @@ export function BottomNav({
         open={settingsOpen}
         onOpenChange={setSettingsOpen}
         initialSection={settingsSection}
-        books={books}
-        highlights={highlights}
         feedOptions={feedOptions}
         onFeedOptionsChange={onFeedOptionsChange}
         initialSession={sessionQuery.data}

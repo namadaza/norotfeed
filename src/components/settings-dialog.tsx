@@ -21,8 +21,7 @@ import { queryKeys } from "@/lib/consts";
 import { cn } from "@/lib/utils";
 import type { getUserSession } from "@/lib/db/user";
 import type { UserData } from "@/lib/db/schema";
-import type { KoreaderBook } from "@/lib/sources/koreader-generated";
-import type { FeedItem, FeedOptions } from "@/lib/types";
+import type { FeedOptions } from "@/lib/types";
 import {
   addArtistAction,
   addRssFeedAction,
@@ -30,6 +29,7 @@ import {
   removeArtistAction,
   removeRssFeedAction,
 } from "@/app/user-actions";
+import { getBookTitlesAction } from "@/app/actions";
 
 type Session = Awaited<ReturnType<typeof getUserSession>>;
 
@@ -47,8 +47,6 @@ type Props = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   initialSection?: SectionId;
-  books: KoreaderBook[];
-  highlights: Extract<FeedItem, { type: "highlight" }>[];
   feedOptions: FeedOptions | null;
   onFeedOptionsChange: (options: FeedOptions | null) => void;
   initialSession: Session;
@@ -70,45 +68,11 @@ const contentTypeDescriptions: Record<ContentType, string> = {
   islam: "Show a randomized feed of Quran, hadith, and selected Islamic book highlights.",
 };
 
-function normalizeBookTitle(title: string) {
-  return title
-    .trim()
-    .replace(/(?:,)?\s+by\s+[^:]+$/i, "")
-    .replace(/\s*:\s*.*$/, "")
-    .replace(/\s+-\s+.*$/, "")
-    .replace(/[,;]\s*$/, "")
-    .trim();
-}
-
 function slugify(value: string) {
   return value
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
-}
-
-function parseHighlightTitle(rawTitle: string) {
-  const trimmed = rawTitle.trim();
-  const separators = [" - ", " > ", " Page "];
-
-  for (const separator of separators) {
-    const index = trimmed.indexOf(separator);
-    if (index > 0) return trimmed.slice(0, index).trim();
-  }
-
-  return trimmed;
-}
-
-function buildHighlightBooks(highlights: Extract<FeedItem, { type: "highlight" }>[]): BookOption[] {
-  const grouped = new Map<string, BookOption>();
-
-  for (const item of highlights) {
-    const title = normalizeBookTitle(parseHighlightTitle(item.title));
-    const slug = `highlight-${slugify(title)}`;
-    if (!grouped.has(slug)) grouped.set(slug, { slug, title });
-  }
-
-  return Array.from(grouped.values());
 }
 
 function prettifySlug(slug: string) {
@@ -119,8 +83,6 @@ export function SettingsDialog({
   open,
   onOpenChange,
   initialSection = "feed",
-  books,
-  highlights,
   feedOptions,
   onFeedOptionsChange,
   initialSession,
@@ -160,16 +122,17 @@ export function SettingsDialog({
     feedOptions?.contentType === "rss" ? feedOptions.rssOrder : "chronological",
   );
 
+  const bookTitlesQuery = useQuery({
+    queryKey: queryKeys.feed.bookTitles,
+    queryFn: getBookTitlesAction,
+  });
+
   const allBooks = useMemo<BookOption[]>(() => {
-    const byTitle = new Map<string, BookOption>();
-
-    for (const book of [...books, ...buildHighlightBooks(highlights)]) {
-      const key = normalizeBookTitle(book.title);
-      if (!byTitle.has(key)) byTitle.set(key, { ...book, title: key });
-    }
-
-    return Array.from(byTitle.values()).sort((a, b) => a.title.localeCompare(b.title));
-  }, [books, highlights]);
+    const titles = bookTitlesQuery.data ?? [];
+    return titles
+      .map((title) => ({ slug: slugify(title), title }))
+      .sort((a, b) => a.title.localeCompare(b.title));
+  }, [bookTitlesQuery.data]);
 
   useEffect(() => {
     if (!open) return;
@@ -499,6 +462,7 @@ function RssSection({
     mutationFn: (value: string) => addRssFeedAction(value),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: queryKeys.user.data });
+      void queryClient.invalidateQueries({ queryKey: ["feed"] });
       setUrl("");
     },
   });
@@ -506,6 +470,7 @@ function RssSection({
     mutationFn: (value: string) => removeRssFeedAction(value),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: queryKeys.user.data });
+      void queryClient.invalidateQueries({ queryKey: ["feed"] });
     },
   });
 
@@ -601,6 +566,7 @@ function ArtistsSection({
     mutationFn: (value: string) => addArtistAction(value),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: queryKeys.user.data });
+      void queryClient.invalidateQueries({ queryKey: ["feed"] });
       setSlug("");
     },
   });
@@ -608,6 +574,7 @@ function ArtistsSection({
     mutationFn: (value: string) => removeArtistAction(value),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: queryKeys.user.data });
+      void queryClient.invalidateQueries({ queryKey: ["feed"] });
     },
   });
 

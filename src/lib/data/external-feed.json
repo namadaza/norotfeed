@@ -1,5 +1,5 @@
 {
-  "fetchedAt": "2026-07-04T16:00:10.411Z",
+  "fetchedAt": "2026-07-04T15:44:30.234Z",
   "items": [
     {
       "type": "rss",
@@ -9,7 +9,19 @@
       "publication": "BleepingComputer",
       "author": "Bill Toulas",
       "excerpt": "Researchers identified what they believe is the first documented case of a ransomware operation, JadePuffer, conducted entirely by a large language model (LLM) agent. [...]",
-      "publishedAt": "2026-07-04T14:16:38.000Z"
+      "publishedAt": "2026-07-04T14:16:38.000Z",
+      "feedUrl": "https://www.bleepingcomputer.com/feed/"
+    },
+    {
+      "type": "rss",
+      "id": "rss-5867841b8f5f",
+      "title": "Palantir to Rule Them All",
+      "url": "https://predictivehistory.substack.com/p/palantir-to-rule-them-all",
+      "publication": "Predictive History Substack",
+      "author": "Predictive History",
+      "excerpt": "The plan to save the world by first destroying it.",
+      "publishedAt": "2026-07-04T13:43:57.000Z",
+      "feedUrl": "https://predictivehistory.substack.com"
     },
     {
       "type": "rss",
@@ -19,7 +31,19 @@
       "publication": "404 Media",
       "author": "Becky Ferreira",
       "excerpt": "A short-statured human relative that lived on a lush island probably didn’t wield fire or hunt big game, but it did walk in the footsteps of dragons, according to a new study.",
-      "publishedAt": "2026-07-04T10:00:09.000Z"
+      "publishedAt": "2026-07-04T10:00:09.000Z",
+      "feedUrl": "https://www.404media.co"
+    },
+    {
+      "type": "rss",
+      "id": "rss-3e7613254ba6",
+      "title": "The stock picking era is here",
+      "url": "https://georgenoble.substack.com/p/the-stock-picking-era-is-here",
+      "publication": "The Noble Update",
+      "author": "George Noble",
+      "excerpt": "For 3 years, the only investing decision that mattered was how much of the Mag 7 you were willing to own.",
+      "publishedAt": "2026-07-03T23:22:32.000Z",
+      "feedUrl": "https://georgenoble.substack.com"
     },
     {
       "type": "rss",
@@ -29,7 +53,8 @@
       "publication": "Drop Site News",
       "author": "Eisa dafalla",
       "excerpt": "Drone strikes, water shortages, and blackouts have turned North Kordofan’s capital into a trap for hundreds of thousands—including displaced people who fled there hoping for safety.",
-      "publishedAt": "2026-07-03T21:46:47.000Z"
+      "publishedAt": "2026-07-03T21:46:47.000Z",
+      "feedUrl": "https://www.dropsitenews.com"
     },
     {
       "type": "rss",
@@ -39,7 +64,19 @@
       "publication": "BleepingComputer",
       "author": "Ionut Ilascu",
       "excerpt": "A joint operation involving Google has disrupted NetNut, a residential proxy network that gave access to millions of compromised Android devices, including smart TVs and streaming boxes. [...]",
-      "publishedAt": "2026-07-03T17:50:04.000Z"
+      "publishedAt": "2026-07-03T17:50:04.000Z",
+      "feedUrl": "https://www.bleepingcomputer.com/feed/"
+    },
+    {
+      "type": "rss",
+      "id": "rss-d9bc17ec8b61",
+      "title": "Meta just admitted the AI trade is CRACKING",
+      "url": "https://georgenoble.substack.com/p/meta-just-admitted-the-ai-trade-is",
+      "publication": "The Noble Update",
+      "author": "George Noble",
+      "excerpt": "It's starting",
+      "publishedAt": "2026-07-03T15:17:58.000Z",
+      "feedUrl": "https://georgenoble.substack.com"
     },
     {
       "type": "rss",
@@ -49,7 +86,19 @@
       "publication": "BleepingComputer",
       "author": "Lawrence Abrams",
       "excerpt": "A new phishing-as-a-service (PhaaS) platform dubbed \"ARToken\" appears to operate as an affiliate of the EvilTokens phishing platform, giving researchers a glimpse into an extensive toolkit designed to compromise Microsoft 365. [...]",
-      "publishedAt": "2026-07-03T14:12:22.000Z"
+      "publishedAt": "2026-07-03T14:12:22.000Z",
+      "feedUrl": "https://www.bleepingcomputer.com/feed/"
+    },
+    {
+      "type": "rss",
+      "id": "rss-d0233122a490",
+      "title": "Sūrat az-Zukhruf (Part 5)",
+      "url": "https://heavenlyorder.substack.com/p/surat-az-zukhruf-part-5",
+      "publication": "Heavenly Order",
+      "author": "Heavenly Order",
+      "excerpt": "Part 5 of observations on the organization and structure of Sūrat az-Zukhruf",
+      "publishedAt": "2026-07-03T13:03:37.000Z",
+      "feedUrl": "https://heavenlyorder.substack.com"
     },
     {
       "type": "rss",
@@ -59,7 +108,8 @@
       "publication": "404 Media",
       "author": "Samantha Cole",
       "excerpt": "This week, we discuss the Supreme Court, the private jet, and AI on the TV.",
-      "publishedAt": "2026-07-03T10:00:02.000Z"
+      "publishedAt": "2026-07-03T10:00:02.000Z",
+      "feedUrl": "https://www.404media.co"
     },
     {
       "type": "rss",
@@ -69,7 +119,8 @@
       "publication": "Arktos Journal",
       "author": "Arktos Journal",
       "excerpt": "Civilizational Reflections with Giorgio Locchi and Guillaume Faye",
-      "publishedAt": "2026-07-03T08:00:20.000Z"
+      "publishedAt": "2026-07-03T08:00:20.000Z",
+      "feedUrl": "https://www.arktosjournal.com"
     },
     {
       "type": "rss",
@@ -79,7 +130,8 @@
       "publication": "BleepingComputer",
       "author": "Mayank Parmar",
       "excerpt": "Anthropic says Claude Fable 5 won't be accessible via Claude subscriptions after July 7, but it's not a permanent change, and the company expects the model to return outside the usage-based plan soon. [...]",
-      "publishedAt": "2026-07-03T01:37:09.000Z"
+      "publishedAt": "2026-07-03T01:37:09.000Z",
+      "feedUrl": "https://www.bleepingcomputer.com/feed/"
     },
     {
       "type": "rss",
@@ -89,7 +141,52 @@
       "publication": "BleepingComputer",
       "author": "Mayank Parmar",
       "excerpt": "Claude Fable, the company's most powerful model, is now available to all users, but early impressions are disappointing, as it appears to be nowhere near the original release. [...]",
-      "publishedAt": "2026-07-03T00:48:30.000Z"
+      "publishedAt": "2026-07-03T00:48:30.000Z",
+      "feedUrl": "https://www.bleepingcomputer.com/feed/"
+    },
+    {
+      "type": "rss",
+      "id": "rss-46c5ed49e051",
+      "title": "Live with Prof Robert Pape and Joe Kent",
+      "url": "https://escalationtrap.substack.com/p/live-with-prof-robert-pape-and-joe-244",
+      "publication": "Escalation Trap",
+      "author": "Prof Robert Pape",
+      "excerpt": "A recording from Prof Robert Pape's live video",
+      "publishedAt": "2026-07-03T00:47:57.000Z",
+      "feedUrl": "https://escalationtrap.substack.com"
+    },
+    {
+      "type": "rss",
+      "id": "rss-7b068b004fe2",
+      "title": "Link for Live with Prof Pape and Joe Kent",
+      "url": "https://escalationtrap.substack.com/p/link-for-live-with-prof-pape-and",
+      "publication": "Escalation Trap",
+      "author": "Prof Robert Pape",
+      "excerpt": "7pm ET, in ~40 min",
+      "publishedAt": "2026-07-02T22:17:34.000Z",
+      "feedUrl": "https://escalationtrap.substack.com"
+    },
+    {
+      "type": "rss",
+      "id": "rss-a5cf38fe4bb1",
+      "title": "Trading Post July 2, 2026",
+      "url": "https://michaeljburry.substack.com/p/trading-post-july-2-2026",
+      "publication": "Cassandra Unchained",
+      "author": "Michael Burry",
+      "excerpt": "A new short and five additions to long positions.",
+      "publishedAt": "2026-07-02T20:53:04.000Z",
+      "feedUrl": "https://michaeljburry.substack.com"
+    },
+    {
+      "type": "rss",
+      "id": "rss-9dc3e8e5c752",
+      "title": "The Golden Age of Stock Picking | David Nicoski",
+      "url": "https://georgenoble.substack.com/p/the-golden-age-of-stock-picking-david",
+      "publication": "The Noble Update",
+      "author": "George Noble",
+      "excerpt": "1.",
+      "publishedAt": "2026-07-02T19:58:01.000Z",
+      "feedUrl": "https://georgenoble.substack.com"
     },
     {
       "type": "rss",
@@ -99,7 +196,19 @@
       "publication": "Drop Site News",
       "author": "Murtaza Hussain",
       "excerpt": "The news outlet changed its tip line this week, but has not informed potential sources or the public of the breach.",
-      "publishedAt": "2026-07-02T19:16:21.000Z"
+      "publishedAt": "2026-07-02T19:16:21.000Z",
+      "feedUrl": "https://www.dropsitenews.com"
+    },
+    {
+      "type": "rss",
+      "id": "rss-41bb67a95505",
+      "title": "Tonight: Joe Kent Joins Me Live on the Iran War",
+      "url": "https://escalationtrap.substack.com/p/tonight-joe-kent-joins-me-live-on",
+      "publication": "Escalation Trap",
+      "author": "Prof Robert Pape",
+      "excerpt": "Thursday, July 2 — 7:00 p.m. ET",
+      "publishedAt": "2026-07-02T17:09:40.000Z",
+      "feedUrl": "https://escalationtrap.substack.com"
     },
     {
       "type": "rss",
@@ -109,7 +218,8 @@
       "publication": "Drop Site News",
       "author": "Drop Site News",
       "excerpt": "Drop Site Daily: July 2, 2026",
-      "publishedAt": "2026-07-02T16:30:39.000Z"
+      "publishedAt": "2026-07-02T16:30:39.000Z",
+      "feedUrl": "https://www.dropsitenews.com"
     },
     {
       "type": "rss",
@@ -119,7 +229,18 @@
       "publication": "After Babel",
       "author": "Jean M. Twenge",
       "excerpt": "New analyses from Europe, Japan, and South Korea show increases that in many cases began before COVID.",
-      "publishedAt": "2026-07-02T16:29:00.000Z"
+      "publishedAt": "2026-07-02T16:29:00.000Z",
+      "feedUrl": "https://www.afterbabel.com"
+    },
+    {
+      "type": "rss",
+      "id": "rss-ceb7542821d3",
+      "title": "Who’s with W. Kamau Bell?",
+      "url": "https://on.substack.com/p/whos-with-w-kamau-bell",
+      "publication": "On Substack",
+      "excerpt": "Inside the comedian’s newest podcast deal, clipping discussions, newsletter growth, and the guest he’s always wanted to book",
+      "publishedAt": "2026-07-02T16:02:21.000Z",
+      "feedUrl": "https://on.substack.com"
     },
     {
       "type": "rss",
@@ -129,7 +250,8 @@
       "publication": "BleepingComputer",
       "author": "Bill Toulas",
       "excerpt": "Court of Justice of the European Union (CJEU) has dismissed Google's final appeal against a €4.1 billion ($4.7 billion) antitrust fine over the company's use of Android to promote its Chrome browser and search service. [...]",
-      "publishedAt": "2026-07-02T15:18:51.000Z"
+      "publishedAt": "2026-07-02T15:18:51.000Z",
+      "feedUrl": "https://www.bleepingcomputer.com/feed/"
     },
     {
       "type": "rss",
@@ -139,7 +261,8 @@
       "publication": "Aporia",
       "author": "Aporia",
       "excerpt": "Evidence suggests they aren't.",
-      "publishedAt": "2026-07-02T15:02:35.000Z"
+      "publishedAt": "2026-07-02T15:02:35.000Z",
+      "feedUrl": "https://www.aporiamagazine.com"
     },
     {
       "type": "rss",
@@ -149,7 +272,8 @@
       "publication": "Drop Site News",
       "author": "Drop Site News",
       "excerpt": "Jeremy Scahill speaks with the Axis of Resistance scholar about Iran, Hezbollah, Israel, and Trump—and why she believes another regional war is inevitable.",
-      "publishedAt": "2026-07-02T14:24:22.000Z"
+      "publishedAt": "2026-07-02T14:24:22.000Z",
+      "feedUrl": "https://www.dropsitenews.com"
     },
     {
       "type": "rss",
@@ -159,7 +283,8 @@
       "publication": "BleepingComputer",
       "author": "Sponsored by Huntress Labs",
       "excerpt": "ConsentFix and ClickFix attacks steal Microsoft 365 tokens in seconds using fake prompts and OAuth flows. Learn how these MFA bypass tactics work and how to defend against them. [...]",
-      "publishedAt": "2026-07-02T14:00:10.000Z"
+      "publishedAt": "2026-07-02T14:00:10.000Z",
+      "feedUrl": "https://www.bleepingcomputer.com/feed/"
     },
     {
       "type": "rss",
@@ -169,7 +294,8 @@
       "publication": "Drop Site News",
       "author": "Jeremy Scahill",
       "excerpt": "Jeremy Scahill speaks with the Axis of Resistance scholar about Iran, Hezbollah, Israel, and Trump—and why she believes another regional war is inevitable.",
-      "publishedAt": "2026-07-02T13:54:20.000Z"
+      "publishedAt": "2026-07-02T13:54:20.000Z",
+      "feedUrl": "https://www.dropsitenews.com"
     },
     {
       "type": "rss",
@@ -179,7 +305,8 @@
       "publication": "BleepingComputer",
       "author": "Sergiu Gatlan",
       "excerpt": "Microsoft has fixed a known issue causing the Copilot Chat or Copilot buttons in Classic Outlook to disappear for Windows users with the Copilot Chat (Basic) license. [...]",
-      "publishedAt": "2026-07-02T12:15:47.000Z"
+      "publishedAt": "2026-07-02T12:15:47.000Z",
+      "feedUrl": "https://www.bleepingcomputer.com/feed/"
     },
     {
       "type": "rss",
@@ -189,7 +316,8 @@
       "publication": "BleepingComputer",
       "author": "Sergiu Gatlan",
       "excerpt": "Cisco confirmed that attackers are now exploiting a Unified Communications Manager (Unified CM) vulnerability patched in early June. [...]",
-      "publishedAt": "2026-07-02T11:35:25.000Z"
+      "publishedAt": "2026-07-02T11:35:25.000Z",
+      "feedUrl": "https://www.bleepingcomputer.com/feed/"
     },
     {
       "type": "rss",
@@ -199,7 +327,8 @@
       "publication": "BleepingComputer",
       "author": "Sergiu Gatlan",
       "excerpt": "CISA warned on Wednesday that attackers have begun exploiting a high-severity Microsoft SharePoint remote code execution vulnerability patched in May. [...]",
-      "publishedAt": "2026-07-02T10:52:43.000Z"
+      "publishedAt": "2026-07-02T10:52:43.000Z",
+      "feedUrl": "https://www.bleepingcomputer.com/feed/"
     },
     {
       "type": "rss",
@@ -209,7 +338,8 @@
       "publication": "BleepingComputer",
       "author": "Bill Toulas",
       "excerpt": "Opera has introduced Paste Protect, a security feature designed to block ClickFix-style attacks that trick users into executing malicious commands through social engineering. [...]",
-      "publishedAt": "2026-07-02T10:46:58.000Z"
+      "publishedAt": "2026-07-02T10:46:58.000Z",
+      "feedUrl": "https://www.bleepingcomputer.com/feed/"
     },
     {
       "type": "rss",
@@ -219,7 +349,8 @@
       "publication": "404 Media",
       "author": "Joseph Cox",
       "excerpt": "Sources and leaks from Amazon, Adobe, Atlassian, Citi, and more show what is really happening with AI right now: companies are trying to rein in AI use as costs spiral out of control.",
-      "publishedAt": "2026-07-02T10:00:09.000Z"
+      "publishedAt": "2026-07-02T10:00:09.000Z",
+      "feedUrl": "https://www.404media.co"
     },
     {
       "type": "rss",
@@ -229,7 +360,8 @@
       "publication": "BleepingComputer",
       "author": "Sergiu Gatlan",
       "excerpt": "A dual United States and Estonian citizen has been extradited to the U.S. to face charges alleging he was a member of the Scattered Spider hacking collective. [...]",
-      "publishedAt": "2026-07-02T08:58:25.000Z"
+      "publishedAt": "2026-07-02T08:58:25.000Z",
+      "feedUrl": "https://www.bleepingcomputer.com/feed/"
     },
     {
       "type": "rss",
@@ -239,7 +371,8 @@
       "publication": "Arktos Journal",
       "author": "Arktos Journal",
       "excerpt": "by Joakim Andersen",
-      "publishedAt": "2026-07-02T08:00:55.000Z"
+      "publishedAt": "2026-07-02T08:00:55.000Z",
+      "feedUrl": "https://www.arktosjournal.com"
     },
     {
       "type": "rss",
@@ -249,7 +382,8 @@
       "publication": "BleepingComputer",
       "author": "Bill Toulas",
       "excerpt": "Healthcare device firm Medtronic is notifying affected customers about a data breach that exposed their personal data to an unauthorized third party. [...]",
-      "publishedAt": "2026-07-02T04:25:42.000Z"
+      "publishedAt": "2026-07-02T04:25:42.000Z",
+      "feedUrl": "https://www.bleepingcomputer.com/feed/"
     },
     {
       "type": "rss",
@@ -259,7 +393,8 @@
       "publication": "BleepingComputer",
       "author": "Lawrence Abrams",
       "excerpt": "The massive FortiBleed credential theft campaign has been linked to the INC and Lynx ransomware operations, suggesting the stolen Fortinet credentials were intended to fuel future network intrusions. [...]",
-      "publishedAt": "2026-07-01T21:37:24.000Z"
+      "publishedAt": "2026-07-01T21:37:24.000Z",
+      "feedUrl": "https://www.bleepingcomputer.com/feed/"
     },
     {
       "type": "rss",
@@ -269,7 +404,8 @@
       "publication": "BleepingComputer",
       "author": "Bill Toulas",
       "excerpt": "Kubota North America Corporation disclosed that hackers had access to some of its network systems for more than a month earlier this year. [...]",
-      "publishedAt": "2026-07-01T21:09:06.000Z"
+      "publishedAt": "2026-07-01T21:09:06.000Z",
+      "feedUrl": "https://www.bleepingcomputer.com/feed/"
     },
     {
       "type": "rss",
@@ -279,7 +415,8 @@
       "publication": "404 Media",
       "author": "Joseph Cox",
       "excerpt": "How companies are burning through their AI tokens; and the fake AI-generated flowers all over Etsy, eBay, and Amazon.",
-      "publishedAt": "2026-07-01T20:40:59.000Z"
+      "publishedAt": "2026-07-01T20:40:59.000Z",
+      "feedUrl": "https://www.404media.co"
     },
     {
       "type": "rss",
@@ -289,7 +426,8 @@
       "publication": "404 Media",
       "author": "Becky Ferreira",
       "excerpt": "Researchers discovered  that people found AI impersonators to be more authentic, coherent, and relevant than the real politicians, raising alarm bells around the potential for public deception.",
-      "publishedAt": "2026-07-01T18:00:53.000Z"
+      "publishedAt": "2026-07-01T18:00:53.000Z",
+      "feedUrl": "https://www.404media.co"
     },
     {
       "type": "rss",
@@ -329,7 +467,8 @@
       "publication": "Infinite Scroll",
       "author": "Jeremiah Johnson",
       "excerpt": "An overstuffed, mega-sized Weekly Scroll returns to action",
-      "publishedAt": "2026-07-01T15:51:14.000Z"
+      "publishedAt": "2026-07-01T15:51:14.000Z",
+      "feedUrl": "https://www.infinitescroll.us"
     },
     {
       "type": "rss",
@@ -339,7 +478,8 @@
       "publication": "Drop Site News",
       "author": "Drop Site News",
       "excerpt": "Drop Site Daily: July 1, 2026",
-      "publishedAt": "2026-07-01T15:31:01.000Z"
+      "publishedAt": "2026-07-01T15:31:01.000Z",
+      "feedUrl": "https://www.dropsitenews.com"
     },
     {
       "type": "rss",
@@ -359,7 +499,8 @@
       "publication": "Green Tape",
       "author": "Thomas Hochman",
       "excerpt": "w/ Greg Beard and Julie Kozeracki",
-      "publishedAt": "2026-07-01T14:00:44.000Z"
+      "publishedAt": "2026-07-01T14:00:44.000Z",
+      "feedUrl": "https://www.greentape.pub"
     },
     {
       "type": "rss",
@@ -370,6 +511,17 @@
       "author": "Sergiu Gatlan",
       "excerpt": "Over 900 Oracle E-Business Suite (EBS) instances have been found exposed online amid ongoing attacks exploiting a critical security flaw. [...]",
       "publishedAt": "2026-07-01T12:30:01.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-6f7e1c152a03",
+      "title": "You Haven’t Missed It: Joe Kent Joins Me Live Tomorrow",
+      "url": "https://escalationtrap.substack.com/p/you-havent-missed-it-joe-kent-joins",
+      "publication": "Escalation Trap",
+      "author": "Prof Robert Pape",
+      "excerpt": "Thursday July 2 -- 7pm ET",
+      "publishedAt": "2026-07-01T11:24:08.000Z",
+      "feedUrl": "https://escalationtrap.substack.com"
     },
     {
       "type": "rss",
@@ -389,7 +541,8 @@
       "publication": "404 Media",
       "author": "Joseph Cox",
       "excerpt": "”Hide My Email users deserve to know that it may be possible for attackers to discover their hidden email addresses,” the person who reported the issue said.",
-      "publishedAt": "2026-07-01T10:00:57.000Z"
+      "publishedAt": "2026-07-01T10:00:57.000Z",
+      "feedUrl": "https://www.404media.co"
     },
     {
       "type": "rss",
@@ -409,7 +562,8 @@
       "publication": "Arktos Journal",
       "author": "Arktos Journal",
       "excerpt": "by Alain de Benoist",
-      "publishedAt": "2026-07-01T08:01:02.000Z"
+      "publishedAt": "2026-07-01T08:01:02.000Z",
+      "feedUrl": "https://www.arktosjournal.com"
     },
     {
       "type": "rss",
@@ -433,13 +587,25 @@
     },
     {
       "type": "rss",
+      "id": "rss-fa1bad5548e9",
+      "title": "Live with Prof Robert Pape and Joe Kent",
+      "url": "https://escalationtrap.substack.com/p/live-with-prof-robert-pape-and-joe",
+      "publication": "Escalation Trap",
+      "author": "Prof Robert Pape",
+      "excerpt": "A recording from Prof Robert Pape's live video",
+      "publishedAt": "2026-07-01T00:33:00.000Z",
+      "feedUrl": "https://escalationtrap.substack.com"
+    },
+    {
+      "type": "rss",
       "id": "rss-9f5b9a73869c",
       "title": "Sonnet 5 review: I ran 64 generations to find out if it's worth it",
       "url": "https://www.lennysnewsletter.com/p/sonnet-5-review-i-ran-64-generations",
       "publication": "Lenny's Newsletter",
       "author": "Claire Vo",
       "excerpt": "Watch now | 🎙 I built the How I AI Bench live using Claude Code, ran 5 frontier models through 64 blind prototype generations, PRDs, and agent voice tests, and the results surprised even me",
-      "publishedAt": "2026-06-30T23:22:23.000Z"
+      "publishedAt": "2026-06-30T23:22:23.000Z",
+      "feedUrl": "https://www.lennysnewsletter.com"
     },
     {
       "type": "rss",
@@ -450,6 +616,17 @@
       "author": "Mayank Parmar",
       "excerpt": "Anthropic is now rolling out Sonnet 5, and it's almost as good as the Opus range, but it is designed to be cheaper than the company's flagship model. [...]",
       "publishedAt": "2026-06-30T23:13:07.000Z"
+    },
+    {
+      "type": "rss",
+      "id": "rss-8b7ee68419e6",
+      "title": "Link for Live Conversation Robert Pape and Joe Kent",
+      "url": "https://escalationtrap.substack.com/p/link-for-live-conversation-robert",
+      "publication": "Escalation Trap",
+      "author": "Prof Robert Pape",
+      "excerpt": "Starts in 50 Minutes",
+      "publishedAt": "2026-06-30T22:11:12.000Z",
+      "feedUrl": "https://escalationtrap.substack.com"
     },
     {
       "type": "rss",
@@ -469,7 +646,8 @@
       "publication": "Drop Site News",
       "author": "Aseel Mafarjeh",
       "excerpt": "In Jenin, Israel is building the first permanent military base in Area A since the Oslo Accords in the 1990s.",
-      "publishedAt": "2026-06-30T21:32:16.000Z"
+      "publishedAt": "2026-06-30T21:32:16.000Z",
+      "feedUrl": "https://www.dropsitenews.com"
     },
     {
       "type": "rss",
@@ -493,13 +671,25 @@
     },
     {
       "type": "rss",
+      "id": "rss-c6ffead1c880",
+      "title": "Trading Post June 30, 2026",
+      "url": "https://michaeljburry.substack.com/p/trading-post-june-30th-2026",
+      "publication": "Cassandra Unchained",
+      "author": "Michael Burry",
+      "excerpt": "A little window-dressing, the SOX, and Caterpillar",
+      "publishedAt": "2026-06-30T19:55:15.000Z",
+      "feedUrl": "https://michaeljburry.substack.com"
+    },
+    {
+      "type": "rss",
       "id": "rss-576f818a1168",
       "title": "I Have Thoughts About That Kylie Jenner Meta Glasses Ad",
       "url": "https://www.404media.co/meta-smart-glasses-starfire-kylie-jenner/",
       "publication": "404 Media",
       "author": "Samantha Cole",
       "excerpt": "Meta's new Starfire AI glasses, made in partnership with Kylie Jenner, are giving me the creeps.",
-      "publishedAt": "2026-06-30T18:19:17.000Z"
+      "publishedAt": "2026-06-30T18:19:17.000Z",
+      "feedUrl": "https://www.404media.co"
     },
     {
       "type": "rss",
@@ -509,7 +699,8 @@
       "publication": "404 Media",
       "author": "Matthew Gault",
       "excerpt": "Henrico County is a major hub for data centers in Virginia. Its officials said it expects a 25% rise in electricity costs next year, and advised workers to close the blinds and turn off their computers to make up for it.",
-      "publishedAt": "2026-06-30T15:49:10.000Z"
+      "publishedAt": "2026-06-30T15:49:10.000Z",
+      "feedUrl": "https://www.404media.co"
     },
     {
       "type": "rss",
@@ -529,7 +720,19 @@
       "publication": "Ed Zitron's Where's Your Ed At",
       "author": "Ed Zitron",
       "excerpt": "If you liked this piece, you should subscribe to my premium newsletter. It’s $70 a year, or $7 a month, and in return you get a weekly newsletter that’s usually anywhere from 5,000 to 18,000 words, including vast, detailed analyses of NVIDIA, Anthropic and",
-      "publishedAt": "2026-06-30T15:36:38.000Z"
+      "publishedAt": "2026-06-30T15:36:38.000Z",
+      "feedUrl": "https://www.wheresyoured.at/rss/"
+    },
+    {
+      "type": "rss",
+      "id": "rss-a5ca79753d5a",
+      "title": "Introducing country leaderboards and post translations",
+      "url": "https://on.substack.com/p/introducing-country-leaderboards",
+      "publication": "On Substack",
+      "author": "Farrah @Substack",
+      "excerpt": "Users everywhere can now translate posts, and country leaderboards are available in France, Italy, the Netherlands, Spain, and the U.K.—with more coming soon",
+      "publishedAt": "2026-06-30T15:02:30.000Z",
+      "feedUrl": "https://on.substack.com"
     },
     {
       "type": "rss",
@@ -539,7 +742,8 @@
       "publication": "Drop Site News",
       "author": "Drop Site News",
       "excerpt": "Drop Site Daily: June 30, 2026",
-      "publishedAt": "2026-06-30T14:53:52.000Z"
+      "publishedAt": "2026-06-30T14:53:52.000Z",
+      "feedUrl": "https://www.dropsitenews.com"
     },
     {
       "type": "rss",
@@ -559,7 +763,19 @@
       "publication": "404 Media",
       "author": "Emanuel Maiberg",
       "excerpt": "Ebay, Amazon, and Etsy are unable to stop the flood of AI-generated seed scams.",
-      "publishedAt": "2026-06-30T13:48:27.000Z"
+      "publishedAt": "2026-06-30T13:48:27.000Z",
+      "feedUrl": "https://www.404media.co"
+    },
+    {
+      "type": "rss",
+      "id": "rss-1d57663e3763",
+      "title": "Situation Report: Pakistan’s Troops in Saudi Arabia",
+      "url": "https://escalationtrap.substack.com/p/situation-report-pakistans-troops",
+      "publication": "Escalation Trap",
+      "author": "Prof Robert Pape",
+      "excerpt": "The Quiet Deployment Changing the Iran War",
+      "publishedAt": "2026-06-30T13:45:38.000Z",
+      "feedUrl": "https://escalationtrap.substack.com"
     },
     {
       "type": "rss",
@@ -569,7 +785,8 @@
       "publication": "404 Media",
       "author": "Joseph Cox",
       "excerpt": "A senior OpenAI employee has contributed code to the project, simply called 'caveman.'",
-      "publishedAt": "2026-06-30T13:33:16.000Z"
+      "publishedAt": "2026-06-30T13:33:16.000Z",
+      "feedUrl": "https://www.404media.co"
     },
     {
       "type": "rss",
@@ -579,7 +796,8 @@
       "publication": "Lenny's Newsletter",
       "author": "Colin Matthews",
       "excerpt": "A framework for getting the most out of AI in your day-to-day-work",
-      "publishedAt": "2026-06-30T13:31:39.000Z"
+      "publishedAt": "2026-06-30T13:31:39.000Z",
+      "feedUrl": "https://www.lennysnewsletter.com"
     },
     {
       "type": "rss",
@@ -589,7 +807,8 @@
       "publication": "404 Media",
       "author": "Jason Koebler",
       "excerpt": "My journey inside the world of LARPing, where hustlebros pretend to be rich for TikTok.",
-      "publishedAt": "2026-06-30T13:01:06.000Z"
+      "publishedAt": "2026-06-30T13:01:06.000Z",
+      "feedUrl": "https://www.404media.co"
     },
     {
       "type": "rss",
@@ -599,7 +818,8 @@
       "publication": "Aporia",
       "author": "Aporia",
       "excerpt": "The desire to rebel is not just childish contrariness. It is likely adaptive.",
-      "publishedAt": "2026-06-30T11:14:13.000Z"
+      "publishedAt": "2026-06-30T11:14:13.000Z",
+      "feedUrl": "https://www.aporiamagazine.com"
     },
     {
       "type": "rss",
@@ -663,6 +883,17 @@
     },
     {
       "type": "rss",
+      "id": "rss-39d7c430940d",
+      "title": "Foundations: My 1989",
+      "url": "https://michaeljburry.substack.com/p/foundations-my-1989",
+      "publication": "Cassandra Unchained",
+      "author": "Michael Burry",
+      "excerpt": "My years as a Silicon Valley techie immediately before the internet",
+      "publishedAt": "2026-06-29T20:56:02.000Z",
+      "feedUrl": "https://michaeljburry.substack.com"
+    },
+    {
+      "type": "rss",
       "id": "rss-4ead8e486e13",
       "title": "Nissan discloses employee data breach linked to Oracle zero-day attacks",
       "url": "https://www.bleepingcomputer.com/news/security/nissan-discloses-employee-data-breach-linked-to-oracle-zero-day-attacks/",
@@ -689,7 +920,8 @@
       "publication": "404 Media",
       "author": "Matthew Gault",
       "excerpt": "Spotify competitor Tidal built a reputation by collaborating with musicians and focusing on audio quality. How will it handle the era of AI-generated slop?",
-      "publishedAt": "2026-06-29T19:33:49.000Z"
+      "publishedAt": "2026-06-29T19:33:49.000Z",
+      "feedUrl": "https://www.404media.co"
     },
     {
       "type": "rss",
@@ -709,7 +941,8 @@
       "publication": "Drop Site News",
       "author": "Ryan Grim",
       "excerpt": "Next week’s Colorado primary is attracting national attention in the wake of the major democratic socialist wins in New York City",
-      "publishedAt": "2026-06-29T17:31:36.000Z"
+      "publishedAt": "2026-06-29T17:31:36.000Z",
+      "feedUrl": "https://www.dropsitenews.com"
     },
     {
       "type": "rss",
@@ -723,13 +956,25 @@
     },
     {
       "type": "rss",
+      "id": "rss-ffc0cb75c92c",
+      "title": "Syria Under Al-Sharaa: Will It Hold?",
+      "url": "https://jalalayn.substack.com/p/syria-under-al-sharaa-will-it-hold",
+      "publication": "The Thinking Muslim by Muhammad Jalal",
+      "author": "Muhammad Jalal",
+      "excerpt": "A conversation with Ghassan Hitto on the new Syria — and the immense task of rebuilding it",
+      "publishedAt": "2026-06-29T17:11:15.000Z",
+      "feedUrl": "https://jalalayn.substack.com"
+    },
+    {
+      "type": "rss",
       "id": "rss-1630cc3f1246",
       "title": "U.S. resumes limited strikes in Iran; Board of Peace may get legal immunity; Breathtaking new Trump corruption",
       "url": "https://www.dropsitenews.com/p/us-strikes-iran-board-peace-gaza-immunity-trump-corruption-deals",
       "publication": "Drop Site News",
       "author": "Drop Site News",
       "excerpt": "Drop Site Daily: June 29, 2026",
-      "publishedAt": "2026-06-29T15:29:41.000Z"
+      "publishedAt": "2026-06-29T15:29:41.000Z",
+      "feedUrl": "https://www.dropsitenews.com"
     },
     {
       "type": "rss",
@@ -749,7 +994,8 @@
       "publication": "Lenny's Newsletter",
       "author": "Lenny Rachitsky",
       "excerpt": "Your weekly listens from How I AI, part of the Lenny's Podcast Network",
-      "publishedAt": "2026-06-29T15:02:35.000Z"
+      "publishedAt": "2026-06-29T15:02:35.000Z",
+      "feedUrl": "https://www.lennysnewsletter.com"
     },
     {
       "type": "rss",
@@ -783,13 +1029,36 @@
     },
     {
       "type": "rss",
+      "id": "rss-f5a29a5f6a25",
+      "title": "Live Tomorrow: A Strategic Conversation with Robert Pape and Joe Kent",
+      "url": "https://escalationtrap.substack.com/p/live-tomorrow-a-strategic-conversation",
+      "publication": "Escalation Trap",
+      "author": "Prof Robert Pape",
+      "excerpt": "Tuesday | 7:00 p.m. ET | Exclusively for Paid Subscribers",
+      "publishedAt": "2026-06-29T13:45:15.000Z",
+      "feedUrl": "https://escalationtrap.substack.com"
+    },
+    {
+      "type": "rss",
       "id": "rss-021cd40786ec",
       "title": "Inside Cannes, the Advertising Industry’s Biggest Party",
       "url": "https://www.404media.co/inside-cannes-the-advertising-industrys-biggest-party/",
       "publication": "404 Media",
       "author": "Jason Koebler",
       "excerpt": "Reporting from Microsoft Gardens, next to Salesforce Beach, Amazon Port, and the Canva Creative Cabana.",
-      "publishedAt": "2026-06-29T13:43:39.000Z"
+      "publishedAt": "2026-06-29T13:43:39.000Z",
+      "feedUrl": "https://www.404media.co"
+    },
+    {
+      "type": "rss",
+      "id": "rss-ec8d5f75f2d7",
+      "title": "Probability theory, understood meta-rationally",
+      "url": "https://meaningness.substack.com/p/probability-theory-understood-meta-rationally",
+      "publication": "Meaningness",
+      "author": "David Chapman",
+      "excerpt": "Ask: how and why to use it; and whether some other approach to uncertainty would be better.",
+      "publishedAt": "2026-06-29T12:55:13.000Z",
+      "feedUrl": "https://meaningness.substack.com"
     },
     {
       "type": "rss",
@@ -809,7 +1078,19 @@
       "publication": "Lenny's Newsletter",
       "author": "Claire Vo",
       "excerpt": "Watch now | 🎙️ Eddie Kim, the CTO of Gusto, shows how a 5-person team shipped a full AI product line in 10 weeks using Claude Code, a perma-Zoom, and zero documentation",
-      "publishedAt": "2026-06-29T12:03:38.000Z"
+      "publishedAt": "2026-06-29T12:03:38.000Z",
+      "feedUrl": "https://www.lennysnewsletter.com"
+    },
+    {
+      "type": "rss",
+      "id": "rss-041db0cba61c",
+      "title": "The MOU Is Dying — Worse Is Still Ahead",
+      "url": "https://escalationtrap.substack.com/p/the-mou-is-dying-worse-is-still-ahead",
+      "publication": "Escalation Trap",
+      "author": "Prof Robert Pape",
+      "excerpt": "The Escalation Trap This Week – Staying Ahead of the Risks",
+      "publishedAt": "2026-06-29T11:33:37.000Z",
+      "feedUrl": "https://escalationtrap.substack.com"
     },
     {
       "type": "rss",
@@ -829,7 +1110,41 @@
       "publication": "Arktos Journal",
       "author": "Arktos Journal",
       "excerpt": "by Tomislav Sunic",
-      "publishedAt": "2026-06-29T08:01:58.000Z"
+      "publishedAt": "2026-06-29T08:01:58.000Z",
+      "feedUrl": "https://www.arktosjournal.com"
+    },
+    {
+      "type": "rss",
+      "id": "rss-14db0f57ec24",
+      "title": "Full Interview: My Conversation with Mario Nawfal on Where the Iran War Is Heading",
+      "url": "https://escalationtrap.substack.com/p/full-interview-my-conversation-with",
+      "publication": "Escalation Trap",
+      "author": "Prof Robert Pape",
+      "excerpt": "Over the past week, many new readers found The Escalation Trap through my conversation with Mario Nawfal.",
+      "publishedAt": "2026-06-28T23:02:54.000Z",
+      "feedUrl": "https://escalationtrap.substack.com"
+    },
+    {
+      "type": "rss",
+      "id": "rss-be55f82b6038",
+      "title": "Light and Shadow",
+      "url": "https://thewaxingcrescent.substack.com/p/light-and-shadow",
+      "publication": "The Waxing Crescent",
+      "author": "MW",
+      "excerpt": "A Mystical Meta-Ethics",
+      "publishedAt": "2026-06-28T23:01:01.000Z",
+      "feedUrl": "https://thewaxingcrescent.substack.com"
+    },
+    {
+      "type": "rss",
+      "id": "rss-7dc60c461464",
+      "title": "The market is afraid of all the wrong things",
+      "url": "https://georgenoble.substack.com/p/the-market-is-afraid-of-all-the-wrong",
+      "publication": "The Noble Update",
+      "author": "George Noble",
+      "excerpt": "Everyone’s locked onto the AI bubble, the Middle East, or private credit cracking.",
+      "publishedAt": "2026-06-28T22:11:37.000Z",
+      "feedUrl": "https://georgenoble.substack.com"
     },
     {
       "type": "rss",
@@ -839,7 +1154,8 @@
       "publication": "Outbound Kitchen",
       "author": "Elric Legloire - Outbound Chef",
       "excerpt": "With Florin Tatulea, GTM Engineer at ZoomInfo",
-      "publishedAt": "2026-06-28T16:09:17.000Z"
+      "publishedAt": "2026-06-28T16:09:17.000Z",
+      "feedUrl": "https://newsletter.outbound.kitchen"
     },
     {
       "type": "rss",
@@ -853,13 +1169,25 @@
     },
     {
       "type": "rss",
+      "id": "rss-40ab49580103",
+      "title": "The Summer of Our Discontent",
+      "url": "https://predictivehistory.substack.com/p/the-summer-of-our-discontent",
+      "publication": "Predictive History Substack",
+      "author": "Predictive History",
+      "excerpt": "Iran exits the World Cup, and war resumes in the Middle East. A shooter in Montreal, and a plane crash in Beijing.",
+      "publishedAt": "2026-06-28T13:02:57.000Z",
+      "feedUrl": "https://predictivehistory.substack.com"
+    },
+    {
+      "type": "rss",
       "id": "rss-6208239ba0b9",
       "title": "OpenAI Codex lead on the new shape of product work | Andrew Ambrosino",
       "url": "https://www.lennysnewsletter.com/p/openai-codex-lead-on-the-new-shape",
       "publication": "Lenny's Newsletter",
       "author": "Lenny Rachitsky",
       "excerpt": "Listen now | OpenAI’s Andrew Ambrosino on why software is getting cheaper to build, why taste matters more than ever, and what’s next for the Codex desktop app",
-      "publishedAt": "2026-06-28T12:31:54.000Z"
+      "publishedAt": "2026-06-28T12:31:54.000Z",
+      "feedUrl": "https://www.lennysnewsletter.com"
     },
     {
       "type": "rss",
@@ -869,7 +1197,19 @@
       "publication": "Kasurian",
       "author": "Kasurian",
       "excerpt": "Where did the New Atheists go? A story on the life and death of one of the first internet-driven cultural movements.",
-      "publishedAt": "2026-06-28T12:00:57.000Z"
+      "publishedAt": "2026-06-28T12:00:57.000Z",
+      "feedUrl": "https://kasurian.com"
+    },
+    {
+      "type": "rss",
+      "id": "rss-13f2bda05d12",
+      "title": "Everyone's wrong about Gold again",
+      "url": "https://georgenoble.substack.com/p/everyones-wrong-about-gold-again",
+      "publication": "The Noble Update",
+      "author": "George Noble",
+      "excerpt": "In 1971, one year of work bought you 85 shares of the S&P 500.",
+      "publishedAt": "2026-06-27T23:07:10.000Z",
+      "feedUrl": "https://georgenoble.substack.com"
     },
     {
       "type": "rss",
@@ -879,7 +1219,8 @@
       "publication": "Aporia",
       "author": "Aporia",
       "excerpt": "A critique of ‘The whitewashing of Rome’.",
-      "publishedAt": "2026-06-27T19:03:12.000Z"
+      "publishedAt": "2026-06-27T19:03:12.000Z",
+      "feedUrl": "https://www.aporiamagazine.com"
     },
     {
       "type": "rss",
@@ -889,7 +1230,8 @@
       "publication": "Lenny's Newsletter",
       "author": "Kiyani",
       "excerpt": "Community Wisdom 191",
-      "publishedAt": "2026-06-27T17:09:06.000Z"
+      "publishedAt": "2026-06-27T17:09:06.000Z",
+      "feedUrl": "https://www.lennysnewsletter.com"
     },
     {
       "type": "rss",
@@ -899,7 +1241,8 @@
       "publication": "404 Media",
       "author": "Becky Ferreira",
       "excerpt": "Recordings of laughter from humans and other great apes suggest that the distinctive rhythm of \"ha ha ha\" emerged in a common ancestor that lived at least 15 million years ago.",
-      "publishedAt": "2026-06-27T17:02:33.000Z"
+      "publishedAt": "2026-06-27T17:02:33.000Z",
+      "feedUrl": "https://www.404media.co"
     }
   ]
 }

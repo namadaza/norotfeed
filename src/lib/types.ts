@@ -14,6 +14,7 @@ export type FeedItem =
       author?: string;
       excerpt?: string;
       publishedAt?: string;
+      feedUrl?: string;
     }
   | {
       type: "book";
@@ -27,6 +28,11 @@ export type FeedItem =
       reference?: string;
       url?: string;
       secondaryText?: string;
+    }
+  | {
+      type: "artwork";
+      id: string;
+      data: import("@/lib/db/schema").ArtworkContent;
     };
 
 export type Theme = "light" | "dark" | "system";

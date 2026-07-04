@@ -13,6 +13,7 @@ type RssItem = {
   author?: string;
   excerpt?: string;
   publishedAt?: string;
+  feedUrl: string;
 };
 
 type ExternalFeedFile = {
@@ -84,9 +85,24 @@ function feedUrlFor(source: string): string {
     : `${normalized}/feed`;
 }
 
+const PER_FEED_TIMEOUT_MS = 20_000;
+
+function withTimeout<T>(p: Promise<T>, ms: number, label: string): Promise<T> {
+  return Promise.race([
+    p,
+    new Promise<T>((_, reject) =>
+      setTimeout(() => reject(new Error(`${label} timed out after ${ms}ms`)), ms),
+    ),
+  ]);
+}
+
 async function fetchPublication(source: string): Promise<RssItem[]> {
   const feedUrl = feedUrlFor(source);
-  const feed = await parser.parseURL(feedUrl);
+  const feed = await withTimeout(
+    parser.parseURL(feedUrl),
+    PER_FEED_TIMEOUT_MS,
+    source,
+  );
   const publication = publicationName(feed.title, source);
   const items: RssItem[] = [];
 
@@ -110,6 +126,7 @@ async function fetchPublication(source: string): Promise<RssItem[]> {
       author: entry.creator?.trim() || undefined,
       excerpt,
       publishedAt: entry.isoDate || entry.pubDate || undefined,
+      feedUrl: source,
     });
   }
   return items;
@@ -154,6 +171,46 @@ async function main(): Promise<void> {
       console.error(`[${pub}] failed:`, r.reason);
     }
   });
+
+  const freshRecent = fresh.filter((item) => {
+    if (!item.publishedAt) return false;
+    const published = Date.parse(item.publishedAt);
+    return Number.isFinite(published) && published >= cutoff;
+  });
+
+  // Write fresh recent items to the `content` table (DB is the feed's source of truth).
+  try {
+    const { db } = await import("@/lib/db/client");
+    const { content } = await import("@/lib/db/schema");
+    const rows = freshRecent.map((item) => ({
+      id: item.id,
+      type: "rss" as const,
+      title: item.publication,
+      data: {
+        title: item.title,
+        url: item.url,
+        publication: item.publication,
+        author: item.author,
+        excerpt: item.excerpt,
+        publishedAt: item.publishedAt,
+        feedUrl: item.feedUrl,
+      },
+      userId: null,
+    }));
+    let dbInserted = 0;
+    for (let i = 0; i < rows.length; i += 100) {
+      const batch = rows.slice(i, i + 100);
+      const returned = await db
+        .insert(content)
+        .values(batch)
+        .onConflictDoNothing()
+        .returning({ id: content.id });
+      dbInserted += returned.length;
+    }
+    console.log(`Inserted ${dbInserted} rss rows into content table`);
+  } catch (err) {
+    console.error("DB insert failed:", (err as Error).message);
+  }
 
   const existing = await loadExisting();
   const merged = new Map<string, RssItem>();

@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "norotfeed",
+  title: "No Rot Feed",
   description: "Brain nourishment.",
 };
 

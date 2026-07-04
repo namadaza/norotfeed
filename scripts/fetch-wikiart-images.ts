@@ -9,6 +9,7 @@ import fs from "fs/promises";
 import path from "path";
 import { put } from "@vercel/blob";
 import crypto from "crypto";
+import { ARTIST_PAGES } from "@/lib/ingest/feeds";
 
 type PutBodyLocal =
   | string
@@ -37,31 +38,9 @@ if (!WIKIART_ACCESS || !WIKIART_SECRET) {
   );
   process.exit(1);
 }
+
 const WIKIART_IMAGE_FORMAT = "HD";
 const WIKIART_BASE = "https://www.wikiart.org";
-
-const ARTIST_PAGES = [
-  "zainul-abedin",
-  "sm-sultan",
-  "edouard-manet",
-  "claude-monet",
-  "ahmad-musa",
-  "mir-ali-tabrizi",
-  "ustad-mansur",
-  "sultan-muhammad",
-  "alexandre-gabriel-decamps",
-  "jean-leon-gerome",
-  "johan-jongkind",
-  "henri-edmond-cross",
-  "vincent-van-gogh",
-  "santiago-rusinol",
-  "charles-reiffel",
-  "konstantinos-volanakis",
-  "maurice-braun",
-  "jose-maria-velasco",
-  "m-f-husain",
-  "abanindranath-tagore"
-];
 
 function sleep(ms: number) {
   return new Promise((r) => setTimeout(r, ms));

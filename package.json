@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "pnpm@10.7.1",
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
     "test": "vitest",
     "build": "next build",
     "start": "next start",
@@ -16,7 +16,12 @@
     "parse:islamic-texts": "tsx scripts/parse-islamic-texts.ts",
     "ingest": "tsx scripts/ingest.ts",
     "ingest:rss": "tsx scripts/ingest.ts",
-    "ingest:wikiart": "tsx scripts/fetch-wikiart-images.ts"
+    "ingest:wikiart": "tsx scripts/fetch-wikiart-images.ts",
+    "backfill:artwork": "tsx scripts/backfill-content-artwork.ts",
+    "backfill:books": "tsx scripts/backfill-content-books.ts",
+    "backfill:rss": "tsx scripts/backfill-content-rss.ts",
+    "trigger:refresh-feed": "tsx scripts/trigger-refresh-feed.ts",
+    "workflows": "npx workflow inspect runs --web"
   },
   "dependencies": {
     "@neondatabase/serverless": "^1.1.0",
@@ -33,7 +38,8 @@
     "radix-ui": "^1.5.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "tailwind-merge": "^3.3.1"
+    "tailwind-merge": "^3.3.1",
+    "workflow": "^4.5.0"
   },
   "resolutions": {
     "@vercel/blob": "*",

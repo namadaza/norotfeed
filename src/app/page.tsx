@@ -2,18 +2,14 @@ import { randomUUID } from "crypto";
 import { getFeedItemsPage } from "@/app/actions";
 import { HomeFeed } from "@/components/home-feed";
 import { getUserSession } from "@/lib/db/user";
-import { loadHighlights } from "@/lib/sources/highlights";
-import { loadKoreaderBooks } from "@/lib/sources/koreader-generated";
 
 // Force dynamic rendering to ensure fresh feed data on every page load.
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const feedSeed = randomUUID();
-  const initialItems = await getFeedItemsPage(0, 30, feedSeed);
-  const [books, highlights, initialSession] = await Promise.all([
-    loadKoreaderBooks(),
-    loadHighlights(),
+  const [initialItems, initialSession] = await Promise.all([
+    getFeedItemsPage(0, 30, feedSeed),
     getUserSession(),
   ]);
 
@@ -22,8 +18,6 @@ export default async function Home() {
       <HomeFeed
         initialItems={initialItems}
         seed={feedSeed}
-        books={books}
-        highlights={highlights}
         initialSession={initialSession}
       />
 

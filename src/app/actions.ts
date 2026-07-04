@@ -270,7 +270,13 @@ async function getUserFeedFilter(): Promise<ContentFeedFilter> {
   const id = session?.user?.id;
   if (!id) return {};
   const data = await getUserData({ id });
-  return { artists: data.artists, rssFeeds: data.rssFeeds };
+  return {
+    artists: data.artists,
+    rssFeeds: data.rssFeeds,
+    hiddenArtists: data.hiddenArtists,
+    hiddenRssFeeds: data.hiddenRssFeeds,
+    hiddenBooks: data.hiddenBooks,
+  };
 }
 
 // Cache the raw (pre-order) content items per options + user filter so that
@@ -283,7 +289,13 @@ const ITEMS_CACHE_MAX = 16;
 const INFLIGHT_LOADS = new Map<string, Promise<FeedItem[]>>();
 
 function filterKey(filter: ContentFeedFilter): string {
-  return `${(filter.artists ?? []).join(",")}|${(filter.rssFeeds ?? []).join(",")}`;
+  return [
+    (filter.artists ?? []).join(","),
+    (filter.rssFeeds ?? []).join(","),
+    (filter.hiddenArtists ?? []).join(","),
+    (filter.hiddenRssFeeds ?? []).join(","),
+    (filter.hiddenBooks ?? []).join(","),
+  ].join("|");
 }
 
 function itemsCacheKey(options: FeedOptions | null | undefined, filter: ContentFeedFilter): string {
@@ -327,12 +339,21 @@ async function loadItemsFor(
   target: number,
 ): Promise<FeedItem[]> {
   if (!options) return loadContentFeed(filter, defaultLimits(target));
-  if (options.contentType === "art") return loadArtworkFeed(filter.artists, target);
+  if (options.contentType === "art")
+    return loadArtworkFeed(filter.artists, filter.hiddenArtists, target);
   if (options.contentType === "rss") {
-    return loadRssFeed(filter.rssFeeds, filter.rssMaxAgeDays, target, options.rssOrder);
+    return loadRssFeed(
+      filter.rssFeeds,
+      filter.hiddenRssFeeds,
+      filter.rssMaxAgeDays,
+      target,
+      options.rssOrder,
+    );
   }
-  if (options.contentType === "book-highlights") return loadBookFeed([options.bookTitle], target);
-  if (options.contentType === "islam") return loadBookFeed(undefined, target);
+  if (options.contentType === "book-highlights")
+    return loadBookFeed([options.bookTitle], undefined, target);
+  if (options.contentType === "islam")
+    return loadBookFeed(undefined, filter.hiddenBooks, target);
   return loadContentFeed(filter, defaultLimits(target));
 }
 

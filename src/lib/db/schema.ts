@@ -3,6 +3,9 @@ import { pgTable, pgEnum, text, timestamp, boolean, index, jsonb } from "drizzle
 export type UserData = {
   artists: string[];
   rssFeeds: string[];
+  hiddenArtists: string[];
+  hiddenRssFeeds: string[];
+  hiddenBooks: string[];
 };
 
 export const user = pgTable("user", {
@@ -14,15 +17,19 @@ export const user = pgTable("user", {
   data: jsonb("data").$type<UserData>().notNull().default({
     artists: [],
     rssFeeds: [],
+    hiddenArtists: [],
+    hiddenRssFeeds: [],
+    hiddenBooks: [],
   }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
+  deletedAt: timestamp("deleted_at"),
 });
-export type User = typeof user.$inferSelect
-export type UserInsert = typeof user.$inferInsert
+export type User = typeof user.$inferSelect;
+export type UserInsert = typeof user.$inferInsert;
 
 export const session = pgTable(
   "session",
@@ -134,18 +141,9 @@ export type BookContent = {
   secondaryText?: string;
 };
 
-export type ContentData =
-  | ArtworkContent
-  | RssContent
-  | HighlightContent
-  | BookContent;
+export type ContentData = ArtworkContent | RssContent | HighlightContent | BookContent;
 
-export const contentTypeEnum = pgEnum("content_type", [
-  "artwork",
-  "rss",
-  "highlight",
-  "book",
-]);
+export const contentTypeEnum = pgEnum("content_type", ["artwork", "rss", "highlight", "book"]);
 
 export const content = pgTable(
   "content",
@@ -164,5 +162,6 @@ export const content = pgTable(
     index("content_type_title_idx").on(table.type, table.title),
   ],
 );
-export type Content = typeof content.$inferSelect
-export type ContentInsert = typeof content.$inferInsert
+export type Content = typeof content.$inferSelect;
+export type ContentInsert = typeof content.$inferInsert;
+

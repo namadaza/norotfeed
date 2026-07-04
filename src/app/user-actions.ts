@@ -5,8 +5,15 @@ import {
   addUserRssFeed,
   getUserData,
   getUserSession,
+  hideUserArtist,
+  hideUserBook,
+  hideUserRssFeed,
   removeUserArtist,
   removeUserRssFeed,
+  softDeleteUser,
+  unhideUserArtist,
+  unhideUserBook,
+  unhideUserRssFeed,
 } from "@/lib/db/user";
 import type { UserData } from "@/lib/db/schema";
 
@@ -42,4 +49,39 @@ export async function addArtistAction(slug: string): Promise<UserData> {
 export async function removeArtistAction(slug: string): Promise<UserData> {
   const id = await requireUserId();
   return removeUserArtist({ id, slug });
+}
+
+export async function hideDefaultArtistAction(slug: string): Promise<UserData> {
+  const id = await requireUserId();
+  return hideUserArtist({ id, slug });
+}
+
+export async function unhideDefaultArtistAction(slug: string): Promise<UserData> {
+  const id = await requireUserId();
+  return unhideUserArtist({ id, slug });
+}
+
+export async function hideDefaultRssFeedAction(url: string): Promise<UserData> {
+  const id = await requireUserId();
+  return hideUserRssFeed({ id, url });
+}
+
+export async function unhideDefaultRssFeedAction(url: string): Promise<UserData> {
+  const id = await requireUserId();
+  return unhideUserRssFeed({ id, url });
+}
+
+export async function hideDefaultBookAction(title: string): Promise<UserData> {
+  const id = await requireUserId();
+  return hideUserBook({ id, title });
+}
+
+export async function unhideDefaultBookAction(title: string): Promise<UserData> {
+  const id = await requireUserId();
+  return unhideUserBook({ id, title });
+}
+
+export async function deleteAccountAction(): Promise<void> {
+  const id = await requireUserId();
+  await softDeleteUser({ id });
 }

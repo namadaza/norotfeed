@@ -1,4 +1,4 @@
-import { and, eq, inArray, isNull, or, sql, asc, desc } from "drizzle-orm";
+import { and, eq, inArray, isNull, or, sql, asc, desc, notInArray } from "drizzle-orm";
 import { db } from "./client";
 import {
   content,
@@ -39,6 +39,9 @@ export type ContentFeedFilter = {
   artists?: string[];
   rssFeeds?: string[];
   rssMaxAgeDays?: number;
+  hiddenArtists?: string[];
+  hiddenRssFeeds?: string[];
+  hiddenBooks?: string[];
 };
 
 const DEFAULT_RSS_MAX_AGE_DAYS = 7;
@@ -58,12 +61,16 @@ export function contentToFeedItem(row: AnyContentRow): FeedItem | null {
 
 export async function loadArtworkFeed(
   artists?: string[],
+  hiddenArtists?: string[],
   limit?: number,
 ): Promise<FeedItem[]> {
-  const rows =
-    artists && artists.length > 0
-      ? await getContentByType("artwork", { titles: artists, limit })
-      : await getContentByType("artwork", { limit });
+  const personal = artists ?? [];
+  const hidden = hiddenArtists ?? [];
+  const effectiveHidden = hidden.filter((slug) => !personal.includes(slug));
+  const rows = await getContentByType("artwork", {
+    excludeTitles: effectiveHidden.length > 0 ? effectiveHidden : undefined,
+    limit,
+  });
   return rows
     .map((row) => contentToFeedItem(row))
     .filter((item): item is FeedItem => item !== null);
@@ -71,6 +78,7 @@ export async function loadArtworkFeed(
 
 export async function loadRssFeed(
   rssFeeds?: string[],
+  hiddenRssFeeds?: string[],
   maxAgeDays: number = DEFAULT_RSS_MAX_AGE_DAYS,
   limit?: number,
   order: "chronological" | "random" = "random",
@@ -78,11 +86,14 @@ export async function loadRssFeed(
   const cutoffIso = new Date(
     Date.now() - maxAgeDays * 24 * 60 * 60 * 1000,
   ).toISOString();
+  const personal = rssFeeds ?? [];
+  const hidden = hiddenRssFeeds ?? [];
+  const effectiveHidden = hidden.filter((url) => !personal.includes(url));
   const rows = await getContentByType("rss", {
-    feedUrls: rssFeeds && rssFeeds.length > 0 ? rssFeeds : undefined,
     minPublishedAt: cutoffIso,
     limit,
     rssOrder: order,
+    excludeFeedUrls: effectiveHidden.length > 0 ? effectiveHidden : undefined,
   });
   return rows
     .map((row) => contentToFeedItem(row))
@@ -91,12 +102,21 @@ export async function loadRssFeed(
 
 export async function loadBookFeed(
   titles?: string[],
+  hiddenBooks?: string[],
   limit?: number,
 ): Promise<FeedItem[]> {
-  const rows =
-    titles && titles.length > 0
-      ? await getContentByType("book", { titles, limit })
-      : await getContentByType("book", { limit });
+  // Explicit title selection (book-highlights feed mode) overrides hides.
+  if (titles && titles.length > 0) {
+    const rows = await getContentByType("book", { titles, limit });
+    return rows
+      .map((row) => contentToFeedItem(row))
+      .filter((item): item is FeedItem => item !== null);
+  }
+  const hidden = hiddenBooks ?? [];
+  const rows = await getContentByType("book", {
+    excludeTitles: hidden.length > 0 ? hidden : undefined,
+    limit,
+  });
   return rows
     .map((row) => contentToFeedItem(row))
     .filter((item): item is FeedItem => item !== null);
@@ -113,9 +133,14 @@ export async function loadContentFeed(
   limits?: ContentFeedLimits,
 ): Promise<FeedItem[]> {
   const [artworks, rss, books] = await Promise.all([
-    loadArtworkFeed(filter.artists, limits?.artwork),
-    loadRssFeed(filter.rssFeeds, filter.rssMaxAgeDays, limits?.rss),
-    loadBookFeed(undefined, limits?.books),
+    loadArtworkFeed(filter.artists, filter.hiddenArtists, limits?.artwork),
+    loadRssFeed(
+      filter.rssFeeds,
+      filter.hiddenRssFeeds,
+      filter.rssMaxAgeDays,
+      limits?.rss,
+    ),
+    loadBookFeed(undefined, filter.hiddenBooks, limits?.books),
   ]);
   return [...artworks, ...rss, ...books];
 }
@@ -191,6 +216,8 @@ export async function getContentByType<T extends Content["type"]>(
     userId?: string | null;
     titles?: string[];
     feedUrls?: string[];
+    excludeTitles?: string[];
+    excludeFeedUrls?: string[];
     minPublishedAt?: string;
     limit?: number;
     rssOrder?: "chronological" | "random";
@@ -202,6 +229,9 @@ export async function getContentByType<T extends Content["type"]>(
   if (options.titles && options.titles.length > 0) {
     conditions.push(inArray(content.title, options.titles));
   }
+  if (options.excludeTitles && options.excludeTitles.length > 0) {
+    conditions.push(notInArray(content.title, options.excludeTitles));
+  }
   if (options.userId === null) {
     conditions.push(isNull(content.userId));
   } else if (options.userId) {
@@ -211,6 +241,14 @@ export async function getContentByType<T extends Content["type"]>(
     conditions.push(
       sql`${content.data}->>'feedUrl' IN (${sql.join(
         options.feedUrls.map((url) => sql`${url}`),
+        sql`, `,
+      )})`,
+    );
+  }
+  if (options.excludeFeedUrls && options.excludeFeedUrls.length > 0) {
+    conditions.push(
+      sql`${content.data}->>'feedUrl' NOT IN (${sql.join(
+        options.excludeFeedUrls.map((url) => sql`${url}`),
         sql`, `,
       )})`,
     );

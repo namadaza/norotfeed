@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useMemo, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   BookOpen,
+  Eye,
+  EyeOff,
   Menu,
   Palette,
   Plus,
@@ -26,11 +28,22 @@ import type { FeedOptions } from "@/lib/types";
 import {
   addArtistAction,
   addRssFeedAction,
+  deleteAccountAction,
   fetchUserData,
+  hideDefaultArtistAction,
+  hideDefaultBookAction,
+  hideDefaultRssFeedAction,
   removeArtistAction,
   removeRssFeedAction,
+  unhideDefaultArtistAction,
+  unhideDefaultBookAction,
+  unhideDefaultRssFeedAction,
 } from "@/app/user-actions";
-import { getBookTitlesAction, getGlobalArtistsAction, getGlobalRssFeedsAction } from "@/app/actions";
+import {
+  getBookTitlesAction,
+  getGlobalArtistsAction,
+  getGlobalRssFeedsAction,
+} from "@/app/actions";
 
 type Session = Awaited<ReturnType<typeof getUserSession>>;
 
@@ -154,6 +167,14 @@ export function SettingsDialog({
     }
   }, [allBooks, selectedBookTitle]);
 
+  const prevOpenRef = useRef(open);
+  useEffect(() => {
+    if (prevOpenRef.current && !open) {
+      void queryClient.invalidateQueries({ queryKey: ["feed"] });
+    }
+    prevOpenRef.current = open;
+  }, [open, queryClient]);
+
   function selectSection(section: SectionId) {
     setActiveSection(section);
     setMobileNavOpen(false);
@@ -192,8 +213,6 @@ export function SettingsDialog({
     });
     onOpenChange(false);
   }
-
-  const activeLabel = SECTIONS.find((section) => section.id === activeSection)?.label ?? "Settings";
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -238,18 +257,17 @@ export function SettingsDialog({
           </aside>
 
           <div className="flex min-w-0 flex-1 flex-col">
-            <div className="flex items-center justify-between gap-2 border-b border-border p-3 sm:p-4">
+            <div className="flex items-center justify-between gap-2 p-3 sm:p-4">
               <div className="flex items-center gap-2">
                 <Button
-                  variant="outline"
                   size="icon-sm"
+                  variant="outline"
                   className="sm:hidden"
                   onClick={() => setMobileNavOpen((value) => !value)}
                   aria-label="Toggle settings menu"
                 >
                   <Menu className="size-4" />
                 </Button>
-                <span className="font-serif text-base">{activeLabel}</span>
               </div>
               <button
                 type="button"
@@ -300,6 +318,8 @@ export function SettingsDialog({
                 <BooksSection
                   allBooks={allBooks}
                   isLoading={bookTitlesQuery.isLoading}
+                  isAuthed={!!user}
+                  userData={userData}
                   onRequestSignIn={onRequestSignIn}
                 />
               )}
@@ -453,9 +473,44 @@ function SignInPrompt({
 }) {
   return (
     <div className="space-y-3">
+      <h3 className="font-serif text-lg">Account</h3>
       <p className="text-sm text-muted-foreground">{message}</p>
       <Button onClick={onRequestSignIn}>Sign in</Button>
     </div>
+  );
+}
+
+function HideToggleButton({
+  hidden,
+  hideLabel,
+  showLabel,
+  pending,
+  onToggle,
+}: {
+  hidden: boolean;
+  hideLabel: string;
+  showLabel: string;
+  pending: boolean;
+  onToggle: () => void;
+}) {
+  return (
+    <Button
+      variant="ghost"
+      size="icon-sm"
+      aria-label={hidden ? showLabel : hideLabel}
+      disabled={pending}
+      onClick={onToggle}
+    >
+      {hidden ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+    </Button>
+  );
+}
+
+function DefaultsHeader() {
+  return (
+    <h4 className="pt-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground pb-2">
+      Defaults
+    </h4>
   );
 }
 
@@ -471,14 +526,12 @@ function RssSection({
   const globalFeedsQuery = useQuery({
     queryKey: queryKeys.feed.globalRssFeeds,
     queryFn: getGlobalRssFeedsAction,
-    enabled: !isAuthed,
   });
 
   const addMutation = useMutation({
     mutationFn: (value: string) => addRssFeedAction(value),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: queryKeys.user.data });
-      void queryClient.invalidateQueries({ queryKey: ["feed"] });
       setUrl("");
     },
   });
@@ -486,28 +539,42 @@ function RssSection({
     mutationFn: (value: string) => removeRssFeedAction(value),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: queryKeys.user.data });
-      void queryClient.invalidateQueries({ queryKey: ["feed"] });
+    },
+  });
+  const hideMutation = useMutation({
+    mutationFn: (value: string) => hideDefaultRssFeedAction(value),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.user.data });
+    },
+  });
+  const unhideMutation = useMutation({
+    mutationFn: (value: string) => unhideDefaultRssFeedAction(value),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.user.data });
     },
   });
 
+  const globalFeeds = globalFeedsQuery.data ?? [];
+  const hiddenFeeds = userData?.hiddenRssFeeds ?? [];
+  const togglePending = hideMutation.isPending || unhideMutation.isPending;
+
   if (!isAuthed) {
-    const feeds = globalFeedsQuery.data ?? [];
     return (
       <div className="space-y-4">
         <div>
           <h3 className="font-serif text-lg">RSS feeds</h3>
           <p className="text-sm text-muted-foreground">
-            These default feeds appear in your feed. Sign in to customize.
+            These default feeds appear in your feed. Sign up to customize.
           </p>
         </div>
 
         <div className="max-h-[50vh] space-y-2 overflow-y-auto">
-          {globalFeedsQuery.isLoading && feeds.length === 0 ? (
+          {globalFeedsQuery.isLoading && globalFeeds.length === 0 ? (
             <p className="text-sm text-muted-foreground">Loading feeds…</p>
-          ) : feeds.length === 0 ? (
+          ) : globalFeeds.length === 0 ? (
             <p className="text-sm text-muted-foreground">No default RSS feeds.</p>
           ) : (
-            feeds.map((feed) => (
+            globalFeeds.map((feed) => (
               <div
                 key={feed.feedUrl}
                 className="flex items-center gap-3 rounded-md border border-border bg-muted/40 px-3 py-2"
@@ -526,7 +593,7 @@ function RssSection({
           )}
         </div>
 
-        <Button onClick={onRequestSignIn}>Sign in to customize</Button>
+        <Button onClick={onRequestSignIn}>Sign up to customize</Button>
       </div>
     );
   }
@@ -572,7 +639,7 @@ function RssSection({
         </p>
       )}
 
-      <div className="max-h-[50vh] space-y-2 overflow-y-auto">
+      <div className="max-h-[40vh] space-y-2 overflow-y-auto">
         {isLoading && feeds.length === 0 ? (
           <p className="text-sm text-muted-foreground">Loading feeds…</p>
         ) : feeds.length === 0 ? (
@@ -604,6 +671,51 @@ function RssSection({
           ))
         )}
       </div>
+
+      <div className="border-t border-border pt-4">
+        <DefaultsHeader />
+        <div className="max-h-[40vh] space-y-2 overflow-y-auto">
+          {globalFeedsQuery.isLoading && globalFeeds.length === 0 ? (
+            <p className="text-sm text-muted-foreground">Loading feeds…</p>
+          ) : globalFeeds.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No default RSS feeds.</p>
+          ) : (
+            globalFeeds.map((feed) => {
+              const hidden = hiddenFeeds.includes(feed.feedUrl);
+              return (
+                <div
+                  key={feed.feedUrl}
+                  className={cn(
+                    "flex items-center justify-between gap-3 rounded-md border border-border bg-muted/40 px-3 py-2",
+                    hidden && "opacity-50",
+                  )}
+                >
+                  <a
+                    className="min-w-0 truncate text-sm underline hover:text-foreground"
+                    href={feed.feedUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {feed.publication}
+                    <span className="ml-2 text-xs text-muted-foreground">{feed.feedUrl}</span>
+                  </a>
+                  <HideToggleButton
+                    hidden={hidden}
+                    hideLabel={`Hide ${feed.publication}`}
+                    showLabel={`Show ${feed.publication}`}
+                    pending={togglePending}
+                    onToggle={() =>
+                      hidden
+                        ? unhideMutation.mutate(feed.feedUrl)
+                        : hideMutation.mutate(feed.feedUrl)
+                    }
+                  />
+                </div>
+              );
+            })
+          )}
+        </div>
+      </div>
     </div>
   );
 }
@@ -620,14 +732,12 @@ function ArtistsSection({
   const globalArtistsQuery = useQuery({
     queryKey: queryKeys.feed.globalArtists,
     queryFn: getGlobalArtistsAction,
-    enabled: !isAuthed,
   });
 
   const addMutation = useMutation({
     mutationFn: (value: string) => addArtistAction(value),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: queryKeys.user.data });
-      void queryClient.invalidateQueries({ queryKey: ["feed"] });
       setSlug("");
     },
   });
@@ -635,28 +745,42 @@ function ArtistsSection({
     mutationFn: (value: string) => removeArtistAction(value),
     onSuccess: () => {
       void queryClient.invalidateQueries({ queryKey: queryKeys.user.data });
-      void queryClient.invalidateQueries({ queryKey: ["feed"] });
+    },
+  });
+  const hideMutation = useMutation({
+    mutationFn: (value: string) => hideDefaultArtistAction(value),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.user.data });
+    },
+  });
+  const unhideMutation = useMutation({
+    mutationFn: (value: string) => unhideDefaultArtistAction(value),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.user.data });
     },
   });
 
+  const globalArtists = globalArtistsQuery.data ?? [];
+  const hiddenArtists = userData?.hiddenArtists ?? [];
+  const togglePending = hideMutation.isPending || unhideMutation.isPending;
+
   if (!isAuthed) {
-    const artists = globalArtistsQuery.data ?? [];
     return (
       <div className="space-y-4">
         <div>
           <h3 className="font-serif text-lg">Artists</h3>
           <p className="text-sm text-muted-foreground">
-            These default artists appear in your feed. Sign in to customize.
+            These default artists appear in your feed. Sign up to customize.
           </p>
         </div>
 
         <div className="max-h-[50vh] space-y-2 overflow-y-auto">
-          {globalArtistsQuery.isLoading && artists.length === 0 ? (
+          {globalArtistsQuery.isLoading && globalArtists.length === 0 ? (
             <p className="text-sm text-muted-foreground">Loading artists…</p>
-          ) : artists.length === 0 ? (
+          ) : globalArtists.length === 0 ? (
             <p className="text-sm text-muted-foreground">No default artists.</p>
           ) : (
-            artists.map((artist) => (
+            globalArtists.map((artist) => (
               <div
                 key={artist}
                 className="flex items-center gap-3 rounded-md border border-border bg-muted/40 px-3 py-2"
@@ -675,7 +799,7 @@ function ArtistsSection({
           )}
         </div>
 
-        <Button onClick={onRequestSignIn}>Sign in to customize</Button>
+        <Button onClick={onRequestSignIn}>Sign up to customize</Button>
       </div>
     );
   }
@@ -730,7 +854,7 @@ function ArtistsSection({
         </p>
       )}
 
-      <div className="max-h-[50vh] space-y-2 overflow-y-auto">
+      <div className="max-h-[40vh] space-y-2 overflow-y-auto">
         {isLoading && artists.length === 0 ? (
           <p className="text-sm text-muted-foreground">Loading artists…</p>
         ) : artists.length === 0 ? (
@@ -763,6 +887,49 @@ function ArtistsSection({
           ))
         )}
       </div>
+
+      <div className="border-t border-border pt-4">
+        <DefaultsHeader />
+        <div className="max-h-[40vh] space-y-2 overflow-y-auto">
+          {globalArtistsQuery.isLoading && globalArtists.length === 0 ? (
+            <p className="text-sm text-muted-foreground">Loading artists…</p>
+          ) : globalArtists.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No default artists.</p>
+          ) : (
+            globalArtists.map((artist) => {
+              const hidden = hiddenArtists.includes(artist);
+              return (
+                <div
+                  key={artist}
+                  className={cn(
+                    "flex items-center justify-between gap-3 rounded-md border border-border bg-muted/40 px-3 py-2",
+                    hidden && "opacity-50",
+                  )}
+                >
+                  <a
+                    className="min-w-0 truncate text-sm underline hover:text-foreground"
+                    href={`https://www.wikiart.org/en/${artist}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    {prettifySlug(artist)}
+                    <span className="ml-2 text-xs text-muted-foreground">{artist}</span>
+                  </a>
+                  <HideToggleButton
+                    hidden={hidden}
+                    hideLabel={`Hide ${prettifySlug(artist)}`}
+                    showLabel={`Show ${prettifySlug(artist)}`}
+                    pending={togglePending}
+                    onToggle={() =>
+                      hidden ? unhideMutation.mutate(artist) : hideMutation.mutate(artist)
+                    }
+                  />
+                </div>
+              );
+            })
+          )}
+        </div>
+      </div>
     </div>
   );
 }
@@ -770,44 +937,116 @@ function ArtistsSection({
 function BooksSection({
   allBooks,
   isLoading,
+  isAuthed,
+  userData,
   onRequestSignIn,
 }: {
   allBooks: BookOption[];
   isLoading: boolean;
+  isAuthed: boolean;
+  userData: UserData | null;
   onRequestSignIn: () => void;
 }) {
+  const queryClient = useQueryClient();
+  const hideMutation = useMutation({
+    mutationFn: (value: string) => hideDefaultBookAction(value),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.user.data });
+    },
+  });
+  const unhideMutation = useMutation({
+    mutationFn: (value: string) => unhideDefaultBookAction(value),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.user.data });
+    },
+  });
+
+  const hiddenBooks = userData?.hiddenBooks ?? [];
+  const togglePending = hideMutation.isPending || unhideMutation.isPending;
+
+  if (!isAuthed) {
+    return (
+      <div className="space-y-4">
+        <div>
+          <h3 className="font-serif text-lg">Books</h3>
+          <p className="text-sm text-muted-foreground">
+            These default books appear in your feed. Sign up to customize.
+          </p>
+        </div>
+
+        <div className="max-h-[50vh] space-y-2 overflow-y-auto">
+          {isLoading && allBooks.length === 0 ? (
+            <p className="text-sm text-muted-foreground">Loading books…</p>
+          ) : allBooks.length === 0 ? (
+            <p className="text-sm text-muted-foreground">No default books.</p>
+          ) : (
+            allBooks.map((book) => (
+              <div
+                key={book.slug}
+                className="flex items-center gap-3 rounded-md border border-border bg-muted/40 px-3 py-2"
+              >
+                <span className="min-w-0 truncate text-sm">
+                  {book.title}
+                  {book.author ? (
+                    <span className="ml-2 text-xs text-muted-foreground">{book.author}</span>
+                  ) : null}
+                </span>
+              </div>
+            ))
+          )}
+        </div>
+
+        <Button onClick={onRequestSignIn}>Sign up to customize</Button>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
       <div>
         <h3 className="font-serif text-lg">Books</h3>
         <p className="text-sm text-muted-foreground">
-          These default books appear in your feed. Sign in to customize.
+          Hide any default books you don&apos;t want in your feed.
         </p>
       </div>
 
-      <div className="max-h-[50vh] space-y-2 overflow-y-auto">
+      <DefaultsHeader />
+      <div className="max-h-[60vh] space-y-2 overflow-y-auto">
         {isLoading && allBooks.length === 0 ? (
           <p className="text-sm text-muted-foreground">Loading books…</p>
         ) : allBooks.length === 0 ? (
           <p className="text-sm text-muted-foreground">No default books.</p>
         ) : (
-          allBooks.map((book) => (
-            <div
-              key={book.slug}
-              className="flex items-center gap-3 rounded-md border border-border bg-muted/40 px-3 py-2"
-            >
-              <span className="min-w-0 truncate text-sm">
-                {book.title}
-                {book.author ? (
-                  <span className="ml-2 text-xs text-muted-foreground">{book.author}</span>
-                ) : null}
-              </span>
-            </div>
-          ))
+          allBooks.map((book) => {
+            const hidden = hiddenBooks.includes(book.title);
+            return (
+              <div
+                key={book.slug}
+                className={cn(
+                  "flex items-center justify-between gap-3 rounded-md border border-border bg-muted/40 px-3 py-2",
+                  hidden && "opacity-50",
+                )}
+              >
+                <span className="min-w-0 truncate text-sm">
+                  {book.title}
+                  {book.author ? (
+                    <span className="ml-2 text-xs text-muted-foreground">{book.author}</span>
+                  ) : null}
+                </span>
+                <HideToggleButton
+                  hidden={hidden}
+                  hideLabel={`Hide ${book.title}`}
+                  showLabel={`Show ${book.title}`}
+                  pending={togglePending}
+                  onToggle={() =>
+                    hidden ? unhideMutation.mutate(book.title) : hideMutation.mutate(book.title)
+                  }
+                />
+              </div>
+            );
+          })
         )}
       </div>
-
-      <Button onClick={onRequestSignIn}>Sign in to customize</Button>
     </div>
   );
 }
@@ -824,6 +1063,7 @@ function AccountSection({
   onSignedOut: () => void;
 }) {
   const queryClient = useQueryClient();
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const signOutMutation = useMutation({
     mutationFn: async () => {
       const response = await authClient.signOut();
@@ -836,11 +1076,24 @@ function AccountSection({
     },
   });
 
+  const deleteAccountMutation = useMutation({
+    mutationFn: () => deleteAccountAction(),
+    onSuccess: () => {
+      void queryClient.invalidateQueries({ queryKey: queryKeys.auth.session });
+      void queryClient.invalidateQueries({ queryKey: queryKeys.user.data });
+      void queryClient.invalidateQueries({ queryKey: ["feed"] });
+      setConfirmDelete(false);
+      onSignedOut();
+    },
+  });
+
   if (!isAuthed) {
     return (
       <SignInPrompt message="Sign in to manage your account." onRequestSignIn={onRequestSignIn} />
     );
   }
+
+  const deleteError = deleteAccountMutation.error;
 
   return (
     <div className="space-y-4">
@@ -872,10 +1125,58 @@ function AccountSection({
         <Button
           variant="outline"
           onClick={() => signOutMutation.mutate()}
-          disabled={signOutMutation.isPending}
+          disabled={signOutMutation.isPending || deleteAccountMutation.isPending}
         >
           Log out
         </Button>
+      </div>
+
+      <div className="space-y-3 border-t border-border pt-4">
+        <div>
+          <h4 className="font-medium text-destructive">Delete account</h4>
+          <p className="text-sm text-muted-foreground">
+            Permanently remove your account and saved preferences. You can sign up again with the
+            same email to start fresh.
+          </p>
+        </div>
+
+        {deleteError && (
+          <p className="text-sm text-destructive">
+            {deleteError instanceof Error ? deleteError.message : "Something went wrong."}
+          </p>
+        )}
+
+        {confirmDelete ? (
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setConfirmDelete(false)}
+              disabled={deleteAccountMutation.isPending}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => deleteAccountMutation.mutate()}
+              disabled={deleteAccountMutation.isPending}
+            >
+              {deleteAccountMutation.isPending ? "Deleting…" : "Confirm delete"}
+            </Button>
+          </div>
+        ) : (
+          <div className="flex justify-end">
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => setConfirmDelete(true)}
+              disabled={signOutMutation.isPending}
+            >
+              Delete account
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );

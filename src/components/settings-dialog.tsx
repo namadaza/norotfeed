@@ -263,14 +263,14 @@ export function SettingsDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         showCloseButton={false}
-        className="flex gap-0 overflow-hidden p-0 sm:max-w-2xl max-h-[90vh] w-[min(90vw,48rem)]"
+        className="flex gap-0 overflow-hidden p-0 sm:max-w-2xl h-[min(90vh,38rem)] w-[min(90vw,48rem)]"
       >
         <DialogTitle className="sr-only">Settings</DialogTitle>
         <DialogDescription className="sr-only">
           Manage your feed, RSS subscriptions, artists, books, and account.
         </DialogDescription>
 
-        <div className="flex min-h-[26rem] w-full flex-col sm:flex-row">
+        <div className="flex h-full w-full flex-col sm:flex-row">
           <aside
             className={cn(
               "shrink-0 border-border sm:w-52 sm:border-r",

@@ -10,6 +10,7 @@ import {
   Eye,
   EyeOff,
   Highlighter,
+  Info,
   Lightbulb,
   Link as LinkIcon,
   Menu,
@@ -68,7 +69,7 @@ type BookOption = {
   author?: string;
 };
 
-export type SectionId = "feed" | "rss" | "artists" | "books" | "highlights" | "account";
+export type SectionId = "feed" | "rss" | "artists" | "books" | "highlights" | "account" | "about";
 
 type ContentType = "default" | FeedOptions["contentType"];
 
@@ -90,15 +91,15 @@ const SECTIONS: Array<{ id: SectionId; label: string; icon: typeof Rss }> = [
   { id: "books", label: "Books", icon: BookOpen },
   { id: "highlights", label: "Highlights", icon: Highlighter },
   { id: "account", label: "Account", icon: UserRound },
+  { id: "about", label: "About", icon: Info },
 ];
 
 const contentTypeDescriptions: Record<ContentType, string> = {
   default: "Show the normal mixed feed with the existing weighted ordering.",
-  "book-highlights": "Show highlights from one selected book.",
+  highlights: "Show your custom highlights, optionally filtered by source.",
   rss: "Show RSS items in chronological or random order.",
   art: "Show a randomized feed of WikiArt entries.",
   islam: "Show a randomized feed of Quran, hadith, and selected Islamic book highlights.",
-  highlights: "Show only your uploaded custom highlights.",
 };
 
 function slugify(value: string) {
@@ -152,11 +153,11 @@ export function SettingsDialog({
   const [contentType, setContentType] = useState<ContentType>(
     feedOptions?.contentType ?? "default",
   );
-  const [selectedBookTitle, setSelectedBookTitle] = useState(
-    feedOptions?.contentType === "book-highlights" ? feedOptions.bookTitle : "",
+  const [selectedHighlightTitle, setSelectedHighlightTitle] = useState(
+    feedOptions?.contentType === "highlights" ? feedOptions.bookTitle ?? "" : "",
   );
   const [bookOrder, setBookOrder] = useState<"random" | "in-order">(
-    feedOptions?.contentType === "book-highlights" ? feedOptions.bookOrder : "random",
+    feedOptions?.contentType === "highlights" ? feedOptions.bookOrder : "random",
   );
   const [rssOrder, setRssOrder] = useState<"chronological" | "random">(
     feedOptions?.contentType === "rss" ? feedOptions.rssOrder : "chronological",
@@ -167,6 +168,12 @@ export function SettingsDialog({
     queryFn: getBookTitlesAction,
   });
 
+  const highlightsQuery = useQuery({
+    queryKey: queryKeys.highlights.list,
+    queryFn: getUserHighlightsAction,
+    enabled: !!user,
+  });
+
   const allBooks = useMemo<BookOption[]>(() => {
     const titles = bookTitlesQuery.data ?? [];
     return titles
@@ -174,23 +181,34 @@ export function SettingsDialog({
       .sort((a, b) => a.title.localeCompare(b.title));
   }, [bookTitlesQuery.data]);
 
+  const highlightTitles = useMemo<string[]>(() => {
+    const rows = highlightsQuery.data ?? [];
+    return Array.from(new Set(rows.map((row) => row.title))).sort((a, b) =>
+      a.localeCompare(b),
+    );
+  }, [highlightsQuery.data]);
+
   useEffect(() => {
     if (!open) return;
     setActiveSection(initialSection);
     setMobileNavOpen(false);
     setContentType(feedOptions?.contentType ?? "default");
-    setSelectedBookTitle(
-      feedOptions?.contentType === "book-highlights" ? feedOptions.bookTitle : "",
+    setSelectedHighlightTitle(
+      feedOptions?.contentType === "highlights" ? feedOptions.bookTitle ?? "" : "",
     );
-    setBookOrder(feedOptions?.contentType === "book-highlights" ? feedOptions.bookOrder : "random");
+    setBookOrder(feedOptions?.contentType === "highlights" ? feedOptions.bookOrder : "random");
     setRssOrder(feedOptions?.contentType === "rss" ? feedOptions.rssOrder : "chronological");
   }, [feedOptions, initialSection, open]);
 
   useEffect(() => {
-    if (allBooks.length > 0 && !allBooks.some((book) => book.title === selectedBookTitle)) {
-      setSelectedBookTitle(allBooks[0].title);
+    if (
+      highlightTitles.length > 0 &&
+      selectedHighlightTitle &&
+      !highlightTitles.includes(selectedHighlightTitle)
+    ) {
+      setSelectedHighlightTitle("");
     }
-  }, [allBooks, selectedBookTitle]);
+  }, [highlightTitles, selectedHighlightTitle]);
 
   const prevOpenRef = useRef(open);
   useEffect(() => {
@@ -231,18 +249,14 @@ export function SettingsDialog({
     }
 
     if (contentType === "highlights") {
-      onFeedOptionsChange({ contentType });
+      onFeedOptionsChange({
+        contentType,
+        bookTitle: selectedHighlightTitle || undefined,
+        bookOrder,
+      });
       onOpenChange(false);
       return;
     }
-
-    if (!selectedBookTitle) return;
-    onFeedOptionsChange({
-      contentType,
-      bookTitle: selectedBookTitle,
-      bookOrder,
-    });
-    onOpenChange(false);
   }
 
   return (
@@ -314,13 +328,15 @@ export function SettingsDialog({
             <div className="min-w-0 flex-1 overflow-y-auto p-4 sm:p-6">
               {activeSection === "feed" && (
                 <FeedSection
-                  allBooks={allBooks}
+                  highlightTitles={highlightTitles}
+                  highlightsLoading={highlightsQuery.isLoading}
+                  isAuthed={!!user}
                   contentType={contentType}
-                  selectedBookTitle={selectedBookTitle}
+                  selectedHighlightTitle={selectedHighlightTitle}
                   bookOrder={bookOrder}
                   rssOrder={rssOrder}
                   onContentTypeChange={setContentType}
-                  onSelectedBookTitleChange={setSelectedBookTitle}
+                  onSelectedHighlightTitleChange={setSelectedHighlightTitle}
                   onBookOrderChange={setBookOrder}
                   onRssOrderChange={setRssOrder}
                   onApply={applyFeedOptions}
@@ -379,6 +395,8 @@ export function SettingsDialog({
                   }}
                 />
               )}
+
+              {activeSection === "about" && <AboutSection />}
             </div>
           </div>
         </div>
@@ -388,26 +406,30 @@ export function SettingsDialog({
 }
 
 type FeedSectionProps = {
-  allBooks: BookOption[];
+  highlightTitles: string[];
+  highlightsLoading: boolean;
+  isAuthed: boolean;
   contentType: ContentType;
-  selectedBookTitle: string;
+  selectedHighlightTitle: string;
   bookOrder: "random" | "in-order";
   rssOrder: "chronological" | "random";
   onContentTypeChange: (value: ContentType) => void;
-  onSelectedBookTitleChange: (value: string) => void;
+  onSelectedHighlightTitleChange: (value: string) => void;
   onBookOrderChange: (value: "random" | "in-order") => void;
   onRssOrderChange: (value: "chronological" | "random") => void;
   onApply: () => void;
 };
 
 function FeedSection({
-  allBooks,
+  highlightTitles,
+  highlightsLoading,
+  isAuthed,
   contentType,
-  selectedBookTitle,
+  selectedHighlightTitle,
   bookOrder,
   rssOrder,
   onContentTypeChange,
-  onSelectedBookTitleChange,
+  onSelectedHighlightTitleChange,
   onBookOrderChange,
   onRssOrderChange,
   onApply,
@@ -430,28 +452,27 @@ function FeedSection({
           onChange={(event) => onContentTypeChange(event.target.value as ContentType)}
         >
           <option value="default">Default</option>
-          <option value="book-highlights">Book Highlights</option>
+          <option value="highlights">Highlights</option>
           <option value="rss">RSS</option>
           <option value="art">Art</option>
           <option value="islam">Islam</option>
-          <option value="highlights">Highlights</option>
         </select>
       </label>
 
-      {contentType === "book-highlights" && (
+      {contentType === "highlights" && (
         <>
           <label className="grid min-w-0 gap-2 text-base">
-            <span className="font-medium">Book</span>
+            <span className="font-medium">Source</span>
             <select
               className="h-11 w-full min-w-0 max-w-full rounded-md border border-border bg-background px-3 text-base outline-none"
-              value={selectedBookTitle}
-              onChange={(event) => onSelectedBookTitleChange(event.target.value)}
-              disabled={allBooks.length === 0}
+              value={selectedHighlightTitle}
+              onChange={(event) => onSelectedHighlightTitleChange(event.target.value)}
+              disabled={highlightTitles.length === 0}
             >
-              {allBooks.map((book) => (
-                <option key={book.slug} value={book.title}>
-                  {book.title}
-                  {book.author ? ` · ${book.author}` : ""}
+              <option value="">All highlights</option>
+              {highlightTitles.map((title) => (
+                <option key={title} value={title}>
+                  {title}
                 </option>
               ))}
             </select>
@@ -468,6 +489,18 @@ function FeedSection({
               <option value="in-order">In Order</option>
             </select>
           </label>
+
+          {!isAuthed ? (
+            <p className="text-sm text-muted-foreground">
+              Sign in to use your custom highlights.
+            </p>
+          ) : highlightsLoading && highlightTitles.length === 0 ? (
+            <p className="text-sm text-muted-foreground">Loading highlights…</p>
+          ) : isAuthed && highlightTitles.length === 0 ? (
+            <p className="text-sm text-muted-foreground">
+              No highlights yet. Add some in the Highlights tab.
+            </p>
+          ) : null}
         </>
       )}
 
@@ -493,7 +526,7 @@ function FeedSection({
       <div className="flex justify-end">
         <Button
           onClick={onApply}
-          disabled={contentType === "book-highlights" && allBooks.length === 0}
+          disabled={contentType === "highlights" && !isAuthed}
         >
           Apply to Feed
         </Button>
@@ -1519,7 +1552,10 @@ function HighlightsSection({
                   {expanded && (
                     <ul className="divide-y divide-border">
                       {group.items.map((row) => (
-                        <li key={row.id} className="flex items-start justify-between gap-3 px-3 py-2">
+                        <li
+                          key={row.id}
+                          className="flex items-start justify-between gap-3 px-3 py-2"
+                        >
                           <span className="min-w-0 flex-1 text-sm text-muted-foreground line-clamp-3">
                             {row.data.text}
                           </span>
@@ -1673,6 +1709,39 @@ function AccountSection({
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+function AboutSection() {
+  return (
+    <div className="space-y-4">
+      <div>
+        <h3 className="font-serif text-lg">About</h3>
+        <p className="text-sm text-muted-foreground pt-4">A break from the noise.</p>
+      </div>
+
+      <p className="text-sm text-muted-foreground">
+        By{" "}
+        <a
+          className="underline hover:text-foreground"
+          href="https://www.linkedin.com/in/amansazad/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Aman Azad
+        </a>{" "}
+        and{" "}
+        <a
+          className="underline hover:text-foreground"
+          href="https://www.linkedin.com/in/zayed-hannan808/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Zayed Hannan
+        </a>
+        .
+      </p>
     </div>
   );
 }

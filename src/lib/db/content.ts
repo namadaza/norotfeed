@@ -154,7 +154,7 @@ export async function loadBookFeed(
   hiddenBooks?: string[],
   limit?: number,
 ): Promise<FeedItem[]> {
-  // Explicit title selection (book-highlights feed mode) overrides hides.
+  // Explicit title selection overrides hides.
   if (titles && titles.length > 0) {
     const rows = await getContentByType("book", { titles, limit });
     return rows
@@ -460,10 +460,12 @@ export async function loadHighlightFeed(
   userId: string,
   limit?: number,
   excludeTitles?: string[],
+  titles?: string[],
 ): Promise<FeedItem[]> {
   const rows = await getContentByType("highlight", {
     userId,
     limit,
+    titles: titles && titles.length > 0 ? titles : undefined,
     excludeTitles: excludeTitles && excludeTitles.length > 0 ? excludeTitles : undefined,
   });
   return rows

@@ -43,8 +43,8 @@ export type Theme = "light" | "dark" | "system";
 
 export type FeedOptions =
   | {
-      contentType: "book-highlights";
-      bookTitle: string;
+      contentType: "highlights";
+      bookTitle?: string;
       bookOrder: "random" | "in-order";
     }
   | {
@@ -56,9 +56,6 @@ export type FeedOptions =
     }
   | {
       contentType: "islam";
-    }
-  | {
-      contentType: "highlights";
     };
 
 export interface ThemeProviderProps {

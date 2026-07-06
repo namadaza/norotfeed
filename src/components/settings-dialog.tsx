@@ -7,7 +7,6 @@ import { ProfileCropModal } from "@/components/profile-crop-modal";
 import type { CroppedImageResult } from "@/lib/crop-image";
 
 import { ColorThemePicker } from "@/components/color-theme-picker";
-
 import {
   BookOpen,
   Braces,
@@ -1613,7 +1612,6 @@ function AccountSection({
   const [cropOpen, setCropOpen] = useState(false);
   // True while we're fetching the current avatar to open "Edit."
   const [loadingCurrent, setLoadingCurrent] = useState(false);
-
   const signOutMutation = useMutation({
     mutationFn: async () => {
       const response = await authClient.signOut();
@@ -1831,7 +1829,6 @@ function AccountSection({
         onCropped={handleCropped}
         onFileReplaced={setPendingFile}
       />
-
       <div className="space-y-3 rounded-lg border border-border bg-muted/40 p-4 text-sm">
         <div>
           <div className="font-medium">Name</div>
@@ -1944,4 +1941,3 @@ function AboutSection() {
     </div>
   );
 }
-

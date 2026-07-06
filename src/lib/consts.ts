@@ -12,4 +12,7 @@ export const queryKeys = {
     globalRssFeeds: ["feed", "global-rss-feeds"] as const,
     globalArtists: ["feed", "global-artists"] as const,
   },
+  highlights: {
+    list: ["highlights", "list"] as const,
+  },
 } as const;

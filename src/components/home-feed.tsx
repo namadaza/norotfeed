@@ -19,6 +19,7 @@ export function HomeFeed({ initialItems, initialSeed, initialSession }: Props) {
 
   const handleRefresh = useCallback(() => {
     setSeed(crypto.randomUUID());
+    window.scrollTo(0, 0);
   }, []);
 
   const handleFeedOptionsChange = useCallback((options: FeedOptions | null) => {

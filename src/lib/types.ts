@@ -4,6 +4,10 @@ export type FeedItem =
       id: string;
       title: string;
       text: string;
+      author?: string;
+      reference?: string;
+      source?: string;
+      url?: string;
     }
   | {
       type: "rss";
@@ -52,6 +56,9 @@ export type FeedOptions =
     }
   | {
       contentType: "islam";
+    }
+  | {
+      contentType: "highlights";
     };
 
 export interface ThemeProviderProps {

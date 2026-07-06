@@ -72,6 +72,7 @@ export function BottomNav({
         initialSection={settingsSection}
         feedOptions={feedOptions}
         onFeedOptionsChange={onFeedOptionsChange}
+        onFeedRefresh={onRefresh}
         initialSession={sessionQuery.data}
         onRequestSignIn={handleRequestSignIn}
       />

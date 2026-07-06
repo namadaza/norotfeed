@@ -10,6 +10,7 @@ import {
   type BookContent,
 } from "./schema";
 import type { FeedItem } from "@/lib/types";
+import { dedupParsedHighlights, highlightId, type ParsedHighlight } from "@/lib/highlights";
 
 export type ContentDataFor<T extends Content["type"]> =
   T extends "artwork"
@@ -43,6 +44,7 @@ export type ContentFeedFilter = {
   hiddenArtists?: string[];
   hiddenRssFeeds?: string[];
   hiddenBooks?: string[];
+  hiddenHighlights?: string[];
 };
 
 const DEFAULT_RSS_MAX_AGE_DAYS = 7;
@@ -56,7 +58,16 @@ export function contentToFeedItem(row: AnyContentRow): FeedItem | null {
     case "book":
       return { type: "book", id: row.id, ...row.data };
     case "highlight":
-      return { type: "highlight", id: row.id, title: row.title, text: row.data.text };
+      return {
+        type: "highlight",
+        id: row.id,
+        title: row.title,
+        text: row.data.text,
+        author: row.data.author,
+        reference: row.data.reference,
+        source: row.data.source,
+        url: row.data.url,
+      };
   }
 }
 
@@ -164,13 +175,14 @@ export type ContentFeedLimits = {
   artwork?: number;
   rss?: number;
   books?: number;
+  highlights?: number;
 };
 
 export async function loadContentFeed(
   filter: ContentFeedFilter = {},
   limits?: ContentFeedLimits,
 ): Promise<FeedItem[]> {
-  const [artworks, rss, books] = await Promise.all([
+  const [artworks, rss, books, highlights] = await Promise.all([
     loadArtworkFeed(filter.artists, filter.hiddenArtists, limits?.artwork, filter.userId),
     loadRssFeed(
       filter.rssFeeds,
@@ -181,8 +193,11 @@ export async function loadContentFeed(
       filter.userId,
     ),
     loadBookFeed(undefined, filter.hiddenBooks, limits?.books),
+    filter.userId
+      ? loadUserHighlightsForDefaultFeed(filter.userId, limits?.highlights, filter.hiddenHighlights)
+      : Promise.resolve([]),
   ]);
-  return [...artworks, ...rss, ...books];
+  return [...artworks, ...rss, ...books, ...highlights];
 }
 
 export async function getBookTitles(): Promise<{ title: string; author?: string }[]> {
@@ -331,4 +346,136 @@ export async function countContentByType(
     .from(content)
     .where(eq(content.type, type));
   return rows.length;
+}
+
+export type UserHighlightRow = {
+  id: string;
+  title: string;
+  data: HighlightContent;
+  createdAt: Date;
+};
+
+export type UpsertHighlightsResult = {
+  inserted: number;
+  updated: number;
+  total: number;
+};
+
+/**
+ * Upsert parsed highlights for a user. Dedup is handled two ways:
+ *  1. In-memory dedup by deterministic id (so duplicate entries within
+ *     one upload collapse to a single row).
+ *  2. `onConflictDoUpdate` on `content.id` so re-uploading the same
+ *     highlight across sessions updates the metadata instead of
+ *     duplicating.
+ */
+export async function upsertUserHighlights(
+  userId: string,
+  parsed: ParsedHighlight[],
+): Promise<UpsertHighlightsResult> {
+  if (parsed.length === 0) {
+    return { inserted: 0, updated: 0, total: 0 };
+  }
+
+  const deduped = dedupParsedHighlights(userId, parsed);
+  const rows: ContentInsert[] = deduped.map((row) => ({
+    id: highlightId(userId, row.title, row.data.text),
+    type: "highlight" as const,
+    title: row.title,
+    data: row.data,
+    userId,
+  }));
+
+  // Pre-check which ids already exist so we can report accurate
+  // insert vs update counts. `onConflictDoUpdate` alone can't distinguish
+  // the two from its `returning` clause.
+  const ids = rows.map((row) => row.id);
+  const existing = await db
+    .select({ id: content.id })
+    .from(content)
+    .where(and(eq(content.type, "highlight"), eq(content.userId, userId), inArray(content.id, ids)));
+  const existingIds = new Set(existing.map((row) => row.id));
+  const updated = rows.filter((row) => existingIds.has(row.id)).length;
+  const inserted = rows.length - updated;
+
+  const BATCH = 100;
+  for (let i = 0; i < rows.length; i += BATCH) {
+    const batch = rows.slice(i, i + BATCH);
+    await db
+      .insert(content)
+      .values(batch)
+      .onConflictDoUpdate({
+        target: content.id,
+        set: {
+          title: sql`excluded.title`,
+          data: sql`excluded.data`,
+        },
+      });
+  }
+
+  return { inserted, updated, total: deduped.length };
+}
+
+export async function getUserHighlights(userId: string): Promise<UserHighlightRow[]> {
+  const rows = await db
+    .select({
+      id: content.id,
+      title: content.title,
+      data: content.data,
+      createdAt: content.createdAt,
+    })
+    .from(content)
+    .where(and(eq(content.type, "highlight"), eq(content.userId, userId)))
+    .orderBy(desc(content.createdAt), asc(content.id));
+  return rows as unknown as UserHighlightRow[];
+}
+
+export async function deleteUserHighlight(userId: string, id: string): Promise<boolean> {
+  const deleted = await db
+    .delete(content)
+    .where(and(eq(content.id, id), eq(content.type, "highlight"), eq(content.userId, userId)))
+    .returning({ id: content.id });
+  return deleted.length > 0;
+}
+
+export async function deleteUserHighlightsByBook(
+  userId: string,
+  title: string,
+): Promise<number> {
+  if (!title.trim()) return 0;
+  const deleted = await db
+    .delete(content)
+    .where(
+      and(
+        eq(content.type, "highlight"),
+        eq(content.userId, userId),
+        eq(content.title, title),
+      ),
+    )
+    .returning({ id: content.id });
+  return deleted.length;
+}
+
+export async function loadHighlightFeed(
+  userId: string,
+  limit?: number,
+  excludeTitles?: string[],
+): Promise<FeedItem[]> {
+  const rows = await getContentByType("highlight", {
+    userId,
+    limit,
+    excludeTitles: excludeTitles && excludeTitles.length > 0 ? excludeTitles : undefined,
+  });
+  return rows
+    .map((row) => contentToFeedItem(row))
+    .filter((item): item is FeedItem => item !== null);
+}
+
+export async function loadUserHighlightsForDefaultFeed(
+  userId: string,
+  limit?: number,
+  excludeTitles?: string[],
+): Promise<FeedItem[]> {
+  if (!userId) return [];
+  return loadHighlightFeed(userId, limit, excludeTitles);
 }

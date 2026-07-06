@@ -6,6 +6,7 @@ export type UserData = {
   hiddenArtists: string[];
   hiddenRssFeeds: string[];
   hiddenBooks: string[];
+  hiddenHighlights: string[];
 };
 
 export const user = pgTable("user", {
@@ -20,6 +21,7 @@ export const user = pgTable("user", {
     hiddenArtists: [],
     hiddenRssFeeds: [],
     hiddenBooks: [],
+    hiddenHighlights: [],
   }),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
@@ -127,6 +129,10 @@ export type RssContent = {
 
 export type HighlightContent = {
   text: string;
+  author?: string;
+  reference?: string;
+  source?: string;
+  url?: string;
 };
 
 export type BookContent = {

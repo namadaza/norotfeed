@@ -6,6 +6,7 @@ import {
   loadArtworkFeed,
   loadBookFeed,
   loadContentFeed,
+  loadHighlightFeed,
   loadRssFeed,
   getBookTitles,
   getGlobalArtists,
@@ -277,6 +278,7 @@ async function getUserFeedFilter(): Promise<ContentFeedFilter> {
     hiddenArtists: data.hiddenArtists,
     hiddenRssFeeds: data.hiddenRssFeeds,
     hiddenBooks: data.hiddenBooks,
+    hiddenHighlights: data.hiddenHighlights,
   };
 }
 
@@ -297,6 +299,7 @@ function filterKey(filter: ContentFeedFilter): string {
     (filter.hiddenArtists ?? []).join(","),
     (filter.hiddenRssFeeds ?? []).join(","),
     (filter.hiddenBooks ?? []).join(","),
+    (filter.hiddenHighlights ?? []).join(","),
   ].join("|");
 }
 
@@ -332,6 +335,7 @@ function defaultLimits(target: number): ContentFeedLimits {
     artwork: bucketLimitFor("artwork", target),
     rss: bucketLimitFor("rss", target),
     books: bucketLimitFor("book", target) + bucketLimitFor("islam", target),
+    highlights: bucketLimitFor("highlight", target),
   };
 }
 
@@ -357,6 +361,10 @@ async function loadItemsFor(
     return loadBookFeed([options.bookTitle], undefined, target);
   if (options.contentType === "islam")
     return loadBookFeed(undefined, filter.hiddenBooks, target);
+  if (options.contentType === "highlights") {
+    if (!filter.userId) return [];
+    return loadHighlightFeed(filter.userId, target, filter.hiddenHighlights);
+  }
   return loadContentFeed(filter, defaultLimits(target));
 }
 
@@ -375,6 +383,12 @@ function orderItems(
   if (options.contentType === "rss") return orderRss(items, seed, options.rssOrder);
   if (options.contentType === "book-highlights") return orderBookHighlights(items, seed, options);
   if (options.contentType === "islam") return orderIslamFeed(items, seed);
+  if (options.contentType === "highlights") {
+    return shuffleWithSeed(
+      [...items].sort((a, b) => a.id.localeCompare(b.id)),
+      makeSeededRandom(`${seed}:highlights`),
+    );
+  }
   return orderDefaultFeed(items, seed);
 }
 

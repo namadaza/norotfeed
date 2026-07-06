@@ -24,11 +24,7 @@ type Props = {
   initialSession: Session;
 };
 
-export function AuthDialog({
-  open,
-  onOpenChange,
-  initialSession,
-}: Props) {
+export function AuthDialog({ open, onOpenChange, initialSession }: Props) {
   const queryClient = useQueryClient();
   const sessionQuery = useQuery({
     queryKey: queryKeys.auth.session,
@@ -57,17 +53,17 @@ export function AuthDialog({
       const response =
         mode === "sign-up"
           ? await authClient.signUp.email({
-            email,
-            password,
-            name,
-            callbackURL: "/",
-          })
+              email,
+              password,
+              name,
+              callbackURL: "/",
+            })
           : await authClient.signIn.email({
-            email,
-            password,
-            callbackURL: "/",
-            rememberMe: false,
-          });
+              email,
+              password,
+              callbackURL: "/",
+              rememberMe: true,
+            });
 
       if (response.error) {
         throw new Error(response.error.message);
@@ -99,9 +95,7 @@ export function AuthDialog({
       <DialogContent className="w-[min(90vw,28rem)] sm:max-w-none">
         <DialogHeader>
           <DialogTitle className="font-serif">Log in or sign up</DialogTitle>
-          <DialogDescription>
-            Use your email and password to continue.
-          </DialogDescription>
+          <DialogDescription>Use your email and password to continue.</DialogDescription>
         </DialogHeader>
 
         <div className="flex gap-2">
@@ -163,9 +157,7 @@ export function AuthDialog({
           </label>
 
           {authMutation.error && (
-            <p className="text-sm text-destructive">
-              {authMutation.error.message}
-            </p>
+            <p className="text-sm text-destructive">{authMutation.error.message}</p>
           )}
 
           <div className="flex justify-end">

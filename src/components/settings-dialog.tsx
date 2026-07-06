@@ -301,7 +301,7 @@ export function SettingsDialog({
             </nav>
           </aside>
 
-          <div className="flex min-w-0 flex-1 flex-col">
+          <div className="flex min-h-0 min-w-0 flex-1 flex-col">
             <div className="flex items-center justify-between gap-2 p-3 sm:p-4">
               <div className="flex items-center gap-2">
                 <Button
@@ -325,7 +325,7 @@ export function SettingsDialog({
               </button>
             </div>
 
-            <div className="min-w-0 flex-1 overflow-y-auto p-4 sm:p-6">
+            <div className="min-h-0 min-w-0 flex-1 overflow-y-auto p-4 sm:p-6">
               {activeSection === "feed" && (
                 <FeedSection
                   highlightTitles={highlightTitles}

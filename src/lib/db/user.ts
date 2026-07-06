@@ -32,6 +32,7 @@ function normalizeUserData(data: UserData | null | undefined): UserData {
     hiddenArtists: Array.isArray(data?.hiddenArtists) ? data!.hiddenArtists : [],
     hiddenRssFeeds: Array.isArray(data?.hiddenRssFeeds) ? data!.hiddenRssFeeds : [],
     hiddenBooks: Array.isArray(data?.hiddenBooks) ? data!.hiddenBooks : [],
+    hiddenHighlights: Array.isArray(data?.hiddenHighlights) ? data!.hiddenHighlights : [],
   }
 }
 
@@ -230,6 +231,40 @@ export async function unhideUserBook({
   return writeUserData(id, {
     ...current,
     hiddenBooks: current.hiddenBooks.filter((book) => book !== normalized),
+  })
+}
+
+export async function hideUserHighlight({
+  id,
+  title,
+}: {
+  id: string
+  title: string
+}): Promise<UserData> {
+  const current = await getUserData({ id })
+  const normalized = title.trim()
+  if (!normalized) return current
+  if (current.hiddenHighlights.includes(normalized)) return current
+  return writeUserData(id, {
+    ...current,
+    hiddenHighlights: [...current.hiddenHighlights, normalized],
+  })
+}
+
+export async function unhideUserHighlight({
+  id,
+  title,
+}: {
+  id: string
+  title: string
+}): Promise<UserData> {
+  const current = await getUserData({ id })
+  const normalized = title.trim()
+  return writeUserData(id, {
+    ...current,
+    hiddenHighlights: current.hiddenHighlights.filter(
+      (highlight) => highlight !== normalized,
+    ),
   })
 }
 

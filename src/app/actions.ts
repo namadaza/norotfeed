@@ -6,6 +6,7 @@ import {
   loadArtworkFeed,
   loadBookFeed,
   loadContentFeed,
+  loadHighlightFeed,
   loadRssFeed,
   getBookTitles,
   getGlobalArtists,
@@ -85,16 +86,6 @@ function shuffleWithSeed<T>(items: T[], random: () => number): T[] {
   return shuffled;
 }
 
-function normalizeBookTitle(title: string) {
-  return title
-    .trim()
-    .replace(/(?:,)?\s+by\s+[^:]+$/i, "")
-    .replace(/\s*:\s*.*$/, "")
-    .replace(/\s+-\s+.*$/, "")
-    .replace(/[,;]\s*$/, "")
-    .trim();
-}
-
 function normalizeForMatch(title: string) {
   return title
     .toLowerCase()
@@ -169,12 +160,26 @@ function orderIslamFeed(items: FeedItem[], seed: string) {
   return ordered;
 }
 
-function isSelectedBookHighlight(item: FeedItem, selectedTitle: string) {
-  const normalized = normalizeBookTitle(selectedTitle);
-  if (item.type === "book") {
-    return normalizeBookTitle(item.book) === normalized;
+function orderHighlights(
+  items: FeedItem[],
+  seed: string,
+  options: Extract<FeedOptions, { contentType: "highlights" }>,
+): FeedItem[] {
+  const highlightItems = items.filter(
+    (item): item is Extract<FeedItem, { type: "highlight" }> => item.type === "highlight",
+  );
+  const filtered = options.bookTitle
+    ? highlightItems.filter((item) => item.title === options.bookTitle)
+    : highlightItems;
+
+  if (options.bookOrder === "random") {
+    return shuffleWithSeed(
+      [...filtered].sort((a, b) => a.id.localeCompare(b.id)),
+      makeSeededRandom(`${seed}:highlights:${options.bookTitle ?? "all"}`),
+    );
   }
-  return false;
+
+  return filtered;
 }
 
 function orderDefaultFeed(items: FeedItem[], seed: string): FeedItem[] {
@@ -248,23 +253,6 @@ function orderRss(
   );
 }
 
-function orderBookHighlights(
-  items: FeedItem[],
-  seed: string,
-  options: Extract<FeedOptions, { contentType: "book-highlights" }>,
-): FeedItem[] {
-  const bookItems = items.filter((item) => isSelectedBookHighlight(item, options.bookTitle));
-
-  if (options.bookOrder === "random") {
-    return shuffleWithSeed(
-      [...bookItems].sort((a, b) => a.id.localeCompare(b.id)),
-      makeSeededRandom(`${seed}:book-highlights:${options.bookTitle}`),
-    );
-  }
-
-  return bookItems;
-}
-
 async function getUserFeedFilter(): Promise<ContentFeedFilter> {
   const session = await getUserSession();
   const id = session?.user?.id;
@@ -277,6 +265,7 @@ async function getUserFeedFilter(): Promise<ContentFeedFilter> {
     hiddenArtists: data.hiddenArtists,
     hiddenRssFeeds: data.hiddenRssFeeds,
     hiddenBooks: data.hiddenBooks,
+    hiddenHighlights: data.hiddenHighlights,
   };
 }
 
@@ -297,6 +286,7 @@ function filterKey(filter: ContentFeedFilter): string {
     (filter.hiddenArtists ?? []).join(","),
     (filter.hiddenRssFeeds ?? []).join(","),
     (filter.hiddenBooks ?? []).join(","),
+    (filter.hiddenHighlights ?? []).join(","),
   ].join("|");
 }
 
@@ -332,6 +322,7 @@ function defaultLimits(target: number): ContentFeedLimits {
     artwork: bucketLimitFor("artwork", target),
     rss: bucketLimitFor("rss", target),
     books: bucketLimitFor("book", target) + bucketLimitFor("islam", target),
+    highlights: bucketLimitFor("highlight", target),
   };
 }
 
@@ -353,10 +344,18 @@ async function loadItemsFor(
       filter.userId,
     );
   }
-  if (options.contentType === "book-highlights")
-    return loadBookFeed([options.bookTitle], undefined, target);
   if (options.contentType === "islam")
     return loadBookFeed(undefined, filter.hiddenBooks, target);
+  if (options.contentType === "highlights") {
+    if (!filter.userId) return [];
+    const explicitTitle = options.bookTitle;
+    return loadHighlightFeed(
+      filter.userId,
+      target,
+      explicitTitle ? undefined : filter.hiddenHighlights,
+      explicitTitle ? [explicitTitle] : undefined,
+    );
+  }
   return loadContentFeed(filter, defaultLimits(target));
 }
 
@@ -373,8 +372,8 @@ function orderItems(
     );
   }
   if (options.contentType === "rss") return orderRss(items, seed, options.rssOrder);
-  if (options.contentType === "book-highlights") return orderBookHighlights(items, seed, options);
   if (options.contentType === "islam") return orderIslamFeed(items, seed);
+  if (options.contentType === "highlights") return orderHighlights(items, seed, options);
   return orderDefaultFeed(items, seed);
 }
 

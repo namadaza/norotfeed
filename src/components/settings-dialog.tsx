@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
 import {
   BookOpen,
   Eye,
@@ -20,6 +21,7 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { authClient } from "@/lib/auth-client";
+import { uploadProfilePicture } from "@/app/profile-actions";
 import { queryKeys } from "@/lib/consts";
 import { cn } from "@/lib/utils";
 import type { getUserSession } from "@/lib/db/user";
@@ -1064,6 +1066,9 @@ function AccountSection({
 }) {
   const queryClient = useQueryClient();
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
   const signOutMutation = useMutation({
     mutationFn: async () => {
       const response = await authClient.signOut();
@@ -1087,6 +1092,46 @@ function AccountSection({
     },
   });
 
+  const uploadMutation = useMutation<unknown, Error, File>({
+    mutationFn: async (file: File) => {
+      const formData = new FormData();
+      formData.append("file", file);
+      const url = await uploadProfilePicture(formData);
+      const response = await authClient.updateUser({ image: url });
+      if (response.error) {
+        throw new Error(response.error.message);
+      }
+    },
+    onSuccess: () => {
+      setUploadError(null);
+      void queryClient.invalidateQueries({ queryKey: queryKeys.auth.session });
+    },
+    onError: () => {
+      setUploadError("Something went wrong while uploading. Please try a different image.");
+    },
+  });
+
+  function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      setUploadError("That file is not an image. Please choose a JPG, PNG, GIF, or WebP.");
+      return;
+    }
+
+    const maxBytes = 4 * 1024 * 1024;
+    if (file.size > maxBytes) {
+      const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+      setUploadError(`That image is ${sizeMb}MB. Please choose one under 4MB.`);
+      return;
+    }
+
+    setUploadError(null);
+    uploadMutation.mutate(file);
+  }
+
   if (!isAuthed) {
     return (
       <SignInPrompt message="Sign in to manage your account." onRequestSignIn={onRequestSignIn} />
@@ -1101,6 +1146,45 @@ function AccountSection({
         <h3 className="font-serif text-lg">Account</h3>
         <p className="text-sm text-muted-foreground">You are signed in.</p>
       </div>
+
+      <div className="flex items-center gap-4">
+        <button
+          type="button"
+          onClick={() => fileInputRef.current?.click()}
+          disabled={uploadMutation.isPending}
+          className="relative size-16 shrink-0 overflow-hidden rounded-full border border-border bg-muted"
+        >
+          {user?.image ? (
+            <img src={user.image} alt="Profile" className="size-full object-cover" />
+          ) : (
+            <span className="flex size-full items-center justify-center font-serif text-xl">
+              {user?.name?.trim().charAt(0).toUpperCase() || "?"}
+            </span>
+          )}
+        </button>
+        <div className="text-sm">
+          <div className="font-medium">
+            {uploadMutation.isPending ? "Uploading..." : "Profile picture"}
+          </div>
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={uploadMutation.isPending}
+            className="text-muted-foreground underline"
+          >
+            Change
+          </button>
+        </div>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={handleFileChange}
+        />
+      </div>
+
+      {uploadError && <p className="text-sm text-destructive">{uploadError}</p>}
 
       <div className="space-y-3 rounded-lg border border-border bg-muted/40 p-4 text-sm">
         <div>

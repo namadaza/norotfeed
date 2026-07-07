@@ -1,12 +1,13 @@
 import type { FeedItem } from "@/lib/types";
 import { Expandable } from "./expandable";
+import { buildHighlightSearchText } from "./highlight-item.helpers";
 import { GoogleSearchLink } from "./google-search";
 import { FEED_ITEM_BODY_TEXT_CLASSNAME } from "./styles";
 
 type Props = { item: Extract<FeedItem, { type: "highlight" }> };
 
 export function HighlightItem({ item }: Props) {
-  const searchText = [item.title, item.text].filter(Boolean).join(" · ");
+  const searchText = buildHighlightSearchText(item);
   const byline = item.author?.trim();
   const reference = item.reference?.trim();
   const url = item.url?.trim();

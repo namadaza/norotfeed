@@ -159,7 +159,7 @@ export function SettingsDialog({
     feedOptions?.contentType ?? "default",
   );
   const [selectedHighlightTitle, setSelectedHighlightTitle] = useState(
-    feedOptions?.contentType === "highlights" ? feedOptions.bookTitle ?? "" : "",
+    feedOptions?.contentType === "highlights" ? (feedOptions.bookTitle ?? "") : "",
   );
   const [bookOrder, setBookOrder] = useState<"random" | "in-order">(
     feedOptions?.contentType === "highlights" ? feedOptions.bookOrder : "random",
@@ -188,9 +188,7 @@ export function SettingsDialog({
 
   const highlightTitles = useMemo<string[]>(() => {
     const rows = highlightsQuery.data ?? [];
-    return Array.from(new Set(rows.map((row) => row.title))).sort((a, b) =>
-      a.localeCompare(b),
-    );
+    return Array.from(new Set(rows.map((row) => row.title))).sort((a, b) => a.localeCompare(b));
   }, [highlightsQuery.data]);
 
   useEffect(() => {
@@ -199,7 +197,7 @@ export function SettingsDialog({
     setMobileNavOpen(false);
     setContentType(feedOptions?.contentType ?? "default");
     setSelectedHighlightTitle(
-      feedOptions?.contentType === "highlights" ? feedOptions.bookTitle ?? "" : "",
+      feedOptions?.contentType === "highlights" ? (feedOptions.bookTitle ?? "") : "",
     );
     setBookOrder(feedOptions?.contentType === "highlights" ? feedOptions.bookOrder : "random");
     setRssOrder(feedOptions?.contentType === "rss" ? feedOptions.rssOrder : "chronological");
@@ -496,9 +494,7 @@ function FeedSection({
           </label>
 
           {!isAuthed ? (
-            <p className="text-sm text-muted-foreground">
-              Sign in to use your custom highlights.
-            </p>
+            <p className="text-sm text-muted-foreground">Sign in to use your custom highlights.</p>
           ) : highlightsLoading && highlightTitles.length === 0 ? (
             <p className="text-sm text-muted-foreground">Loading highlights…</p>
           ) : isAuthed && highlightTitles.length === 0 ? (
@@ -529,10 +525,7 @@ function FeedSection({
       </div>
 
       <div className="flex justify-end">
-        <Button
-          onClick={onApply}
-          disabled={contentType === "highlights" && !isAuthed}
-        >
+        <Button onClick={onApply} disabled={contentType === "highlights" && !isAuthed}>
           Apply to Feed
         </Button>
       </div>
@@ -1748,8 +1741,7 @@ function AccountSection({
   }
 
   const deleteError = deleteAccountMutation.error;
-  const busy =
-    uploadMutation.isPending || loadingCurrent || removeMutation.isPending;
+  const busy = uploadMutation.isPending || loadingCurrent || removeMutation.isPending;
 
   return (
     <div className="space-y-4">
@@ -1909,3 +1901,37 @@ function AccountSection({
     </div>
   );
 }
+
+function AboutSection() {
+  return (
+    <div className="space-y-4">
+      <div>
+        <h3 className="font-serif text-lg">About</h3>
+        <p className="text-sm text-muted-foreground pt-4">A break from the noise.</p>
+      </div>
+
+      <p className="text-sm text-muted-foreground">
+        By{" "}
+        <a
+          className="underline hover:text-foreground"
+          href="https://www.linkedin.com/in/amansazad/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Aman Azad
+        </a>{" "}
+        and{" "}
+        <a
+          className="underline hover:text-foreground"
+          href="https://www.linkedin.com/in/zayed-hannan808/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Zayed Hannan
+        </a>
+        .
+      </p>
+    </div>
+  );
+}
+

@@ -15,9 +15,9 @@ const nextConfig: NextConfig = {
   // Enable experimental features for better performance
   experimental: {
     optimizePackageImports: ['lucide-react'],
+    serverActions: {
+      bodySizeLimit: '5mb',
+    },
   },
-  // Compress responses
-  compress: true,
 };
-
 export default withWorkflow(nextConfig);

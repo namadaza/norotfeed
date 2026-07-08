@@ -2,6 +2,10 @@
 
 import { useEffect, useMemo, useRef, useState, type ChangeEvent, type FormEvent } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+
+import { ProfileCropModal } from "@/components/profile-crop-modal";
+import type { CroppedImageResult } from "@/lib/crop-image";
+
 import {
   BookOpen,
   Braces,
@@ -28,6 +32,7 @@ import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { authClient } from "@/lib/auth-client";
+import { uploadProfilePicture } from "@/app/profile-actions";
 import { queryKeys } from "@/lib/consts";
 import { HIGHLIGHTS_AI_PROMPT, HIGHLIGHTS_JSON_EXAMPLE } from "@/lib/highlights-prompt";
 import { cn } from "@/lib/utils";
@@ -154,7 +159,7 @@ export function SettingsDialog({
     feedOptions?.contentType ?? "default",
   );
   const [selectedHighlightTitle, setSelectedHighlightTitle] = useState(
-    feedOptions?.contentType === "highlights" ? feedOptions.bookTitle ?? "" : "",
+    feedOptions?.contentType === "highlights" ? (feedOptions.bookTitle ?? "") : "",
   );
   const [bookOrder, setBookOrder] = useState<"random" | "in-order">(
     feedOptions?.contentType === "highlights" ? feedOptions.bookOrder : "random",
@@ -183,9 +188,7 @@ export function SettingsDialog({
 
   const highlightTitles = useMemo<string[]>(() => {
     const rows = highlightsQuery.data ?? [];
-    return Array.from(new Set(rows.map((row) => row.title))).sort((a, b) =>
-      a.localeCompare(b),
-    );
+    return Array.from(new Set(rows.map((row) => row.title))).sort((a, b) => a.localeCompare(b));
   }, [highlightsQuery.data]);
 
   useEffect(() => {
@@ -194,7 +197,7 @@ export function SettingsDialog({
     setMobileNavOpen(false);
     setContentType(feedOptions?.contentType ?? "default");
     setSelectedHighlightTitle(
-      feedOptions?.contentType === "highlights" ? feedOptions.bookTitle ?? "" : "",
+      feedOptions?.contentType === "highlights" ? (feedOptions.bookTitle ?? "") : "",
     );
     setBookOrder(feedOptions?.contentType === "highlights" ? feedOptions.bookOrder : "random");
     setRssOrder(feedOptions?.contentType === "rss" ? feedOptions.rssOrder : "chronological");
@@ -491,9 +494,7 @@ function FeedSection({
           </label>
 
           {!isAuthed ? (
-            <p className="text-sm text-muted-foreground">
-              Sign in to use your custom highlights.
-            </p>
+            <p className="text-sm text-muted-foreground">Sign in to use your custom highlights.</p>
           ) : highlightsLoading && highlightTitles.length === 0 ? (
             <p className="text-sm text-muted-foreground">Loading highlights…</p>
           ) : isAuthed && highlightTitles.length === 0 ? (
@@ -524,10 +525,7 @@ function FeedSection({
       </div>
 
       <div className="flex justify-end">
-        <Button
-          onClick={onApply}
-          disabled={contentType === "highlights" && !isAuthed}
-        >
+        <Button onClick={onApply} disabled={contentType === "highlights" && !isAuthed}>
           Apply to Feed
         </Button>
       </div>
@@ -1595,6 +1593,18 @@ function AccountSection({
 }) {
   const queryClient = useQueryClient();
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
+  // Hidden file picker, used only when there's no existing photo to edit.
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // The photo currently loaded into the reposition modal, whether it's
+  // the existing avatar (fetched) or a freshly picked file.
+  const [pendingFile, setPendingFile] = useState<File | null>(null);
+  const [cropOpen, setCropOpen] = useState(false);
+  // True while we're fetching the current avatar to open "Edit."
+  const [loadingCurrent, setLoadingCurrent] = useState(false);
+
   const signOutMutation = useMutation({
     mutationFn: async () => {
       const response = await authClient.signOut();
@@ -1618,6 +1628,112 @@ function AccountSection({
     },
   });
 
+  const uploadMutation = useMutation<unknown, Error, File>({
+    mutationFn: async (file: File) => {
+      const formData = new FormData();
+      formData.append("file", file);
+      const url = await uploadProfilePicture(formData);
+      const response = await authClient.updateUser({ image: url });
+      if (response.error) {
+        throw new Error(response.error.message);
+      }
+    },
+    onSuccess: () => {
+      setUploadError(null);
+      void queryClient.invalidateQueries({ queryKey: queryKeys.auth.session });
+    },
+    onError: () => {
+      setUploadError("Something went wrong while uploading. Please try a different image.");
+    },
+  });
+
+  // Clears the avatar so the user falls back to their initial.
+  const removeMutation = useMutation({
+    mutationFn: async () => {
+      const response = await authClient.updateUser({ image: null });
+      if (response.error) {
+        throw new Error(response.error.message);
+      }
+    },
+    onSuccess: () => {
+      setUploadError(null);
+      void queryClient.invalidateQueries({ queryKey: queryKeys.auth.session });
+    },
+    onError: () => {
+      setUploadError("Something went wrong while removing your photo. Please try again.");
+    },
+  });
+
+  // Fetches the current avatar image and turns it into a File, so the
+  // reposition modal can treat it exactly like a freshly picked photo.
+  async function loadCurrentAvatarAsFile(url: string): Promise<File> {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Could not load your current photo.");
+    }
+    const blob = await response.blob();
+    const extension = blob.type === "image/png" ? "png" : "jpg";
+    return new File([blob], `current-avatar.${extension}`, { type: blob.type });
+  }
+
+  // "Edit" entry point. If there's already a photo, open the modal on it.
+  // If not, fall back to the file picker so first-time users can upload.
+  async function handleEditClick() {
+    setUploadError(null);
+    if (!user?.image) {
+      fileInputRef.current?.click();
+      return;
+    }
+    setLoadingCurrent(true);
+    try {
+      const file = await loadCurrentAvatarAsFile(user.image);
+      setPendingFile(file);
+      setCropOpen(true);
+    } catch {
+      setUploadError("Could not load your current photo. Please try again.");
+    } finally {
+      setLoadingCurrent(false);
+    }
+  }
+
+  // First-time upload path: validate the picked file, then open the modal
+  // so the user can frame it before it's saved.
+  function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+    event.target.value = "";
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      setUploadError("That file is not an image. Please choose a JPG, PNG, GIF, or WebP.");
+      return;
+    }
+
+    const maxBytes = 4 * 1024 * 1024;
+    if (file.size > maxBytes) {
+      const sizeMb = (file.size / (1024 * 1024)).toFixed(1);
+      setUploadError(`That image is ${sizeMb}MB. Please choose one under 4MB.`);
+      return;
+    }
+
+    setUploadError(null);
+    setPendingFile(file);
+    setCropOpen(true);
+  }
+
+  // The modal hands back the framed square. Upload it through the same
+  // mutation as before, then release the local preview URL.
+  function handleCropped(result: CroppedImageResult) {
+    uploadMutation.mutate(result.file);
+    URL.revokeObjectURL(result.previewUrl);
+    setPendingFile(null);
+  }
+
+  // Closing the modal (Cancel or backdrop) clears the picked file.
+  function handleCropOpenChange(next: boolean) {
+    setCropOpen(next);
+    if (!next) setPendingFile(null);
+  }
+
   if (!isAuthed) {
     return (
       <SignInPrompt message="Sign in to manage your account." onRequestSignIn={onRequestSignIn} />
@@ -1625,6 +1741,7 @@ function AccountSection({
   }
 
   const deleteError = deleteAccountMutation.error;
+  const busy = uploadMutation.isPending || loadingCurrent || removeMutation.isPending;
 
   return (
     <div className="space-y-4">
@@ -1632,6 +1749,78 @@ function AccountSection({
         <h3 className="font-serif text-lg">Account</h3>
         <p className="text-sm text-muted-foreground">You are signed in.</p>
       </div>
+
+      <div className="flex items-center gap-4">
+        <button
+          type="button"
+          onClick={handleEditClick}
+          disabled={busy}
+          className="relative size-16 shrink-0 overflow-hidden rounded-full border border-border bg-muted"
+        >
+          {user?.image ? (
+            <img src={user.image} alt="Profile" className="size-full object-cover" />
+          ) : (
+            <span className="flex size-full items-center justify-center font-serif text-xl">
+              {user?.name?.trim().charAt(0).toUpperCase() || "?"}
+            </span>
+          )}
+        </button>
+        <div className="text-sm">
+          <div className="font-medium">
+            {uploadMutation.isPending
+              ? "Uploading..."
+              : removeMutation.isPending
+                ? "Removing..."
+                : loadingCurrent
+                  ? "Loading..."
+                  : "Profile picture"}
+          </div>
+          <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={handleEditClick}
+              disabled={busy}
+              className="text-muted-foreground underline"
+            >
+              Edit
+            </button>
+            {user?.image && (
+              <>
+                <span className="text-muted-foreground" aria-hidden>
+                  ·
+                </span>
+                <button
+                  type="button"
+                  onClick={() => removeMutation.mutate()}
+                  disabled={busy}
+                  className="text-muted-foreground underline"
+                >
+                  Remove
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          className="hidden"
+          onChange={handleFileChange}
+        />
+      </div>
+
+      {uploadError && <p className="text-sm text-destructive">{uploadError}</p>}
+
+      {/* The reposition modal. Shows the current avatar when opened via
+          "Edit," or a freshly picked photo (first upload or in-modal swap). */}
+      <ProfileCropModal
+        file={pendingFile}
+        open={cropOpen}
+        onOpenChange={handleCropOpenChange}
+        onCropped={handleCropped}
+        onFileReplaced={setPendingFile}
+      />
 
       <div className="space-y-3 rounded-lg border border-border bg-muted/40 p-4 text-sm">
         <div>
@@ -1745,3 +1934,4 @@ function AboutSection() {
     </div>
   );
 }
+

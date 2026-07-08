@@ -34,6 +34,7 @@ export function BottomNav({
   });
   const userName = sessionQuery.data?.user?.name ?? null;
   const initial = userName?.trim().charAt(0).toUpperCase() || null;
+  const userImage = sessionQuery.data?.user?.image ?? null;
   const isAuthed = !!sessionQuery.data?.user;
 
   const [authOpen, setAuthOpen] = useState(false);
@@ -107,9 +108,15 @@ export function BottomNav({
               className="rounded-full"
               onClick={handleAccountClick}
             >
-              <span className="block">
-                {initial ?? "Sign Up"}
-              </span>
+              {userImage ? (
+                <img
+                  src={userImage}
+                  alt="Profile"
+                  className="size-5 rounded-full object-cover"
+                />
+              ) : (
+                <span className="block">{initial ?? "Sign Up"}</span>
+              )}
             </Button>
           </div>
         </div>

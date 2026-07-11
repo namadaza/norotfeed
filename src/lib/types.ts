@@ -1,3 +1,5 @@
+import type { ThemeName } from "./db/schema";
+
 export type FeedItem =
   | {
       type: "highlight";
@@ -62,4 +64,11 @@ export interface ThemeProviderProps {
   children: React.ReactNode;
   defaultTheme?: Theme;
   storageKey?: string;
+}
+
+export interface ThemeProviderProps {
+  children: React.ReactNode;
+  defaultTheme?: Theme;
+  storageKey?: string;
+  initialColorTheme?: ThemeName;
 }

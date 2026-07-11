@@ -1,5 +1,7 @@
 import { pgTable, pgEnum, text, timestamp, boolean, index, jsonb } from "drizzle-orm/pg-core";
 
+export type ThemeName = "default" | "midnight" | "sepia" | "forest";
+
 export type UserData = {
   artists: string[];
   rssFeeds: string[];
@@ -7,7 +9,10 @@ export type UserData = {
   hiddenRssFeeds: string[];
   hiddenBooks: string[];
   hiddenHighlights: string[];
+  themePreference?: ThemeName;  
 };
+
+
 
 export const user = pgTable("user", {
   id: text("id").primaryKey(),

@@ -6,6 +6,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ProfileCropModal } from "@/components/profile-crop-modal";
 import type { CroppedImageResult } from "@/lib/crop-image";
 
+import { ColorThemePicker } from "@/components/color-theme-picker";
+
 import {
   BookOpen,
   Braces,
@@ -526,6 +528,11 @@ function FeedSection({
       <div className="grid min-w-0 gap-2 text-base">
         <span className="font-medium">Theme</span>
         <ThemeToggle />
+      </div>
+
+      <div className="grid min-w-0 gap-2 text-base">
+        <span className="font-medium">Color theme</span>
+        <ColorThemePicker isAuthed={isAuthed} />
       </div>
 
       <div className="flex justify-end">
@@ -1583,6 +1590,14 @@ function HighlightsSection({
           )}
         </div>
       </div>
+    </div>
+  );
+}
+
+function AboutSection() {
+  return (
+    <div className="p-4 text-sm text-muted-foreground">
+      norotfeed
     </div>
   );
 }

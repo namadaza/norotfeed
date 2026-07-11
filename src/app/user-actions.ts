@@ -11,6 +11,7 @@ import {
   hideUserRssFeed,
   removeUserArtist,
   removeUserRssFeed,
+  setUserThemePreference,
   softDeleteUser,
   unhideUserArtist,
   unhideUserBook,
@@ -29,7 +30,7 @@ import {
   type HighlightInput,
   type ParsedHighlight,
 } from "@/lib/highlights";
-import type { UserData } from "@/lib/db/schema";
+import type { ThemeName, UserData } from "@/lib/db/schema";
 
 async function requireUserId(): Promise<string> {
   const session = await getUserSession();
@@ -63,6 +64,11 @@ export async function addArtistAction(slug: string): Promise<UserData> {
 export async function removeArtistAction(slug: string): Promise<UserData> {
   const id = await requireUserId();
   return removeUserArtist({ id, slug });
+}
+
+export async function setThemePreferenceAction(theme: ThemeName): Promise<UserData> {
+  const id = await requireUserId();
+  return setUserThemePreference({ id, theme });
 }
 
 export async function hideDefaultArtistAction(slug: string): Promise<UserData> {

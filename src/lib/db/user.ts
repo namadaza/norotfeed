@@ -5,6 +5,7 @@ import {
   user,
   type User,
   type UserData,
+  type ThemeName,
 } from './schema'
 import { auth } from '@/lib/auth'
 import { headers } from 'next/headers'
@@ -33,6 +34,7 @@ function normalizeUserData(data: UserData | null | undefined): UserData {
     hiddenRssFeeds: Array.isArray(data?.hiddenRssFeeds) ? data!.hiddenRssFeeds : [],
     hiddenBooks: Array.isArray(data?.hiddenBooks) ? data!.hiddenBooks : [],
     hiddenHighlights: Array.isArray(data?.hiddenHighlights) ? data!.hiddenHighlights : [],
+    themePreference: data?.themePreference ?? "default",
   }
 }
 
@@ -268,6 +270,20 @@ export async function unhideUserHighlight({
   })
 }
 
+export async function setUserThemePreference({
+  id,
+  theme,
+}: {
+  id: string
+  theme: ThemeName
+}): Promise<UserData> {
+  const current = await getUserData({ id })
+  return writeUserData(id, {
+    ...current,
+    themePreference: theme,
+  })
+}
+
 export async function softDeleteUser({ id }: { id: string }): Promise<void> {
   const row = await getUser({ id })
   if (!row) return
@@ -278,3 +294,4 @@ export async function softDeleteUser({ id }: { id: string }): Promise<void> {
     .set({ deletedAt: new Date(), email: freedEmail })
     .where(eq(user.id, id))
 }
+

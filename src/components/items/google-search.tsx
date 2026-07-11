@@ -1,10 +1,17 @@
 import { ExternalLink } from "lucide-react";
 
+function formatGoogleQuery(text: string): string {
+  return text
+    .trim()
+    .replace(/\s*·\s*/g, "\n")
+    .replace(/\n{3,}/g, "\n\n");
+}
+
 export function googleSearchUrl(text: string): string | null {
-  const query = text.trim();
+  const query = formatGoogleQuery(text);
   if (!query) return null;
   return `https://www.google.com/search?q=${encodeURIComponent(
-    `give more context to this ${query}`,
+    `give more context to this\n\n${query}`,
   )}&udm=50`;
 }
 

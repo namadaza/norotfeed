@@ -123,6 +123,28 @@ function roundRobinByArtist<T extends TypedContentRow<"artwork">>(
   return result;
 }
 
+function roundRobinByTitle<T extends TypedContentRow<"book">>(
+  rows: T[],
+  limit: number,
+): T[] {
+  if (rows.length === 0) return [];
+  const byTitle = new Map<string, T[]>();
+  for (const row of rows) {
+    const list = byTitle.get(row.title);
+    if (list) list.push(row);
+    else byTitle.set(row.title, [row]);
+  }
+  const buckets = [...byTitle.keys()].sort().map((k) => byTitle.get(k)!);
+  const result: T[] = [];
+  let idx = 0;
+  while (result.length < limit && buckets.some((b) => b.length > 0)) {
+    const bucket = buckets[idx % buckets.length];
+    if (bucket.length > 0) result.push(bucket.shift()!);
+    idx++;
+  }
+  return result;
+}
+
 export async function loadRssFeed(
   rssFeeds?: string[],
   hiddenRssFeeds?: string[],
@@ -162,11 +184,28 @@ export async function loadBookFeed(
       .filter((item): item is FeedItem => item !== null);
   }
   const hidden = hiddenBooks ?? [];
-  const rows = await getContentByType("book", {
-    excludeTitles: hidden.length > 0 ? hidden : undefined,
-    limit,
-  });
-  return rows
+  const titlesToLoad = (await getBookTitles())
+    .map((book) => book.title)
+    .filter((title) => !hidden.includes(title));
+
+  if (titlesToLoad.length === 0) return [];
+
+  const perTitleLimit = limit
+    ? Math.max(1, Math.ceil((limit * 2) / titlesToLoad.length))
+    : undefined;
+
+  const rows = (
+    await Promise.all(
+      titlesToLoad.map((title) =>
+        getContentByType("book", {
+          titles: [title],
+          limit: perTitleLimit,
+        }),
+      ),
+    )
+  ).flat();
+  const balanced = limit ? roundRobinByTitle(rows, limit) : rows;
+  return balanced
     .map((row) => contentToFeedItem(row))
     .filter((item): item is FeedItem => item !== null);
 }

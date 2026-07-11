@@ -6,15 +6,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ProfileCropModal } from "@/components/profile-crop-modal";
 import type { CroppedImageResult } from "@/lib/crop-image";
 
-<<<<<<< HEAD
-<<<<<<< HEAD
 import { ColorThemePicker } from "@/components/color-theme-picker";
-=======
->>>>>>> f3b0647 (feat(profile-picture): add reposition modal with zoom, drag, swap, and remove)
-=======
-import { ColorThemePicker } from "@/components/color-theme-picker";
-
->>>>>>> 149c5f1 (feat(themes): add customizable color themes)
 import {
   BookOpen,
   Braces,
@@ -655,7 +647,8 @@ function RssSection({
         <div>
           <h3 className="font-serif text-lg">RSS feeds</h3>
           <p className="text-sm text-muted-foreground">
-            These default feeds appear in your feed. Sign up to customize.
+            These default feeds appear in your feed. Sign up to customize. New content checked twice
+            daily.
           </p>
         </div>
 
@@ -1612,9 +1605,7 @@ function AccountSection({
   isAuthed: boolean;
   onRequestSignIn: () => void;
   onSignedOut: () => void;
-}) 
-
-{
+}) {
   const queryClient = useQueryClient();
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -1628,10 +1619,6 @@ function AccountSection({
   const [cropOpen, setCropOpen] = useState(false);
   // True while we're fetching the current avatar to open "Edit."
   const [loadingCurrent, setLoadingCurrent] = useState(false);
-<<<<<<< HEAD
-=======
-
->>>>>>> f3b0647 (feat(profile-picture): add reposition modal with zoom, drag, swap, and remove)
   const signOutMutation = useMutation({
     mutationFn: async () => {
       const response = await authClient.signOut();
@@ -1851,10 +1838,6 @@ function AccountSection({
         onCropped={handleCropped}
         onFileReplaced={setPendingFile}
       />
-<<<<<<< HEAD
-=======
-
->>>>>>> f3b0647 (feat(profile-picture): add reposition modal with zoom, drag, swap, and remove)
       <div className="space-y-3 rounded-lg border border-border bg-muted/40 p-4 text-sm">
         <div>
           <div className="font-medium">Name</div>
@@ -1933,7 +1916,6 @@ function AccountSection({
       </div>
     </div>
   );
-<<<<<<< HEAD
 }
 
 function AboutSection() {
@@ -1968,6 +1950,3 @@ function AboutSection() {
     </div>
   );
 }
-=======
-}
->>>>>>> f3b0647 (feat(profile-picture): add reposition modal with zoom, drag, swap, and remove)

@@ -9,11 +9,14 @@ import { HighlightItem } from "./items/highlight-item";
 import { BookItem } from "./items/book-item";
 import { RssItem } from "./items/rss-item";
 import { ArtworkItem } from "./items/artwork-item";
+import { OnboardingItem } from "./items/onboarding-item";
+import { getWelcomeOnboardingItem, ONBOARDING_WELCOME_ID } from "@/lib/onboarding";
 
 interface FeedProps {
   initialItems: FeedItem[];
   seed: string;
   options?: FeedOptions | null;
+  showWelcomeOnboarding?: boolean;
 }
 
 const PAGE_SIZE = 30;
@@ -28,10 +31,12 @@ function renderItem(item: FeedItem) {
       return <RssItem item={item} />;
     case "artwork":
       return <ArtworkItem art={item.data} />;
+    case "onboarding":
+      return <OnboardingItem item={item} />;
   }
 }
 
-export function Feed({ initialItems, seed, options }: FeedProps) {
+export function Feed({ initialItems, seed, options, showWelcomeOnboarding }: FeedProps) {
   const {
     data,
     fetchNextPage,
@@ -52,6 +57,9 @@ export function Feed({ initialItems, seed, options }: FeedProps) {
   });
 
   const items = data?.pages.flat() ?? [];
+  const visibleItems = showWelcomeOnboarding
+    ? items.filter((item) => item.type !== "onboarding" || item.id !== ONBOARDING_WELCOME_ID)
+    : items;
 
   const loadMore = useCallback(() => {
     if (isFetchingNextPage || !hasNextPage) return;
@@ -75,20 +83,21 @@ export function Feed({ initialItems, seed, options }: FeedProps) {
 
   return (
     <div className="max-w-2xl mx-auto pt-8 pb-24">
+      {showWelcomeOnboarding && <OnboardingItem item={getWelcomeOnboardingItem()} />}
       {showInitialSpinner && (
         <div className="flex justify-center py-8">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground"></div>
         </div>
       )}
-      {!showInitialSpinner && items.length === 0 && (
+      {!showInitialSpinner && visibleItems.length === 0 && (
         <div className="px-4 py-16 text-center font-serif text-muted-foreground">
           No items yet.
         </div>
       )}
-      {items.map((item, index) => (
-        <div key={item.id}>
+      {visibleItems.map((item, index) => (
+        <div key={item.type === "onboarding" ? item.key : item.id}>
           {renderItem(item)}
-          {index < items.length - 1 && (
+          {index < visibleItems.length - 1 && (
             <div className="mx-4 border-t border-border/50" />
           )}
         </div>

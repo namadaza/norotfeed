@@ -16,6 +16,7 @@ type Props = {
 export function HomeFeed({ initialItems, initialSeed, initialSession }: Props) {
   const [feedOptions, setFeedOptions] = useState<FeedOptions | null>(null);
   const [seed, setSeed] = useState(initialSeed);
+  const showWelcomeOnboarding = !initialSession?.user;
 
   const handleRefresh = useCallback(() => {
     setSeed(crypto.randomUUID());
@@ -37,6 +38,7 @@ export function HomeFeed({ initialItems, initialSeed, initialSession }: Props) {
         initialItems={isInitialSeed ? initialItems : []}
         seed={seed}
         options={feedOptions}
+        showWelcomeOnboarding={showWelcomeOnboarding}
       />
       <BottomNav
         feedOptions={feedOptions}

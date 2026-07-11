@@ -7,9 +7,14 @@ import { ProfileCropModal } from "@/components/profile-crop-modal";
 import type { CroppedImageResult } from "@/lib/crop-image";
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { ColorThemePicker } from "@/components/color-theme-picker";
 =======
 >>>>>>> f3b0647 (feat(profile-picture): add reposition modal with zoom, drag, swap, and remove)
+=======
+import { ColorThemePicker } from "@/components/color-theme-picker";
+
+>>>>>>> 149c5f1 (feat(themes): add customizable color themes)
 import {
   BookOpen,
   Braces,
@@ -1585,6 +1590,14 @@ function HighlightsSection({
           )}
         </div>
       </div>
+    </div>
+  );
+}
+
+function AboutSection() {
+  return (
+    <div className="p-4 text-sm text-muted-foreground">
+      norotfeed
     </div>
   );
 }

@@ -66,3 +66,10 @@ export interface ThemeProviderProps {
   storageKey?: string;
   initialColorTheme?: ThemeName;
 }
+
+export interface ThemeProviderProps {
+  children: React.ReactNode;
+  defaultTheme?: Theme;
+  storageKey?: string;
+  initialColorTheme?: ThemeName;
+}

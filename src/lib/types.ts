@@ -2,6 +2,17 @@ import type { ThemeName } from "./db/schema";
 
 export type FeedItem =
   | {
+      type: "onboarding";
+      id: string;
+      key: string;
+      tone: "welcome" | "tip";
+      eyebrow: string;
+      title: string;
+      body: string;
+      ctaLabel: string;
+      ctaHref: string;
+    }
+  | {
       type: "highlight";
       id: string;
       title: string;

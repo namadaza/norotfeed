@@ -7,7 +7,6 @@ import { ProfileCropModal } from "@/components/profile-crop-modal";
 import type { CroppedImageResult } from "@/lib/crop-image";
 
 import { ColorThemePicker } from "@/components/color-theme-picker";
-
 import {
   BookOpen,
   Braces,
@@ -648,7 +647,8 @@ function RssSection({
         <div>
           <h3 className="font-serif text-lg">RSS feeds</h3>
           <p className="text-sm text-muted-foreground">
-            These default feeds appear in your feed. Sign up to customize.
+            These default feeds appear in your feed. Sign up to customize. New content checked twice
+            daily.
           </p>
         </div>
 
@@ -1597,9 +1597,7 @@ function AccountSection({
   isAuthed: boolean;
   onRequestSignIn: () => void;
   onSignedOut: () => void;
-}) 
-
-{
+}) {
   const queryClient = useQueryClient();
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -1613,7 +1611,6 @@ function AccountSection({
   const [cropOpen, setCropOpen] = useState(false);
   // True while we're fetching the current avatar to open "Edit."
   const [loadingCurrent, setLoadingCurrent] = useState(false);
-
   const signOutMutation = useMutation({
     mutationFn: async () => {
       const response = await authClient.signOut();
@@ -1750,8 +1747,8 @@ function AccountSection({
   }
 
   const deleteError = deleteAccountMutation.error;
-
-  const busy = uploadMutation.isPending || loadingCurrent || removeMutation.isPending;
+  const busy =
+    uploadMutation.isPending || loadingCurrent || removeMutation.isPending;
 
   return (
     <div className="space-y-4">
@@ -1831,7 +1828,6 @@ function AccountSection({
         onCropped={handleCropped}
         onFileReplaced={setPendingFile}
       />
-
       <div className="space-y-3 rounded-lg border border-border bg-muted/40 p-4 text-sm">
         <div>
           <div className="font-medium">Name</div>
@@ -1944,4 +1940,3 @@ function AboutSection() {
     </div>
   );
 }
-

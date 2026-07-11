@@ -7,7 +7,7 @@ import { queryKeys } from "@/lib/consts";
 import { cn } from "@/lib/utils";
 
 const COLOR_THEMES: Array<{ id: ThemeName; label: string; swatch: string }> = [
-{ id: "default", label: "Default", swatch: "oklch(0.36 0.04 55)" },
+  { id: "default", label: "Default", swatch: "oklch(0.76 0.08 72)" },
   { id: "midnight", label: "Midnight", swatch: "oklch(0.35 0.15 258)" },
   { id: "sepia", label: "Sepia", swatch: "oklch(0.45 0.09 55)" },
   { id: "forest", label: "Forest", swatch: "oklch(0.42 0.09 150)" },

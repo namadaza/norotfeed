@@ -15,6 +15,7 @@ import {
   type ContentFeedLimits,
   type GlobalRssFeed,
 } from "@/lib/db/content";
+import { injectOnboardingItems } from "@/lib/onboarding";
 import { getUserData, getUserSession } from "@/lib/db/user";
 
 type BucketKey = "highlight" | "rss" | "book" | "artwork" | "islam";
@@ -60,6 +61,7 @@ function bucketLimitFor(key: BucketKey, target: number): number {
 }
 
 function bucketFor(item: FeedItem): BucketKey {
+  if (item.type === "onboarding") return "highlight";
   if (item.type === "book" && ISLAMIC_BOOKS.has(item.book)) return "islam";
   return item.type;
 }
@@ -401,7 +403,9 @@ export async function getFeedItems(
     INFLIGHT_LOADS.set(inflightKey, load);
   }
   items = await load;
-  return orderItems(items, seed, options);
+  const ordered = orderItems(items, seed, options);
+  if (!filter.userId) return injectOnboardingItems(ordered, seed);
+  return ordered;
 }
 
 export async function getFeedItemsPage(

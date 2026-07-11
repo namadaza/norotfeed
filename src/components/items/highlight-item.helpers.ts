@@ -19,5 +19,3 @@ export function buildHighlightSearchText(item: HighlightItem): string {
     .filter(Boolean)
     .join(" · ");
 }
-
-export default null;

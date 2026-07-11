@@ -12,5 +12,3 @@ export function formatArtist(name?: string) {
   const rest = parts.slice(1).join(" ");
   return `${last}, ${rest}`;
 }
-
-export default null;

@@ -15,7 +15,12 @@ const globals = nextRequire("globals");
 
 const eslintConfig = [
   {
-    ignores: ["**/node_modules/**", "**/.next/**", "src/lib/data/**/*.json"],
+    ignores: [
+      "**/node_modules/**",
+      "**/.next/**",
+      "**/.well-known/workflow/**",
+      "src/lib/data/**/*.json",
+    ],
   },
   ...tsPlugin.configs["flat/recommended"],
   react.configs.flat.recommended,

@@ -6,6 +6,8 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { ProfileCropModal } from "@/components/profile-crop-modal";
 import type { CroppedImageResult } from "@/lib/crop-image";
 
+import { ColorThemePicker } from "@/components/color-theme-picker";
+
 import {
   BookOpen,
   Braces,
@@ -522,6 +524,11 @@ function FeedSection({
       <div className="grid min-w-0 gap-2 text-base">
         <span className="font-medium">Theme</span>
         <ThemeToggle />
+      </div>
+
+      <div className="grid min-w-0 gap-2 text-base">
+        <span className="font-medium">Color theme</span>
+        <ColorThemePicker isAuthed={isAuthed} />
       </div>
 
       <div className="flex justify-end">
@@ -1590,7 +1597,9 @@ function AccountSection({
   isAuthed: boolean;
   onRequestSignIn: () => void;
   onSignedOut: () => void;
-}) {
+}) 
+
+{
   const queryClient = useQueryClient();
   const [confirmDelete, setConfirmDelete] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -1741,6 +1750,7 @@ function AccountSection({
   }
 
   const deleteError = deleteAccountMutation.error;
+
   const busy = uploadMutation.isPending || loadingCurrent || removeMutation.isPending;
 
   return (

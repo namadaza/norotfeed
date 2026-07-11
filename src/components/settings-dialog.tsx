@@ -1587,14 +1587,6 @@ function HighlightsSection({
   );
 }
 
-function AboutSection() {
-  return (
-    <div className="p-4 text-sm text-muted-foreground">
-      norotfeed
-    </div>
-  );
-}
-
 function AccountSection({
   user,
   isAuthed,
@@ -1757,8 +1749,6 @@ function AccountSection({
   const deleteError = deleteAccountMutation.error;
   const busy =
     uploadMutation.isPending || loadingCurrent || removeMutation.isPending;
-
-  const busy = uploadMutation.isPending || loadingCurrent || removeMutation.isPending;
 
   return (
     <div className="space-y-4">

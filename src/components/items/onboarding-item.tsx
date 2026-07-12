@@ -16,8 +16,8 @@ export function OnboardingItem({ item }: Props) {
       <p className={`mt-4 max-w-xl whitespace-pre-wrap ${FEED_ITEM_BODY_TEXT_CLASSNAME}`}>
         {item.body}
       </p>
-      <div className="mt-5 font-serif text-sm text-muted-foreground">
-        <Button asChild variant="link" className="h-auto !p-0 text-inherit underline-offset-4">
+      <div className="mt-6">
+        <Button asChild variant="default" className="gap-2">
           <Link href={item.ctaHref}>
             {item.ctaLabel}
             <ArrowRight className="size-4" />

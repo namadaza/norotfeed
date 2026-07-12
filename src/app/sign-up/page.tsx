@@ -8,18 +8,30 @@ export const metadata: Metadata = {
   description: "Create a No Rot Feed account.",
 };
 
-export default function SignUpPage() {
+function getSafeReturnTo(value?: string) {
+  if (value === "/art" || value === "/islam") return value;
+  return "/";
+}
+
+export default async function SignUpPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ returnTo?: string }>;
+}) {
+  const params = searchParams ? await searchParams : undefined;
+  const returnTo = getSafeReturnTo(params?.returnTo);
+
   return (
     <div className="flex min-h-screen items-center bg-background text-foreground">
       <Link
-        href="/"
+        href={returnTo}
         aria-label="Back to feed"
         className="fixed right-4 top-4 z-20 inline-flex size-12 items-center justify-center rounded-full border border-border bg-background/90 text-foreground shadow-sm backdrop-blur-sm transition hover:bg-accent md:right-6 md:top-6"
       >
         <X className="size-6" />
       </Link>
       <div className="mx-auto w-full max-w-6xl px-4 py-10 md:px-6 md:py-16">
-        <SignUpPanel />
+        <SignUpPanel callbackURL={returnTo} />
       </div>
     </div>
   );

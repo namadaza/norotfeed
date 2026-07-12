@@ -10,13 +10,15 @@ import { BookItem } from "./items/book-item";
 import { RssItem } from "./items/rss-item";
 import { ArtworkItem } from "./items/artwork-item";
 import { OnboardingItem } from "./items/onboarding-item";
-import { getWelcomeOnboardingItem, ONBOARDING_WELCOME_ID } from "@/lib/onboarding";
+import { getWelcomeOnboardingItem, ONBOARDING_WELCOME_ID, type OnboardingFeedItem } from "@/lib/onboarding";
 
 interface FeedProps {
   initialItems: FeedItem[];
   seed: string;
   options?: FeedOptions | null;
   showWelcomeOnboarding?: boolean;
+  includeOnboarding?: boolean;
+  welcomeOnboardingItem?: OnboardingFeedItem;
 }
 
 const PAGE_SIZE = 30;
@@ -36,7 +38,15 @@ function renderItem(item: FeedItem) {
   }
 }
 
-export function Feed({ initialItems, seed, options, showWelcomeOnboarding }: FeedProps) {
+export function Feed({
+  initialItems,
+  seed,
+  options,
+  showWelcomeOnboarding,
+  includeOnboarding = false,
+  welcomeOnboardingItem,
+}: FeedProps) {
+  const welcomeItem = welcomeOnboardingItem ?? getWelcomeOnboardingItem();
   const {
     data,
     fetchNextPage,
@@ -44,9 +54,9 @@ export function Feed({ initialItems, seed, options, showWelcomeOnboarding }: Fee
     isFetchingNextPage,
     isLoading,
   } = useInfiniteQuery({
-    queryKey: queryKeys.feed.list(seed, options),
+    queryKey: queryKeys.feed.list(seed, options, includeOnboarding),
     queryFn: ({ pageParam }) =>
-      getFeedItemsPage(pageParam, PAGE_SIZE, seed, options),
+      getFeedItemsPage(pageParam, PAGE_SIZE, seed, options, includeOnboarding),
     initialPageParam: 0,
     getNextPageParam: (lastPage, _allPages, lastPageParam) =>
       lastPage.length < PAGE_SIZE ? undefined : lastPageParam + PAGE_SIZE,
@@ -83,7 +93,7 @@ export function Feed({ initialItems, seed, options, showWelcomeOnboarding }: Fee
 
   return (
     <div className="max-w-2xl mx-auto pt-8 pb-24">
-      {showWelcomeOnboarding && <OnboardingItem item={getWelcomeOnboardingItem()} />}
+      {showWelcomeOnboarding && <OnboardingItem item={welcomeItem} />}
       {showInitialSpinner && (
         <div className="flex justify-center py-8">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-foreground"></div>

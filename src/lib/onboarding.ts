@@ -1,5 +1,5 @@
 import { createHash } from "crypto";
-import type { FeedItem } from "./types";
+import type { FeedItem, FeedOptions } from "./types";
 
 export const SIGN_UP_PATH = "/sign-up";
 export const ONBOARDING_WELCOME_ID = "onboarding-welcome";
@@ -131,6 +131,29 @@ export function injectOnboardingItems(items: FeedItem[], seed: string): FeedItem
   );
 }
 
-export function getWelcomeOnboardingItem(): OnboardingFeedItem {
-  return ONBOARDING_ITEMS[0];
+export function getWelcomeOnboardingItem(
+  contentType?: FeedOptions["contentType"],
+  returnTo?: string,
+): OnboardingFeedItem {
+  const ctaHref = returnTo ? `/sign-up?returnTo=${encodeURIComponent(returnTo)}` : SIGN_UP_PATH;
+
+  if (contentType === "art") {
+    return {
+      ...ONBOARDING_ITEMS[0],
+      title: "Your art feed, no brain rot.",
+      body: "This feed surfaces WikiArt pieces alongside the rest of the mix, so you can browse art instead of noise.",
+      ctaHref,
+    };
+  }
+
+  if (contentType === "islam") {
+    return {
+      ...ONBOARDING_ITEMS[0],
+      title: "Your Islam feed, no brain rot.",
+      body: "This feed brings together Quran, hadith, and selected Islamic book highlights in one randomized stream.",
+      ctaHref,
+    };
+  }
+
+  return returnTo ? { ...ONBOARDING_ITEMS[0], ctaHref } : ONBOARDING_ITEMS[0];
 }

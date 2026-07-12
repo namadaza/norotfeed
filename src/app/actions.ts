@@ -383,6 +383,7 @@ export async function getFeedItems(
   seed: string = "default",
   options?: FeedOptions | null,
   target: number = DEFAULT_TARGET,
+  includeOnboarding: boolean = false,
 ): Promise<FeedItem[]> {
   const filter = await getUserFeedFilter();
   const cacheKey = itemsCacheKey(options, filter);
@@ -404,7 +405,7 @@ export async function getFeedItems(
   }
   items = await load;
   const ordered = orderItems(items, seed, options);
-  if (!filter.userId) return injectOnboardingItems(ordered, seed);
+  if (includeOnboarding || !filter.userId) return injectOnboardingItems(ordered, seed);
   return ordered;
 }
 
@@ -413,9 +414,10 @@ export async function getFeedItemsPage(
   count: number = 50,
   seed: string = "default",
   options?: FeedOptions | null,
+  includeOnboarding: boolean = false,
 ): Promise<FeedItem[]> {
   const target = Math.max(offset + count, DEFAULT_TARGET);
-  const all = await getFeedItems(seed, options, target);
+  const all = await getFeedItems(seed, options, target, includeOnboarding);
   return all.slice(offset, offset + count);
 }
 

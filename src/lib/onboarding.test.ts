@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { injectOnboardingItems } from "./onboarding";
+import { getWelcomeOnboardingItem, injectOnboardingItems } from "./onboarding";
 
 describe("injectOnboardingItems", () => {
   it("keeps the welcome card first and inserts a tip after every three posts", () => {
@@ -21,5 +21,17 @@ describe("injectOnboardingItems", () => {
     expect(result[1]).toMatchObject({ type: "rss", id: "rss-1" });
     expect(result[4]).toMatchObject({ type: "onboarding" });
     expect(result[8]).toMatchObject({ type: "onboarding" });
+  });
+
+  it("customizes the welcome card for art and islam routes", () => {
+    expect(getWelcomeOnboardingItem("art")).toMatchObject({
+      title: expect.stringContaining("art"),
+      body: expect.stringContaining("WikiArt"),
+    });
+
+    expect(getWelcomeOnboardingItem("islam")).toMatchObject({
+      title: expect.stringContaining("Islam"),
+      body: expect.stringContaining("Quran"),
+    });
   });
 });

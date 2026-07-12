@@ -39,6 +39,7 @@ export function HomeFeed({ initialItems, initialSeed, initialSession }: Props) {
         seed={seed}
         options={feedOptions}
         showWelcomeOnboarding={showWelcomeOnboarding}
+        includeOnboarding={showWelcomeOnboarding}
       />
       <BottomNav
         feedOptions={feedOptions}

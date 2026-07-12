@@ -16,7 +16,11 @@ const featuredArtwork = {
 
 type AuthMode = "sign-up" | "sign-in";
 
-export function SignUpPanel() {
+type Props = {
+  callbackURL?: string;
+};
+
+export function SignUpPanel({ callbackURL = "/" }: Props) {
   const [mode, setMode] = useState<AuthMode>("sign-up");
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -30,12 +34,12 @@ export function SignUpPanel() {
               email,
               password,
               name,
-              callbackURL: "/",
+              callbackURL,
             })
           : await authClient.signIn.email({
               email,
               password,
-              callbackURL: "/",
+              callbackURL,
               rememberMe: true,
             });
 

@@ -190,7 +190,8 @@ export function parseHighlightUpload(raw: unknown): ParseResult {
         }
         const merged: HighlightInput = {
           ...(entry as HighlightInput),
-          title: (entry as HighlightInput).title ?? bookTitle,
+          // Keep the enclosing book as the source used by feed filtering.
+          title: bookTitle ?? (entry as HighlightInput).title,
           author: (entry as HighlightInput).author ?? bookAuthor,
         };
         collect(merged, bookTitle);

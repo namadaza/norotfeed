@@ -292,9 +292,13 @@ function filterKey(filter: ContentFeedFilter): string {
   ].join("|");
 }
 
-function itemsCacheKey(options: FeedOptions | null | undefined, filter: ContentFeedFilter): string {
+function itemsCacheKey(
+  seed: string,
+  options: FeedOptions | null | undefined,
+  filter: ContentFeedFilter,
+): string {
   const optionsJson = options ? JSON.stringify(options) : "default";
-  return `${optionsJson}:${filterKey(filter)}`;
+  return `${seed}:${optionsJson}:${filterKey(filter)}`;
 }
 
 function getCachedItems(key: string, target: number): FeedItem[] | null {
@@ -386,7 +390,7 @@ export async function getFeedItems(
   includeOnboarding: boolean = false,
 ): Promise<FeedItem[]> {
   const filter = await getUserFeedFilter();
-  const cacheKey = itemsCacheKey(options, filter);
+  const cacheKey = itemsCacheKey(seed, options, filter);
   let items = getCachedItems(cacheKey, target);
   if (items) return orderItems(items, seed, options);
 

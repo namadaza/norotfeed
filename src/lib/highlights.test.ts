@@ -117,6 +117,13 @@ describe("parseHighlightUpload", () => {
     expect(result.highlights[0].title).toBe("Dune");
   });
 
+  it("uses the enclosing book as the source when an entry has a title", () => {
+    const result = parseHighlightUpload({
+      books: [{ title: "Dune", highlights: [{ title: "Chapter 1", text: "x" }] }],
+    });
+    expect(result.highlights[0].title).toBe("Dune");
+  });
+
   it("uses the untitled fallback when no title is provided", () => {
     const result = parseHighlightUpload({ text: "no title" });
     expect(result.highlights[0].title).toBe(UNTITLED_HIGHLIGHT_TITLE);

@@ -80,13 +80,13 @@ export async function loadArtworkFeed(
   const personal = artists ?? [];
   const hidden = hiddenArtists ?? [];
   const effectiveHidden = hidden.filter((slug) => !personal.includes(slug));
-  // Fetch a pool larger than `limit` so we can balance across artists via
-  // round-robin. ORDER BY id ASC alone over-represents whichever artist has
-  // the most rows in the DB (e.g. Manet), starving the others.
+  // Fetch a random pool larger than `limit` so we can balance across artists
+  // without repeatedly selecting the same rows from the DB.
   const poolLimit = limit ? Math.max(limit * 5, 100) : undefined;
   const rows = await getContentByType("artwork", {
     excludeTitles: effectiveHidden.length > 0 ? effectiveHidden : undefined,
     limit: poolLimit,
+    random: true,
     ...(includeUserId ? { includeUserId } : { userId: null as string | null }),
   });
   const balanced = limit ? roundRobinByArtist(rows, limit) : rows;
@@ -163,6 +163,7 @@ export async function loadRssFeed(
     minPublishedAt: cutoffIso,
     limit,
     rssOrder: order,
+    random: order === "random",
     excludeFeedUrls: effectiveHidden.length > 0 ? effectiveHidden : undefined,
     ...(includeUserId ? { includeUserId } : { userId: null as string | null }),
   });
@@ -178,7 +179,7 @@ export async function loadBookFeed(
 ): Promise<FeedItem[]> {
   // Explicit title selection overrides hides.
   if (titles && titles.length > 0) {
-    const rows = await getContentByType("book", { titles, limit });
+    const rows = await getContentByType("book", { titles, limit, random: true });
     return rows
       .map((row) => contentToFeedItem(row))
       .filter((item): item is FeedItem => item !== null);
@@ -200,6 +201,7 @@ export async function loadBookFeed(
         getContentByType("book", {
           titles: [title],
           limit: perTitleLimit,
+          random: true,
         }),
       ),
     )
@@ -316,6 +318,7 @@ export async function getContentByType<T extends Content["type"]>(
     minPublishedAt?: string;
     limit?: number;
     rssOrder?: "chronological" | "random";
+    random?: boolean;
   } = {},
 ): Promise<TypedContentRow<T>[]> {
   const conditions: (ReturnType<typeof eq> | undefined)[] = [
@@ -364,7 +367,9 @@ export async function getContentByType<T extends Content["type"]>(
   const orderBy =
     type === "rss" && options.rssOrder === "chronological"
       ? [sql`(${content.data}->>'publishedAt') DESC NULLS LAST`, desc(content.id)]
-      : [asc(content.id)];
+      : options.random
+        ? [sql`RANDOM()`]
+        : [asc(content.id)];
 
   const baseQuery = db
     .select()
@@ -504,6 +509,7 @@ export async function loadHighlightFeed(
   const rows = await getContentByType("highlight", {
     userId,
     limit,
+    random: true,
     titles: titles && titles.length > 0 ? titles : undefined,
     excludeTitles: excludeTitles && excludeTitles.length > 0 ? excludeTitles : undefined,
   });
